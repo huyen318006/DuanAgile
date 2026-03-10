@@ -1,0 +1,17 @@
+1. Chạy lệnh composer init
+2. Package name: php2/base_mvc
+3. Author: nhập n
+4. Package type: library
+5. License: bỏ qua(nếu lỗi thì nhập MIT)
+6. Define your dependencies: enter bỏ qua 
+7. Add psr-4 auto mapping?: nhập app/
+8. Trong file composer.json
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        },
+        "files": [
+            "helper.php"
+        ]
+    },
+9. Chạy lệnh "composer dump-autoload"

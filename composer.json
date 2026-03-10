@@ -1,0 +1,16 @@
+{
+    "name": "php2_sp26/base_mvc_php2",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        },
+        "files": [
+            "helpers.php"
+        ]
+    },
+    "require": {
+        "bramus/router": "^1.6",
+        "eftec/bladeone": "^4.19"
+    }
+}

@@ -1,0 +1,21 @@
+1. Lấy toàn bộ layout bên template
+    đưa vào file AdminLayout
+2. Dùng @extends('layouts.AdminLayout')
+    ở view hiển thị để gọi layout
+3. Chỉnh sửa các đường dẫn tương đối
+    thành tuyệt đối/chính xác
+        ở AdminLayout 
+href="../../../dist/css/adminlte.css"
+href="{{ asset('dist/css/adminlte.css') }}"
+src="{{ asset('dist/js/adminlte.js') }}"
+4. Đóng mở các thẻ HTML để xác định
+    các thành phần trong layout
+5. Tách thành phần layout gồm
+    header, aside(menu), footer,..
+    đưa vào các file blade trong blocks
+6. Dùng @include('layouts.blocks.name)
+    để gọi các thành phần trong layout 
+7. Dùng @yield('name) bên AdminLayout
+    để quy định vị trí content 
+8. Dùng @section('name') bên các view
+    để đưa nội dung vào content

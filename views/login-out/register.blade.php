@@ -124,7 +124,7 @@
         </form>
 
         <div class="login-link">
-            Đã có tài khoản? <a href="/login">Đăng nhập</a>
+            Đã có tài khoản? <a href="{{ route('login') }}">Đăng nhập</a>
         </div>
 
     </div>

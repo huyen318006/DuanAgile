@@ -2,7 +2,7 @@
 
 use App\Controllers\UserController;
 
-session_start();
+
 ?>
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" data-navbar-on-scroll="data-navbar-on-scroll">
 

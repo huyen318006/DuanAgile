@@ -384,9 +384,9 @@
  <div class="container">
  <div class="row flex-center mb-6">
  <div class="col-lg-7">
- <h5 class="fw-bold fs-3 fs-lg-5 lh-sm text-center text-lg-start">Search by Food</h5>
+ <h5 class="fw-bold fs-3 fs-lg-5 lh-sm text-center text-lg-start">Tìm kiếm theo món ăn</h5>
  </div>
- <div class="col-lg-4 text-lg-end text-center"><a class="btn btn-lg text-800 me-2" href="#" role="button">VIEW ALL <i class="fas fa-chevron-right ms-2"></i></a></div>
+ <div class="col-lg-4 text-lg-end text-center"><a class="btn btn-lg text-800 me-2" href="#" role="button">XEM TẤT CẢ <i class="fas fa-chevron-right ms-2"></i></a></div>
  <div class="col-lg-auto position-relative">
  <button class="carousel-control-prev s-icon-prev carousel-icon" type="button" data-bs-target="#carouselSearchByFood" data-bs-slide="prev"><span class="carousel-control-prev-icon hover-top-shadow" aria-hidden="true"></span><span class="visually-hidden">Previous</span></button>
  <button class="carousel-control-next s-icon-next carousel-icon" type="button" data-bs-target="#carouselSearchByFood" data-bs-slide="next"><span class="carousel-control-next-icon hover-top-shadow" aria-hidden="true"></span><span class="visually-hidden">Next</span></button>
@@ -728,7 +728,7 @@
  <div class="container">
  <div class="row flex-center">
  <div class="col-xxl-9 py-7 text-center">
- <h1 class="fw-bold mb-4 text-white fs-6">Are you ready to order <br />with the best deals? </h1><a class="btn btn-danger" href="#"> PROCEED TO ORDER<i class="fas fa-chevron-right ms-2"></i></a>
+ <h1 class="fw-bold mb-4 text-white fs-6"> Bạn đã sẵn sàng đặt món  <br />với những ưu đãi tốt nhất chưa?</h1><a class="btn btn-danger" href="#"> ĐẶT MÓN NGAY<i class="fas fa-chevron-right ms-2"></i></a>
  </div>
  </div>
  </div>
@@ -743,47 +743,39 @@
  <hr class="text-900" />
  <div class="row">
  <div class="col-6 col-md-4 col-lg-3 col-xxl-2 mb-3">
- <h5 class="lh-lg fw-bold text-white">COMPANY</h5>
+ <h5 class="lh-lg fw-bold text-white">Công Ty</h5>
  <ul class="list-unstyled mb-md-4 mb-lg-0">
- <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">About Us</a></li>
- <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Team</a></li>
- <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Careers</a></li>
+ <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Về chúng tôi</a></li>
+ <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Đội ngũ</a></li>
+ <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Tuyển dụng</a></li>
  <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">blog</a></li>
  </ul>
  </div>
  <div class="col-6 col-md-4 col-lg-3 col-xxl-2 col-lg-3 mb-3">
  <h5 class="lh-lg fw-bold text-white">CONTACT</h5>
  <ul class="list-unstyled mb-md-4 mb-lg-0">
- <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Help &amp; Support</a></li>
- <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Partner with us </a></li>
- <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Ride with us</a></li>
- <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Ride with us</a></li>
+ <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Trợ giúp &amp; Hỗ trợ</a></li>
+ <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Hợp tác với chúng tôi </a></li>
+ <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Trở thành đối tác giao hàng</a></li>
+ <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Pháp lí</a></li>
  </ul>
  </div>
  <div class="col-6 col-md-4 col-lg-3 col-xxl-2 mb-3">
- <h5 class="lh-lg fw-bold text-white">LEGAL</h5>
+ <h5 class="lh-lg fw-bold text-white">PHÁP LÝ</h5>
  <ul class="list-unstyled mb-md-4 mb-lg-0">
- <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Terms &amp; Conditions</a></li>
- <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Refund &amp; Cancellation</a></li>
- <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Privacy Policy</a></li>
- <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Cookie Policy</a></li>
+ <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Điều khoản &amp; Điều kiện</a></li>
+ <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Hoàn tiền  &amp; Hủy đơn</a></li>
+ <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Chính sách bảo mật</a></li>
+ <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Chính sách Cookie</a></li>
  </ul>
  </div>
- <div class="col-6 col-md-4 col-lg-3 col-xxl-2 mb-3">
- <h5 class="lh-lg fw-bold text-white">LEGAL</h5>
- <ul class="list-unstyled mb-md-4 mb-lg-0">
- <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Terms &amp; Conditions</a></li>
- <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Refund &amp; Cancellation</a></li>
- <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Privacy Policy</a></li>
- </ul>
- </div>
- <h3 class="text-500 my-4">Receive exclusive offers and <br />discounts in your mailbox</h3>
+ <h3 class="text-500 my-4">Nhận ưu đãi  <br />và giảm giá độc quyền qua email</h3>
  <div class="row input-group-icon mb-5">
  <div class="col-auto"><i class="fas fa-envelope input-box-icon text-500 ms-3"></i>
  <input class="form-control input-box bg-800 border-0" type="email" placeholder="Enter Email" aria-label="email" />
  </div>
  <div class="col-auto">
- <button class="btn btn-primary" type="submit">Subscribe</button>
+ <button class="btn btn-primary" type="submit">Đăng kí</button>
  </div>
  </div>
  </div>

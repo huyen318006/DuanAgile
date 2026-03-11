@@ -122,6 +122,16 @@
             <button type="submit">Đăng ký</button>
 
         </form>
+        <?php
+        if (isset($_GET['error'])) {
+            $error = $_GET['error'];
+            if ($error == 1) {
+                echo '<p style="color: red; text-align: center; margin-top: 10px;">Mật khẩu không khớp!</p>';
+            } elseif ($error == 2) {
+                echo '<p style="color: red; text-align: center; margin-top: 10px;">Email đã tồn tại!</p>';
+            }
+        }
+        ?>
 
         <div class="login-link">
             Đã có tài khoản? <a href="{{ route('login') }}">Đăng nhập</a>

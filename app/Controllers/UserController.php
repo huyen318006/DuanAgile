@@ -48,6 +48,12 @@ class UserController
         }
         public function addregister()
         {
+            $email= $_POST['email'];
+            $user = Users::where('email', $email)->first();
+            if ($user) {
+                header('location:' . APP_URL . 'register?error=2');
+                exit();
+            }
             $repassword = $_POST['repassword'];
             if ($repassword != $_POST['password']) {
                 header('location:' . APP_URL . 'register?error=1');

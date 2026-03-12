@@ -6,6 +6,7 @@ use App\Models\Users;
 use Bramus\Router\Router;
 use App\Controllers\UserController;
 use App\Controllers\FoodController;
+use App\Controllers\RestaurantController;
 
 $router = new Router;
 

@@ -241,112 +241,67 @@
 
 
       <section id="testimonial">
-        <div class="container">
+          <div class="container">
+
           <div class="row h-100">
-            <div class="col-lg-7 mx-auto text-center mb-6">
-              <h5 class="fw-bold fs-3 fs-lg-5 lh-sm mb-3">Featured Restaurants</h5>
-            </div>
+          <div class="col-lg-7 mx-auto text-center mb-6">
+          <h5 class="fw-bold fs-3 fs-lg-5 lh-sm mb-3">Nhà Hàng Nổi Bật</h5>
           </div>
+          </div>
+
+          <div class="carousel slide" id="carouselRestaurants" data-bs-ride="carousel" data-bs-interval="3500">
+          <div class="carousel-inner">
+
+          @foreach(array_chunk($restaurants,4) as $index => $chunk)
+          <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
           <div class="row gx-2">
-            <div class="col-sm-6 col-md-4 col-lg-3 h-100 mb-5">
-              <div class="card card-span h-100 text-white rounded-3"><img class="img-fluid rounded-3 h-100" src="{{ asset('assets/img/gallery/food-world.png') }}" alt="..." />
-                <div class="card-img-overlay ps-0"><span class="badge bg-danger p-2 ms-3"><i class="fas fa-tag me-2 fs-0"></i><span class="fs-0">20% off</span></span><span class="badge bg-primary ms-2 me-1 p-2"><i class="fas fa-clock me-1 fs-0"></i><span class="fs-0">Fast</span></span></div>
-                <div class="card-body ps-0">
-                  <div class="d-flex align-items-center mb-3"><img class="img-fluid" src="{{ asset('assets/img/gallery/food-world-logo.png') }}" alt="" />
-                    <div class="flex-1 ms-3">
-                      <h5 class="mb-0 fw-bold text-1000">Food world</h5><span class="text-primary fs--1 me-1"><i class="fas fa-star"></i></span><span class="mb-0 text-primary">46</span>
-                    </div>
-                  </div><span class="badge bg-soft-danger p-2"><span class="fw-bold fs-1 text-danger">Opens Tomorrow</span></span>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-6 col-md-4 col-lg-3 h-100 mb-5">
-              <div class="card card-span h-100 text-white rounded-3"><img class="img-fluid rounded-3 h-100" src="{{ asset('assets/img/gallery/pizza-hub.png') }}" alt="..." />
-                <div class="card-img-overlay ps-0"><span class="badge bg-danger p-2 ms-3"><i class="fas fa-tag me-2 fs-0"></i><span class="fs-0">10% off</span></span><span class="badge bg-primary ms-2 me-1 p-2"><i class="fas fa-clock me-1 fs-0"></i><span class="fs-0">Fast</span></span></div>
-                <div class="card-body ps-0">
-                  <div class="d-flex align-items-center mb-3"><img class="img-fluid" src="{{ asset('assets/img/gallery/pizzahub-logo.png') }}" alt="" />
-                    <div class="flex-1 ms-3">
-                      <h5 class="mb-0 fw-bold text-1000">Pizza hub</h5><span class="text-primary fs--1 me-1"><i class="fas fa-star"></i></span><span class="mb-0 text-primary">40</span>
-                    </div>
-                  </div><span class="badge bg-soft-danger p-2"><span class="fw-bold fs-1 text-danger">Opens Tomorrow</span></span>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-6 col-md-4 col-lg-3 h-100 mb-5">
-              <div class="card card-span h-100 text-white rounded-3"><img class="img-fluid rounded-3 h-100" src="{{ asset('assets/img/gallery/donuts-hut.png') }}" alt="..." />
-                <div class="card-img-overlay ps-0"><span class="badge bg-danger p-2 ms-3"><i class="fas fa-tag me-2 fs-0"></i><span class="fs-0">15% off</span></span><span class="badge bg-primary ms-2 me-1 p-2"><i class="fas fa-clock me-1 fs-0"></i><span class="fs-0">Fast</span></span></div>
-                <div class="card-body ps-0">
-                  <div class="d-flex align-items-center mb-3"><img class="img-fluid" src="{{ asset('assets/img/gallery/donuts-hut-logo.png') }}" alt="" />
-                    <div class="flex-1 ms-3">
-                      <h5 class="mb-0 fw-bold text-1000">Donuts hut</h5><span class="text-primary fs--1 me-1"><i class="fas fa-star"></i></span><span class="mb-0 text-primary">20</span>
-                    </div>
-                  </div><span class="badge bg-soft-success p-2"><span class="fw-bold fs-1 text-success">Open Now</span></span>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-6 col-md-4 col-lg-3 h-100 mb-5">
-              <div class="card card-span h-100 text-white rounded-3"><img class="img-fluid rounded-3 h-100" src="{{ asset('assets/img/gallery/donuthut.png') }}" alt="..." />
-                <div class="card-img-overlay ps-0"><span class="badge bg-danger p-2 ms-3"><i class="fas fa-tag me-2 fs-0"></i><span class="fs-0">15% off</span></span><span class="badge bg-primary ms-2 me-1 p-2"><i class="fas fa-clock me-1 fs-0"></i><span class="fs-0">Fast</span></span></div>
-                <div class="card-body ps-0">
-                  <div class="d-flex align-items-center mb-3"><img class="img-fluid" src="{{ asset('assets/img/gallery/donut-hut-logo.png') }}" alt="" />
-                    <div class="flex-1 ms-3">
-                      <h5 class="mb-0 fw-bold text-1000">Donuts hut</h5><span class="text-primary fs--1 me-1"><i class="fas fa-star"></i></span><span class="mb-0 text-primary">50</span>
-                    </div>
-                  </div><span class="badge bg-soft-success p-2"><span class="fw-bold fs-1 text-success">Open Now</span></span>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-6 col-md-4 col-lg-3 h-100 mb-5">
-              <div class="card card-span h-100 text-white rounded-3"><img class="img-fluid rounded-3 h-100" src="{{ asset('assets/img/gallery/ruby-tuesday.png') }}" alt="..." />
-                <div class="card-img-overlay ps-0"><span class="badge bg-danger p-2 ms-3"><i class="fas fa-tag me-2 fs-0"></i><span class="fs-0">10% off</span></span><span class="badge bg-primary ms-2 me-1 p-2"><i class="fas fa-clock me-1 fs-0"></i><span class="fs-0">Fast</span></span></div>
-                <div class="card-body ps-0">
-                  <div class="d-flex align-items-center mb-3"><img class="img-fluid" src="{{ asset('assets/img/gallery/ruby-tuesday-logo.png') }}" alt="" />
-                    <div class="flex-1 ms-3">
-                      <h5 class="mb-0 fw-bold text-1000">Ruby tuesday</h5><span class="text-primary fs--1 me-1"><i class="fas fa-star"></i></span><span class="mb-0 text-primary">50</span>
-                    </div>
-                  </div><span class="badge bg-soft-success p-2"><span class="fw-bold fs-1 text-success">Open Now</span></span>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-6 col-md-4 col-lg-3 h-100 mb-5">
-              <div class="card card-span h-100 text-white rounded-3"><img class="img-fluid rounded-3 h-100" src="{{ asset('assets/img/gallery/kuakata.png') }}" alt="..." />
-                <div class="card-img-overlay ps-0"><span class="badge bg-danger p-2 ms-3"><i class="fas fa-tag me-2 fs-0"></i><span class="fs-0">10% off</span></span><span class="badge bg-primary ms-2 me-1 p-2"><i class="fas fa-clock me-1 fs-0"></i><span class="fs-0">Fast</span></span></div>
-                <div class="card-body ps-0">
-                  <div class="d-flex align-items-center mb-3"><img class="img-fluid" src="{{ asset('assets/img/gallery/kuakata-logo.png') }}" alt="" />
-                    <div class="flex-1 ms-3">
-                      <h5 class="mb-0 fw-bold text-1000">Kuakata Fried Chicken</h5><span class="text-primary fs--1 me-1"><i class="fas fa-star"></i></span><span class="mb-0 text-primary">50</span>
-                    </div>
-                  </div><span class="badge bg-soft-success p-2"><span class="fw-bold fs-1 text-success">Open Now</span></span>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-6 col-md-4 col-lg-3 h-100 mb-5">
-              <div class="card card-span h-100 text-white rounded-3"><img class="img-fluid rounded-3 h-100" src="{{ asset('assets/img/gallery/red-square.png') }}" alt="..." />
-                <div class="card-img-overlay ps-0"><span class="badge bg-danger p-2 ms-3"><i class="fas fa-tag me-2 fs-0"></i><span class="fs-0">10% off</span></span><span class="badge bg-primary ms-2 me-1 p-2"><i class="fas fa-clock me-1 fs-0"></i><span class="fs-0">Fast</span></span></div>
-                <div class="card-body ps-0">
-                  <div class="d-flex align-items-center mb-3"><img class="img-fluid" src="{{ asset('assets/img/gallery/red-square-logo.png') }}" alt="" />
-                    <div class="flex-1 ms-3">
-                      <h5 class="mb-0 fw-bold text-1000">Kuakata Fried Chicken</h5><span class="text-primary fs--1 me-1"><i class="fas fa-star"></i></span><span class="mb-0 text-primary">50</span>
-                    </div>
-                  </div><span class="badge bg-soft-success p-2"><span class="fw-bold fs-1 text-success">Open Now</span></span>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-6 col-md-4 col-lg-3 h-100 mb-5">
-              <div class="card card-span h-100 text-white rounded-3"><img class="img-fluid rounded-3 h-100" src="{{ asset('assets/img/gallery/taco-bell.png') }}" alt="..." />
-                <div class="card-img-overlay ps-0"><span class="badge bg-danger p-2 ms-3"><i class="fas fa-tag me-2 fs-0"></i><span class="fs-0">10% off</span></span><span class="badge bg-primary ms-2 me-1 p-2"><i class="fas fa-clock me-1 fs-0"></i><span class="fs-0">Fast</span></span></div>
-                <div class="card-body ps-0">
-                  <div class="d-flex align-items-center mb-3"><img class="img-fluid" src="{{ asset('assets/img/gallery/taco-bell-logo.png') }}" alt="" />
-                    <div class="flex-1 ms-3">
-                      <h5 class="mb-0 fw-bold text-1000">Taco bell</h5><span class="text-primary fs--1 me-1"><i class="fas fa-star"></i></span><span class="mb-0 text-primary">50</span>
-                    </div>
-                  </div><span class="badge bg-soft-success p-2"><span class="fw-bold fs-1 text-success">Open Now</span></span>
-                </div>
-              </div>
-            </div>
-            <div class="col-12 d-flex justify-content-center mt-5"> <a class="btn btn-lg btn-primary" href="#!">View All <i class="fas fa-chevron-right ms-2"> </i></a></div>
+
+          @foreach($chunk as $restaurant)
+          <div class="col-sm-6 col-md-4 col-lg-3 mb-5" style="display:flex">
+          <div class="card card-span text-white rounded-3" style="width:100%;height:100%;overflow:hidden;transition:0.25s ease;cursor:pointer" onmouseover="this.style.filter='brightness(1.05)';this.style.transform='translateY(-3px)'" onmouseout="this.style.filter='brightness(1)';this.style.transform='translateY(0)'">
+
+          <img src="{{ asset('assets/img/gallery/'.$restaurant->image) }}" style="width:100%;height:300px;object-fit:cover;border-radius:10px">
+
+          <div class="card-img-overlay ps-0">
+          <span class="badge bg-danger p-2 ms-3"><i class="fas fa-tag me-2 fs-0"></i><span class="fs-0">{{ $restaurant->discount }}% off</span></span>
+          <span class="badge bg-primary ms-2 me-1 p-2"><i class="fas fa-clock me-1 fs-0"></i><span class="fs-0">Fast</span></span>
           </div>
-        </div>
+
+          <div class="card-body ps-0">
+          <div class="d-flex align-items-center mb-3">
+
+          <img src="{{ asset('assets/img/gallery/'.$restaurant->logo) }}" style="width:60px;height:100px;object-fit:contain">
+
+          <div class="flex-1 ms-3">
+          <h5 class="mb-0 fw-bold text-1000">{{ $restaurant->name }}</h5>
+          <span style="font-size:13px;color:#666">{{ $restaurant->slogan }}</span></br>
+          <span class="text-warning">@for($i=1;$i<=5;$i++)<i class="fas fa-star"></i>@endfor</span>
+          <span class="mb-0 text-primary">{{ $restaurant->rating }}</span>
+          </div>
+          </div>
+          </div>
+          </div>
+          </div>
+          @endforeach
+          </div>
+          </div>
+          @endforeach
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselRestaurants" data-bs-slide="prev" style="width:60px;height:327px;">
+          <span class="carousel-control-prev-icon"></span>
+          </button>
+
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselRestaurants" data-bs-slide="next" style="width:60px;height:327px;">
+          <span class="carousel-control-next-icon"></span>
+          </button>
+
+          </div>
+
+          <div class="col-12 d-flex justify-content-center mt-5">
+          <a class="btn btn-lg btn-primary" href="#"style="transition:0.3s;"onmouseover="this.style.transform='scale(1.08)';this.style.boxShadow='0 8px 20px rgba(0,0,0,0.2)';"onmouseout="this.style.transform='scale(1)';this.style.boxShadow='none';">View All<i class="fas fa-chevron-right ms-2"></i></a>
+          </div>
+
+          </div>
       </section>
 
 

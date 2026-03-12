@@ -3,6 +3,7 @@ namespace App\Controllers;
 
 use App\Controller;
 use App\Models\Food;
+use App\Models\Restaurant;
 
 class FoodController extends Controller
 {
@@ -11,6 +12,16 @@ class FoodController extends Controller
     {
         $title = 'Food List';
         $foods = Food::all();
-        return view('foods.list', compact('foods', 'title'));
+        $restaurants = Restaurant::all();
+        return view('foods.list', compact('foods', 'title', 'restaurants'));
+    }
+
+    public function show($id)
+    {
+        $restaurant = Restaurant::find($id);
+
+        $foods = Food::where('restaurant_id', $id)->get();
+
+        return view('restaurants.show', compact('restaurant','foods'));
     }
 }

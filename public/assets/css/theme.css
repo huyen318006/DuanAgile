@@ -4767,10 +4767,10 @@ fieldset:disabled .btn {
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;
   justify-content: space-between;
-  padding-top: 0.5rem;
-  padding-right: 1rem;
-  padding-bottom: 0.5rem;
-  padding-left: 1rem;
+  padding-top: 2%;
+  padding-right: 3%;
+  padding-bottom: 2%;
+  padding-left: 0.5%;
 }
 
 .navbar > .container,
@@ -4791,9 +4791,10 @@ fieldset:disabled .btn {
 .navbar-brand {
   padding-top: -0.046rem;
   padding-bottom: -0.046rem;
-  margin-right: 1rem;
+  margin-right: 0;
   font-size: calc(1.2978rem + 0.5736vw);
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 @media (min-width: 1200px) {
@@ -4806,18 +4807,22 @@ fieldset:disabled .btn {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
+  -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  flex-wrap: nowrap;
   padding-left: 0;
   margin-bottom: 0;
   list-style: none;
+  flex-shrink: 0;
 }
 
 .navbar-nav .nav-link {
-  padding-right: 0;
-  padding-left: 0;
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
+  white-space: nowrap;
+  font-size: 0.95rem;
 }
 
 .navbar-nav .dropdown-menu {
@@ -4838,6 +4843,8 @@ fieldset:disabled .btn {
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  min-width: 0;
+  flex-wrap: nowrap;
 }
 
 .navbar-toggler {
@@ -18435,6 +18442,9 @@ ul {
 .input-group-icon .input-box {
   padding-left: 2.8rem;
   vertical-align: middle;
+  max-width: 180px;
+  flex-shrink: 1;
+  min-width: 0;
 }
 
 .input-group-icon .input-box-icon {

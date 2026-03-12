@@ -23,11 +23,11 @@ use App\Controllers\UserController;
             <ul class="navbar-nav mx-auto flex-nowrap align-items-center">
 
                 <li class="nav-item">
-                    <a class="nav-link text-nowrap" href="#">Trang chủ</a>
+                    <a class="nav-link text-nowrap" href="{{ route('') }}">Trang chủ</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link text-nowrap" href="#">Menu</a>
+                    <a class="nav-link text-nowrap" href="{{ route('menu') }}">Menu</a>
                 </li>
 
                 <li class="nav-item">
@@ -58,16 +58,16 @@ use App\Controllers\UserController;
 
             </ul>
             <div class="d-flex align-items-center flex-shrink-0">
-            <?php if (isset($_SESSION['user'])): ?>
+                <?php if (isset($_SESSION['user'])): ?>
 
-                <a class="nav-link text-truncate" style="max-width: 150px;" title="Xin chào <?= $_SESSION['user']['name'] ?>">Xin chào <?= $_SESSION['user']['name'] ?></a>
-                <a class="nav-link text-danger ms-2 flex-shrink-0" href="{{ route('logout') }}">Đăng xuất</a>
+                    <a class="nav-link text-truncate" style="max-width: 150px;" title="Xin chào <?= $_SESSION['user']['name'] ?>">Xin chào <?= $_SESSION['user']['name'] ?></a>
+                    <a class="nav-link text-danger ms-2 flex-shrink-0" href="{{ route('logout') }}">Đăng xuất</a>
 
-            <?php else: ?>
+                <?php else: ?>
 
-                <a class="nav-link flex-shrink-0" href="{{ route('login') }}">Đăng nhập</a>
+                    <a class="nav-link flex-shrink-0" href="{{ route('login') }}">Đăng nhập</a>
 
-            <?php endif; ?>
+                <?php endif; ?>
             </div>
 
 

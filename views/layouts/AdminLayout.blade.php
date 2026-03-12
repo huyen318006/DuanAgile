@@ -29,6 +29,7 @@
     <!--    Stylesheets-->
     <!-- ===============================================-->
     <link href="{{ asset('assets/css/theme.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/css/menu-filter.css') }}" rel="stylesheet" />
 
   </head>
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use App\Model;
@@ -23,7 +24,7 @@ class Food extends Model
 
     public function category()
     {
-        if($this->category_id){
+        if ($this->category_id) {
             return $this->Category::find($this->category_id);
         }
         return null;

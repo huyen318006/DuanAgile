@@ -4813,6 +4813,7 @@ fieldset:disabled .btn {
   padding-right: 0;
   margin-bottom: 0;
   list-style: none;
+  flex-shrink: 0;
 }
 
 .navbar-nav .nav-link {
@@ -4840,6 +4841,8 @@ fieldset:disabled .btn {
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  min-width: 0;
+  flex-wrap: nowrap;
 }
 
 .navbar-toggler {

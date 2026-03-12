@@ -32,7 +32,7 @@
           <select class="form-select menu-filter-select" id="categoryFilter" onchange="filterMenu(this.value)">
             <option value="all" selected>Tất cả</option>
             @foreach($categories as $category)
-              <option value="{{ $category->id }}">{{ $category->name }}</option>
+            <option value="{{ $category->id }}">{{ $category->name }}</option>
             @endforeach
           </select>
         </div>
@@ -42,11 +42,7 @@
       @foreach($foods as $food)
       <div class="col-sm-6 col-md-4 col-lg-3 h-100 mb-5 menu-card-item visible" data-category="{{ $food->category_id }}">
         <div class="card card-span h-100 text-white rounded-3">
-          @if($food->image)
-            <img class="img-fluid rounded-3 h-100" src="{{ file_url($food->image) }}" alt="{{ $food->name }}" />
-          @else
-            <img class="img-fluid rounded-3 h-100" src="{{ asset('assets/img/gallery/food-world.png') }}" alt="{{ $food->name }}" />
-          @endif
+          <img class="img-fluid rounded-3" src="{{ asset('assets/img/gallery/'.$food->image) }}" alt="{{ $food->name }}" style="width:100%; height:220px; object-fit:cover;">
           <div class="card-body ps-0">
             <div class="d-flex align-items-center mb-3">
               <div class="flex-1 ms-3">
@@ -55,7 +51,7 @@
               </div>
             </div>
             @if($food->description)
-              <p class="text-muted small mb-0">{{ $food->description }}</p>
+            <p class="text-muted small mb-0">{{ $food->description }}</p>
             @endif
           </div>
         </div>

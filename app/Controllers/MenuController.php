@@ -11,12 +11,10 @@ class MenuController extends Controller
 
     public function index()
     {
+        $title = 'Food List';
         $foods = Food::all();
         $categories = Category::all();
 
-        return view('menu', [
-            'foods' => $foods,
-            'categories' => $categories,
-        ]);
+        return view('menus.list', compact('foods', 'title', 'categories'));
     }
 }

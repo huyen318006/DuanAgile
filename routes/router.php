@@ -7,6 +7,7 @@ use App\Controllers\FoodController;
 
 $router = new Router;
 
+$router->get('/', FoodController::class . '@index');
 $router->get('/foods', FoodController::class . '@index');
 // Đăng nhập
 $router->get('login',UserController::class.'@login');

@@ -191,8 +191,7 @@
  <!-- ============================================-->
 
 
-
-
+ <?php /* LIST MÓN ĂN */ ?>
  <!-- ============================================-->
  <!-- <section> begin ============================-->
  <section class="py-4 overflow-hidden">
@@ -205,55 +204,31 @@
  <div class="col-12">
  <div class="carousel slide" id="carouselPopularItems" data-bs-touch="false" data-bs-interval="false">
  <div class="carousel-inner">
- <div class="carousel-item active" data-bs-interval="10000">
+ <?php $__currentLoopData = array_chunk($foods,4); $this->addLoop($__currentLoopData);$this->getFirstLoop();
+ foreach($__currentLoopData as $index => $chunk): $loop = $this->incrementLoopIndices();  ?>
+ <div class="carousel-item <?php echo \htmlentities($index == 0 ? 'active' : ''??'', ENT_QUOTES, 'UTF-8', false); ?>">
  <div class="row gx-3 h-100 align-items-center">
- <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
- <div class="card card-span h-100 rounded-3"><img class="img-fluid rounded-3 h-100" src="<?php echo \htmlentities(asset('assets/img/gallery/cheese-burger.png')??'', ENT_QUOTES, 'UTF-8', false); ?>" alt="..." />
+ <?php $__currentLoopData = $chunk; $this->addLoop($__currentLoopData);$this->getFirstLoop();
+ foreach($__currentLoopData as $food): $loop = $this->incrementLoopIndices();  ?>
+ <div class="col-sm-6 col-md-4 col-xl-3 mb-5 h-100">
+ <div class="card card-span h-100 rounded-3">
+ <img class="img-fluid rounded-3"src="<?php echo \htmlentities(asset('assets/img/gallery/'.$food->image)??'', ENT_QUOTES, 'UTF-8', false); ?>"alt="<?php echo \htmlentities($food->name??'', ENT_QUOTES, 'UTF-8', false); ?>"style="width:100%; height:220px; object-fit:cover;">
  <div class="card-body ps-0">
- <h5 class="fw-bold text-1000 text-truncate mb-1">Burger phô mai</h5>
- <div><span class="text-warning me-2"><i class="fas fa-map-marker-alt"></i></span><span class="text-primary">Burger Arena</span></div><span class="text-1000 fw-bold">89.000đ</span>
+ <h5 class="fw-bold text-1000 text-truncate mb-1"><?php echo \htmlentities($food->name??'', ENT_QUOTES, 'UTF-8', false); ?></h5><div>
+ <span class="text-warning me-2"><i class="fas fa-map-marker-alt"></i></span>
+ <span class="text-primary">Món ăn phổ biến</span>
+ </div>
+ <span class="text-1000 fw-bold"><?php echo \htmlentities(number_format($food->price)??'', ENT_QUOTES, 'UTF-8', false); ?>đ</span>
  </div>
  </div>
- <div class="d-grid gap-2"><a class="btn btn-lg btn-danger" href="#!" role="button">Đặt ngay</a></div>
- </div>
- <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
- <div class="card card-span h-100 rounded-3"><img class="img-fluid rounded-3 h-100" src="<?php echo \htmlentities(asset('assets/img/gallery/toffes-cake.png')??'', ENT_QUOTES, 'UTF-8', false); ?>" alt="..." />
- <div class="card-body ps-0">
- <h5 class="fw-bold text-1000 text-truncate mb-1">Bánh Toffe</h5>
- <div><span class="text-warning me-2"><i class="fas fa-map-marker-alt"></i></span><span class="text-primary">Top Sticks</span></div><span class="text-1000 fw-bold">32.000đ</span>
+ <div class="d-grid gap-2">
+ <a class="btn btn-lg btn-danger" href="#">Đặt ngay</a>
  </div>
  </div>
- <div class="d-grid gap-2"><a class="btn btn-lg btn-danger" href="#!" role="button">Đặt ngay</a></div>
- </div>
- <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
- <div class="card card-span h-100 rounded-3"><img class="img-fluid rounded-3 h-100" src="<?php echo \htmlentities(asset('assets/img/gallery/dancake.png')??'', ENT_QUOTES, 'UTF-8', false); ?>" alt="..." />
- <div class="card-body ps-0">
- <h5 class="fw-bold text-1000 text-truncate mb-1">Bánh pancake</h5>
- <div><span class="text-warning me-2"><i class="fas fa-map-marker-alt"></i></span><span class="text-primary">Cake World</span></div><span class="text-1000 fw-bold">40.000đ</span>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  </div>
  </div>
- <div class="d-grid gap-2"><a class="btn btn-lg btn-danger" href="#!" role="button">Đặt ngay</a></div>
- </div>
- <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
- <div class="card card-span h-100 rounded-3"><img class="img-fluid rounded-3 h-100" src="<?php echo \htmlentities(asset('assets/img/gallery/crispy-sandwitch.png')??'', ENT_QUOTES, 'UTF-8', false); ?>" alt="..." />
- <div class="card-body ps-0">
- <h5 class="fw-bold text-1000 text-truncate mb-1">Sandwitch Tôm</h5>
- <div><span class="text-warning me-2"><i class="fas fa-map-marker-alt"></i></span><span class="text-primary">Fastfood Dine</span></div><span class="text-1000 fw-bold">55.000đ</span>
- </div>
- </div>
- <div class="d-grid gap-2"><a class="btn btn-lg btn-danger" href="#!" role="button">Đặt ngay</a></div>
- </div>
- <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
- <div class="card card-span h-100 rounded-3"><img class="img-fluid rounded-3 h-100" src="<?php echo \htmlentities(asset('assets/img/gallery/thai-soup.png')??'', ENT_QUOTES, 'UTF-8', false); ?>" alt="..." />
- <div class="card-body ps-0">
- <h5 class="fw-bold text-1000 text-truncate mb-1">Súp Thái</h5>
- <div><span class="text-warning me-2"><i class="fas fa-map-marker-alt"></i></span><span class="text-primary">Foody Man</span></div><span class="text-1000 fw-bold">70.000đ</span>
- </div>
- </div>
- <div class="d-grid gap-2"><a class="btn btn-lg btn-danger" href="#!" role="button">Đặt ngay</a></div>
- </div>
- </div>
- </div>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  </div>
  <button class="carousel-control-prev carousel-icon" type="button" data-bs-target="#carouselPopularItems" data-bs-slide="prev"><span class="carousel-control-prev-icon hover-top-shadow" aria-hidden="true"></span><span class="visually-hidden">Trước</span></button>
  <button class="carousel-control-next carousel-icon" type="button" data-bs-target="#carouselPopularItems" data-bs-slide="next"><span class="carousel-control-next-icon hover-top-shadow" aria-hidden="true"></span><span class="visually-hidden">Tiếp theo</span></button>
@@ -587,53 +562,7 @@
  </div><!-- end of .container-->
 
  </section>
- <!-- <section> close ============================-->
- <!-- ============================================-->
 
-
- <?php /* <section>
- <div class="bg-holder" style="background-image:url(<?php echo \htmlentities(asset('assets/img/gallery/cta-one-bg.png')??'', ENT_QUOTES, 'UTF-8', false); ?>);background-position:center;background-size:cover;">
- </div>
- <!--/.bg-holder-->
-
- <div class="container">
- <div class="row justify-content-center">
- <div class="col-xxl-10">
- <div class="card card-span shadow-warning" style="border-radius: 35px;">
- <div class="card-body py-5">
- <div class="row justify-content-evenly">
- <div class="col-md-3">
- <div class="d-flex d-md-block d-xl-flex justify-content-evenly justify-content-lg-between"><img src="<?php echo \htmlentities(asset('assets/img/icons/discounts.png')??'', ENT_QUOTES, 'UTF-8', false); ?>" width="100" alt="..." />
- <div class="d-flex d-lg-block d-xl-flex flex-center">
- <h2 class="fw-bolder text-1000 mb-0 text-gradient">Daily<br class="d-none d-md-block" />Discounts </h2>
- </div>
- </div>
- </div>
- <div class="col-md-3 hr-vertical">
- <div class="d-flex d-md-block d-xl-flex justify-content-evenly justify-content-lg-between"><img src="<?php echo \htmlentities(asset('assets/img/icons/live-tracking.png')??'', ENT_QUOTES, 'UTF-8', false); ?>" width="100" alt="..." />
- <div class="d-flex d-lg-block d-xl-flex flex-center">
- <h2 class="fw-bolder text-1000 mb-0 text-gradient">Live Tracking</h2>
- </div>
- </div>
- </div>
- <div class="col-md-3 hr-vertical">
- <div class="d-flex d-md-block d-xl-flex justify-content-evenly justify-content-lg-between"><img src="<?php echo \htmlentities(asset('assets/img/icons/quick-delivery.png')??'', ENT_QUOTES, 'UTF-8', false); ?>" width="100" alt="..." />
- <div class="d-flex d-lg-block d-xl-flex flex-center">
- <h2 class="fw-bolder text-1000 mb-0 text-gradient">Quick Delivery </h2>
- </div>
- </div>
- </div>
- </div>
- </div>
- </div>
- </div>
- </div>
- 
- </section> */ ?>
-
-
- <!-- ============================================-->
- <!-- <section> begin ============================-->
  <section class="pb-5 pt-8">
 
  <div class="container">

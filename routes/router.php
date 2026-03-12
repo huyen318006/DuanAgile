@@ -3,12 +3,12 @@ use App\Controllers\HomeController;
 use App\Models\Users;
 use Bramus\Router\Router;
 use App\Controllers\UserController;
+use App\Controllers\FoodController;
 
 $router = new Router;
 
-$router->get('/', HomeController::class . '@index');
-
-$router->get('home', HomeController::class . '@index');
+$router->get('/', FoodController::class . '@index');
+$router->get('/foods', FoodController::class . '@index');
 // Đăng nhập
 $router->get('login',UserController::class.'@login');
 $router->post('checklogin',UserController::class.'@checklogin');

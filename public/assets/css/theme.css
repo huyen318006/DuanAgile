@@ -4815,6 +4815,7 @@ fieldset:disabled .btn {
   padding-left: 0;
   margin-bottom: 0;
   list-style: none;
+  flex-shrink: 0;
 }
 
 .navbar-nav .nav-link {
@@ -4842,6 +4843,8 @@ fieldset:disabled .btn {
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  min-width: 0;
+  flex-wrap: nowrap;
 }
 
 .navbar-toggler {
@@ -18439,6 +18442,9 @@ ul {
 .input-group-icon .input-box {
   padding-left: 2.8rem;
   vertical-align: middle;
+  max-width: 180px;
+  flex-shrink: 1;
+  min-width: 0;
 }
 
 .input-group-icon .input-box-icon {

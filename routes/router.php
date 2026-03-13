@@ -33,4 +33,5 @@ $router->get('orderforme', UserController::class . '@orderforme');
 
 //nhà hàng nổi bật
 $router->get('restaurant/(\d+)', RestaurantController::class.'@show');
+
 $router->run();

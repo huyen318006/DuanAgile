@@ -31,7 +31,7 @@ use App\Controllers\UserController;
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link text-nowrap" href="#">Giỏ hàng</a>
+                    <a class="nav-link text-nowrap" href="{{ route('') }}">Giỏ hàng</a>
                 </li>
 
                 <li class="nav-item">

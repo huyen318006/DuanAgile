@@ -5,6 +5,8 @@ namespace App\Controllers;
 use App\Controller;
 use App\Models\Users;
 
+use App\Models\Order;
+
 class UserController
 {
     public function login()
@@ -21,6 +23,9 @@ class UserController
                 'id' => $user->id,
                 'name' => $user->name,
                 'email' => $user->email,
+               'phone' => $user->phone,
+               'address' => $user->address,
+               
             ];
             header('location:' . APP_URL);
             exit();
@@ -103,5 +108,22 @@ class UserController
                 header('location:' . APP_URL . 'login');
                 exit();
             }
+        }
+
+
+        //profile-hồ sơ cá nhân
+        public function profile()
+        {
+            $oders= Order::where('user_id', $_SESSION['user']['id'])->get();
+           
+
+            return view('login-out.profile',compact('oders'));
+        }
+        public function orderforme()
+        {
+            $oders= Order::where('user_id', $_SESSION['user']['id'])->get();
+           
+
+            return view('login-out.orderforme',compact('oders'));
         }
 }

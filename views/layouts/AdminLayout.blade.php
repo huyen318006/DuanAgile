@@ -21,6 +21,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('img/favicons/favicon-16x16.png') }}">
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('img/favicons/favicon.ico') }}">
     <link rel="manifest" href="{{ asset('img/favicons/manifest.json') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <meta name="msapplication-TileImage" content="{{ asset('img/favicons/mstile-150x150.png') }}">
     <meta name="theme-color" content="#ffffff">
 

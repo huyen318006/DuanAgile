@@ -3,11 +3,9 @@
 @section('content')
 <main class="main" id="top">
 
-  <section class="py-0">
+  <section class="py-5 overflow-hidden bg-primary" id="home">
     <div class="bg-holder" style="background-image:url({{ asset('assets/img/gallery/cta-two-bg.png') }});background-position:center;background-size:cover;">
     </div>
-    <!--/.bg-holder-->
-
     <div class="container">
       <div class="row flex-center">
         <div class="col-xxl-9 py-7 text-center">
@@ -16,267 +14,241 @@
       </div>
     </div>
   </section>
-  <div class="container">
-    <div class="row h-100">
-      <div class="col-lg-7 mx-auto text-center mb-6">
-        <h5 class="fw-bold fs-3 fs-lg-5 lh-sm mb-3">Menu</h5>
+  <section class="py-4 overflow-hidden">
+    <div class="container">
+      <div class="text-center">
+        <h1 class="display-5 mb-5">Most Popular Food in the World</h1>
       </div>
-    </div>
-    {{-- FILTER SECTION - CSS loaded from assets/css/menu-filter.css --}}
-
-    <div class="menu-filter-container" id="menuFilterSection">
-      <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
-        <h5 class="fw-bold fs-3 lh-sm mb-0">Lọc theo loại món ăn</h5>
-        <div class="d-flex align-items-center gap-2">
-          <label for="categoryFilter" class="fw-semibold text-1000 mb-0 text-nowrap">Loại món:</label>
-          <select class="form-select menu-filter-select" id="categoryFilter" onchange="filterMenu(this.value)">
-            <option value="all" selected>Tất cả</option>
-            @foreach($categories as $category)
-            <option value="{{ $category->id }}">{{ $category->name }}</option>
-            @endforeach
-          </select>
+      <div class="tab-class text-center">
+        <!-- Search Box -->
+        <div class="d-flex justify-content-center mb-4">
+          <div class="position-relative" style="width: 400px;">
+            <i class="fas fa-search position-absolute" style="left: 15px; top: 50%; transform: translateY(-50%); color: #aaa;"></i>
+            <input type="text" id="menuSearchInput" class="form-control menu-search-input" placeholder="Tìm kiếm món ăn..." style="padding-left: 42px;">
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="row gx-2" id="menuCardGrid">
-      @foreach($foods as $food)
-      <div class="col-sm-6 col-md-4 col-lg-3 h-100 mb-5 menu-card-item visible" data-category="{{ $food->category_id }}">
-        <div class="card card-span h-100 text-white rounded-3">
-          <img class="img-fluid rounded-3" src="{{ asset('assets/img/gallery/'.$food->image) }}" alt="{{ $food->name }}" style="width:100%; height:220px; object-fit:cover;">
-          <div class="card-body ps-0">
-            <div class="d-flex align-items-center mb-3">
-              <div class="flex-1 ms-3">
-                <h5 class="mb-0 fw-bold text-1000">{{ $food->name }}</h5>
-                <span class="text-warning fw-bold">{{ number_format($food->price, 0, ',', '.') }}đ</span>
+
+        <ul class="nav nav-pills d-inline-flex justify-content-center mb-5" id="menuCategoryFilter">
+          <li class="nav-item p-2">
+            <a class="filter-pill d-flex py-2 mx-2 border border-primary rounded-pill active" href="javascript:void(0)" data-category-id="all">
+              <span style="width: 150px;">Tất cả</span>
+            </a>
+          </li>
+          @foreach ($categories as $category)
+          <li class="nav-item p-2">
+            <a class="filter-pill d-flex py-2 mx-2 border border-primary rounded-pill" href="javascript:void(0)" data-category-id="{{ $category->id }}">
+              <span style="width: 150px;">{{ $category->name }}</span>
+            </a>
+          </li>
+          @endforeach
+        </ul>
+        <div class="tab-content">
+
+          <div class="tab-pane fade show p-0 active">
+            <div class="row g-4" id="menuFoodList">
+              @foreach($foods as $food)
+              <div class="col-lg-6 menu-food-item" data-category="{{ $food->category_id }}" data-name="{{ mb_strtolower($food->name) }}">
+                <div class="menu-item d-flex align-items-center">
+                  <img class="rounded-circle" style="width:15%; object-fit:cover" src="{{ asset('assets/img/gallery/'.$food->image) }}" alt="{{ $food->name }}">
+                  <div class=" w-100 d-flex flex-column text-start ps-4">
+                    <div class="d-flex justify-content-between border-bottom border-primary pb-2 mb-2">
+                      <h4>{{ $food->name }}</h4>
+                      <h4 class="text-primary">{{ number_format($food->price, 0, ',', '.') }}đ</h4>
+                    </div>
+                    <p class="mb-0">{{ $food->description }}</p>
+                  </div>
+                </div>
               </div>
+              @endforeach
             </div>
-            @if($food->description)
-            <p class="text-muted small mb-0">{{ $food->description }}</p>
-            @endif
           </div>
         </div>
       </div>
-      @endforeach
-
-      @if(count($foods) === 0)
-      <div class="col-12 text-center py-5">
-        <p class="text-muted fs-1">Chưa có món ăn nào trong menu.</p>
-      </div>
-      @endif
     </div>
-  </div>
+  </section>
+
+  <section class="pb-5 pt-8">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="card card-span mb-3 shadow-lg">
+            <div class="card-body py-0">
+              <div class="row justify-content-center">
+                <div class="col-md-5 col-xl-7 col-xxl-8 g-0 order-0 order-md-1"><img class="img-fluid w-100 fit-cover h-100 rounded-top rounded-md-end rounded-md-top-0" src="{{ asset('assets/img/gallery/crispy-sandwiches.png') }}" alt="..." /></div>
+                <div class="col-md-7 col-xl-5 col-xxl-4 p-4 p-lg-5">
+                  <h1 class="card-title mt-xl-5 mb-4">Ưu đãi tốt nhất cho <span class="text-primary"> Sandwich Giòn</span></h1>
+                  <p class="fs-1">Thưởng thức những chiếc sandwich cỡ lớn thơm ngon. Hoàn thiện bữa ăn của bạn với những lát sandwich tuyệt hảo.</p>
+                  <div class="d-grid bottom-0"><a class="btn btn-lg btn-primary mt-xl-6" href="#!">TIẾN HÀNH ĐẶT MÓN<i class="fas fa-chevron-right ms-2"></i></a></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- end of .container-->
+
+  </section>
+  <!-- <section> close ============================-->
+  <!-- ============================================-->
+
 
 
 
   <!-- ============================================-->
   <!-- <section> begin ============================-->
+  <section class="py-0">
 
-  <!-- <section> close ============================-->
-  <!-- ============================================-->
-
-
-  {{-- <section>
-        <div class="bg-holder" style="background-image:url({{ asset('assets/img/gallery/cta-one-bg.png') }});background-position:center;background-size:cover;">
-  </div>
-  <!--/.bg-holder-->
-
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-xxl-10">
-        <div class="card card-span shadow-warning" style="border-radius: 35px;">
-          <div class="card-body py-5">
-            <div class="row justify-content-evenly">
-              <div class="col-md-3">
-                <div class="d-flex d-md-block d-xl-flex justify-content-evenly justify-content-lg-between"><img src="{{ asset('assets/img/icons/discounts.png') }}" width="100" alt="..." />
-                  <div class="d-flex d-lg-block d-xl-flex flex-center">
-                    <h2 class="fw-bolder text-1000 mb-0 text-gradient">Daily<br class="d-none d-md-block" />Discounts </h2>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-3 hr-vertical">
-                <div class="d-flex d-md-block d-xl-flex justify-content-evenly justify-content-lg-between"><img src="{{ asset('assets/img/icons/live-tracking.png') }}" width="100" alt="..." />
-                  <div class="d-flex d-lg-block d-xl-flex flex-center">
-                    <h2 class="fw-bolder text-1000 mb-0 text-gradient">Live Tracking</h2>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-3 hr-vertical">
-                <div class="d-flex d-md-block d-xl-flex justify-content-evenly justify-content-lg-between"><img src="{{ asset('assets/img/icons/quick-delivery.png') }}" width="100" alt="..." />
-                  <div class="d-flex d-lg-block d-xl-flex flex-center">
-                    <h2 class="fw-bolder text-1000 mb-0 text-gradient">Quick Delivery </h2>
-                  </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="card card-span mb-3 shadow-lg">
+            <div class="card-body py-0">
+              <div class="row justify-content-center">
+                <div class="col-md-5 col-xl-7 col-xxl-8 g-0 order-md-0"><img class="img-fluid w-100 fit-cover h-100 rounded-top rounded-md-start rounded-md-top-0" src="{{ asset('assets/img/gallery/fried-chicken.png') }}" alt="..." /></div>
+                <div class="col-md-7 col-xl-5 col-xxl-4 p-4 p-lg-5">
+                  <h1 class="card-title mt-xl-5 mb-4">Hãy tổ chức bữa tiệc <span class="text-primary">với Gà rán thơm ngon</span></h1>
+                  <p class="fs-1">Thưởng thức gà rán giòn rụm với hương vị chanh ớt hấp dẫn. Khám phá những ưu đãi tốt nhất dành cho gà rán.</p>
+                  <div class="d-grid bottom-0"><a class="btn btn-lg btn-primary mt-xl-6" href="#!">TIẾN HÀNH ĐẶT MÓN<i class="fas fa-chevron-right ms-2"></i></a></div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-
-    </section> --}}
-
-
-    <!-- ============================================-->
-    <!-- <section> begin ============================-->
-    <section class="pb-5 pt-8">
-
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
-            <div class="card card-span mb-3 shadow-lg">
-              <div class="card-body py-0">
-                <div class="row justify-content-center">
-                  <div class="col-md-5 col-xl-7 col-xxl-8 g-0 order-0 order-md-1"><img class="img-fluid w-100 fit-cover h-100 rounded-top rounded-md-end rounded-md-top-0" src="{{ asset('assets/img/gallery/crispy-sandwiches.png') }}" alt="..." /></div>
-                  <div class="col-md-7 col-xl-5 col-xxl-4 p-4 p-lg-5">
-                    <h1 class="card-title mt-xl-5 mb-4">Ưu đãi tốt nhất cho <span class="text-primary"> Sandwich Giòn</span></h1>
-                    <p class="fs-1">Thưởng thức những chiếc sandwich cỡ lớn thơm ngon. Hoàn thiện bữa ăn của bạn với những lát sandwich tuyệt hảo.</p>
-                    <div class="d-grid bottom-0"><a class="btn btn-lg btn-primary mt-xl-6" href="#!">TIẾN HÀNH ĐẶT MÓN<i class="fas fa-chevron-right ms-2"></i></a></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div><!-- end of .container-->
-
-    </section>
-    <!-- <section> close ============================-->
-    <!-- ============================================-->
-
-
-
-
-    <!-- ============================================-->
-    <!-- <section> begin ============================-->
-    <section class="py-0">
-
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
-            <div class="card card-span mb-3 shadow-lg">
-              <div class="card-body py-0">
-                <div class="row justify-content-center">
-                  <div class="col-md-5 col-xl-7 col-xxl-8 g-0 order-md-0"><img class="img-fluid w-100 fit-cover h-100 rounded-top rounded-md-start rounded-md-top-0" src="{{ asset('assets/img/gallery/fried-chicken.png') }}" alt="..." /></div>
-                  <div class="col-md-7 col-xl-5 col-xxl-4 p-4 p-lg-5">
-                    <h1 class="card-title mt-xl-5 mb-4">Hãy tổ chức bữa tiệc <span class="text-primary">với Gà rán thơm ngon</span></h1>
-                    <p class="fs-1">Thưởng thức gà rán giòn rụm với hương vị chanh ớt hấp dẫn. Khám phá những ưu đãi tốt nhất dành cho gà rán.</p>
-                    <div class="d-grid bottom-0"><a class="btn btn-lg btn-primary mt-xl-6" href="#!">TIẾN HÀNH ĐẶT MÓN<i class="fas fa-chevron-right ms-2"></i></a></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div><!-- end of .container-->
-
-    </section>
-    <!-- <section> close ============================-->
-    <!-- ============================================-->
-
-
-
-
-    <!-- ============================================-->
-    <!-- <section> begin ============================-->
-    <section class="pt-5">
-
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
-            <div class="card card-span mb-3 shadow-lg">
-              <div class="card-body py-0">
-                <div class="row justify-content-center">
-                  <div class="col-md-5 col-xl-7 col-xxl-8 g-0 order-0 order-md-1"><img class="img-fluid w-100 fit-cover h-100 rounded-top rounded-md-end rounded-md-top-0" src="{{ asset('assets/img/gallery/pizza.png') }}" alt="..." /></div>
-                  <div class="col-md-7 col-xl-5 col-xxl-4 p-4 p-lg-5">
-                    <h1 class="card-title mt-xl-5 mb-4">Bạn muốn ăn <span class="text-primary">pizza nóng & cay không ?</span></h1>
-                    <p class="fs-1">Hãy cùng bạn bè thưởng thức những miếng pizza nóng hổi và giòn tan. Đừng bỏ lỡ các ưu đãi hấp dẫn nhất.</p>
-                    <div class="d-grid bottom-0"><a class="btn btn-lg btn-primary mt-xl-6" href="#!">TIẾN HÀNH ĐẶT MÓN<i class="fas fa-chevron-right ms-2"></i></a></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div><!-- end of .container-->
-
-    </section>
-    <!-- <section> close ============================-->
-    <!-- ============================================-->
-
-
-
-
-    {{-- PHẦN FOOTER --}}
-    <!-- ============================================-->
-    <!-- <section> begin ============================-->
-    <section class="py-0 pt-7 bg-1000">
-
-      <div class="container">
-        <hr class="text-900" />
-        <div class="row">
-          <div class="col-6 col-md-4 col-lg-3 col-xxl-2 mb-3">
-            <h5 class="lh-lg fw-bold text-white">Công Ty</h5>
-            <ul class="list-unstyled mb-md-4 mb-lg-0">
-              <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Về chúng tôi</a></li>
-              <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Đội ngũ</a></li>
-              <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Tuyển dụng</a></li>
-              <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">blog</a></li>
-            </ul>
-          </div>
-          <div class="col-6 col-md-4 col-lg-3 col-xxl-2 col-lg-3 mb-3">
-            <h5 class="lh-lg fw-bold text-white">CONTACT</h5>
-            <ul class="list-unstyled mb-md-4 mb-lg-0">
-              <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Trợ giúp &amp; Hỗ trợ</a></li>
-              <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Hợp tác với chúng tôi </a></li>
-              <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Trở thành đối tác giao hàng</a></li>
-              <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Pháp lí</a></li>
-            </ul>
-          </div>
-          <div class="col-6 col-md-4 col-lg-3 col-xxl-2 mb-3">
-            <h5 class="lh-lg fw-bold text-white">PHÁP LÝ</h5>
-            <ul class="list-unstyled mb-md-4 mb-lg-0">
-              <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Điều khoản &amp; Điều kiện</a></li>
-              <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Hoàn tiền &amp; Hủy đơn</a></li>
-              <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Chính sách bảo mật</a></li>
-              <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Chính sách Cookie</a></li>
-            </ul>
-          </div>
-          <h3 class="text-500 my-4">Nhận ưu đãi <br />và giảm giá độc quyền qua email</h3>
-          <div class="row input-group-icon mb-5">
-            <div class="col-auto"><i class="fas fa-envelope input-box-icon text-500 ms-3"></i>
-              <input class="form-control input-box bg-800 border-0" type="email" placeholder="Enter Email" aria-label="email" />
-            </div>
-            <div class="col-auto">
-              <button class="btn btn-primary" type="submit">Đăng kí</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <hr class="border border-800" />
-      <div class="row flex-center pb-3">
-        <div class="col-md-6 order-0">
-          <p class="text-200 text-center text-md-start" style='margin-left: 35%;'>QUẢN LÍ DỰ ÁN VỚI AGILE - ĐÒ ĂN NHANH</p>
-        </div>
-      </div>
-  </div><!-- end of .container-->
+    </div><!-- end of .container-->
 
   </section>
   <!-- <section> close ============================-->
   <!-- ============================================-->
-  <script>
-    function filterMenu(category) {
-      var cards = document.querySelectorAll('.menu-card-item');
-      cards.forEach(function(card) {
-        var cardCategory = card.getAttribute('data-category');
-        if (category === 'all' || cardCategory === category) {
-          card.classList.remove('hidden');
-          card.classList.add('visible');
+
+
+
+
+  <!-- ============================================-->
+  <!-- <section> begin ============================-->
+  <section class="pt-5">
+
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="card card-span mb-3 shadow-lg">
+            <div class="card-body py-0">
+              <div class="row justify-content-center">
+                <div class="col-md-5 col-xl-7 col-xxl-8 g-0 order-0 order-md-1"><img class="img-fluid w-100 fit-cover h-100 rounded-top rounded-md-end rounded-md-top-0" src="{{ asset('assets/img/gallery/pizza.png') }}" alt="..." /></div>
+                <div class="col-md-7 col-xl-5 col-xxl-4 p-4 p-lg-5">
+                  <h1 class="card-title mt-xl-5 mb-4">Bạn muốn ăn <span class="text-primary">pizza nóng & cay không ?</span></h1>
+                  <p class="fs-1">Hãy cùng bạn bè thưởng thức những miếng pizza nóng hổi và giòn tan. Đừng bỏ lỡ các ưu đãi hấp dẫn nhất.</p>
+                  <div class="d-grid bottom-0"><a class="btn btn-lg btn-primary mt-xl-6" href="#!">TIẾN HÀNH ĐẶT MÓN<i class="fas fa-chevron-right ms-2"></i></a></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- end of .container-->
+
+  </section>
+  <!-- <section> close ============================-->
+  <!-- ============================================-->
+
+
+
+
+  {{-- PHẦN FOOTER --}}
+  <!-- ============================================-->
+  <!-- <section> begin ============================-->
+  <section class="py-0 pt-7 bg-1000">
+
+    <div class="container">
+      <hr class="text-900" />
+      <div class="row">
+        <div class="col-6 col-md-4 col-lg-3 col-xxl-2 mb-3">
+          <h5 class="lh-lg fw-bold text-white">Công Ty</h5>
+          <ul class="list-unstyled mb-md-4 mb-lg-0">
+            <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Về chúng tôi</a></li>
+            <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Đội ngũ</a></li>
+            <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Tuyển dụng</a></li>
+            <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">blog</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md-4 col-lg-3 col-xxl-2 col-lg-3 mb-3">
+          <h5 class="lh-lg fw-bold text-white">CONTACT</h5>
+          <ul class="list-unstyled mb-md-4 mb-lg-0">
+            <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Trợ giúp &amp; Hỗ trợ</a></li>
+            <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Hợp tác với chúng tôi </a></li>
+            <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Trở thành đối tác giao hàng</a></li>
+            <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Pháp lí</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md-4 col-lg-3 col-xxl-2 mb-3">
+          <h5 class="lh-lg fw-bold text-white">PHÁP LÝ</h5>
+          <ul class="list-unstyled mb-md-4 mb-lg-0">
+            <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Điều khoản &amp; Điều kiện</a></li>
+            <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Hoàn tiền &amp; Hủy đơn</a></li>
+            <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Chính sách bảo mật</a></li>
+            <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Chính sách Cookie</a></li>
+          </ul>
+        </div>
+        <h3 class="text-500 my-4">Nhận ưu đãi <br />và giảm giá độc quyền qua email</h3>
+        <div class="row input-group-icon mb-5">
+          <div class="col-auto"><i class="fas fa-envelope input-box-icon text-500 ms-3"></i>
+            <input class="form-control input-box bg-800 border-0" type="email" placeholder="Enter Email" aria-label="email" />
+          </div>
+          <div class="col-auto">
+            <button class="btn btn-primary" type="submit">Đăng kí</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr class="border border-800" />
+    <div class="row flex-center pb-3">
+      <div class="col-md-6 order-0">
+        <p class="text-200 text-center text-md-start" style='margin-left: 35%;'>QUẢN LÍ DỰ ÁN VỚI AGILE - ĐÒ ĂN NHANH</p>
+      </div>
+    </div>
+    </div><!-- end of .container-->
+
+  </section>
+  <!-- <section> close ============================-->
+  <!-- ============================================-->
+</main>
+
+@section('scripts')
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const filterPills = document.querySelectorAll('#menuCategoryFilter .filter-pill');
+    const foodItems = document.querySelectorAll('#menuFoodList .menu-food-item');
+    const searchInput = document.getElementById('menuSearchInput');
+
+    function filterItems() {
+      const activePill = document.querySelector('#menuCategoryFilter .filter-pill.active');
+      const categoryId = activePill ? activePill.getAttribute('data-category-id') : 'all';
+      const keyword = searchInput.value.trim().toLowerCase();
+
+      foodItems.forEach(function(item) {
+        const matchCategory = (categoryId === 'all' || item.getAttribute('data-category') === categoryId);
+        const matchSearch = (keyword === '' || item.getAttribute('data-name').includes(keyword));
+
+        if (matchCategory && matchSearch) {
+          item.classList.remove('hidden');
+          item.classList.add('visible');
         } else {
-          card.classList.remove('visible');
-          card.classList.add('hidden');
+          item.classList.remove('visible');
+          item.classList.add('hidden');
         }
       });
     }
-  </script>
-</main>
+
+    filterPills.forEach(function(pill) {
+      pill.addEventListener('click', function() {
+        filterPills.forEach(function(p) { p.classList.remove('active'); });
+        this.classList.add('active');
+        filterItems();
+      });
+    });
+
+    searchInput.addEventListener('input', filterItems);
+  });
+</script>
+@endsection
 @endsection

@@ -29,4 +29,34 @@ class Food extends Model
         }
         return null;
     }
+    public function sizes()
+    {
+        $conn = self::getConnection();
+
+        $sql = "SELECT s.*
+                FROM sizes s
+                JOIN food_sizes fs ON fs.size_id = s.id
+                WHERE fs.food_id = ?";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([$this->id]);
+
+        return $stmt->fetchAll();
+    }
+
+    // lấy topping của món
+    public function toppings()
+    {
+        $conn = self::getConnection();
+
+        $sql = "SELECT t.*
+                FROM toppings t
+                JOIN food_toppings ft ON ft.topping_id = t.id
+                WHERE ft.food_id = ?";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([$this->id]);
+
+        return $stmt->fetchAll();
+    }
 }

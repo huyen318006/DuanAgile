@@ -27,4 +27,7 @@ $router->post('addregister', UserController::class . '@addregister');
 $router->get('forgotpassword', UserController::class . '@forgotpassword');
 $router->post('sendforgotpassword', UserController::class . '@sendforgotpassword');
 $router->post('updatepassword', UserController::class . '@updatepassword');
+//hồ sơ cá nhân
+$router->get('profile', UserController::class . '@profile');
+$router->get('orderforme', UserController::class . '@orderforme');
 $router->run();

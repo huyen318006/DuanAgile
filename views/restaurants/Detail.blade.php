@@ -16,7 +16,7 @@
      <div class="col-md-4 mb-4">
       <div class="food-card">
        <span class="food-badge">Best Seller</span>
-       <img class="food-img" src="{{ asset('assets/img/foods/'.$food->image) }}">
+       <img src="{{ asset('assets/img/gallery/'.$food->image) }}" style="width:100%;height:200px;object-fit:cover">
 
        <div class="food-body">
         <div class="food-name">{{ $food->name }}</div>
@@ -52,7 +52,7 @@
 
          <div class="modal-body">
 
-            <img src="{{ asset('assets/img/foods/'.$food->image) }}" style="width:100%;height:200px;object-fit:cover;border-radius:10px;margin-bottom:15px">
+            <img src="{{ asset('assets/img/gallery/'.$food->image) }}"style="width:100%;height:200px;object-fit:cover;border-radius:10px;margin-bottom:15px">
 
             <input type="hidden" name="food_id" value="{{ $food->id }}">
 

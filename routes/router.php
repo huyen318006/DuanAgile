@@ -32,5 +32,5 @@ $router->get('profile', UserController::class . '@profile');
 $router->get('orderforme', UserController::class . '@orderforme');
 
 //nhà hàng nổi bật
-$router->get('/restaurant/(\d+)', RestaurantController::class.'@show');
+$router->get('restaurant/(\d+)', RestaurantController::class.'@show');
 $router->run();

@@ -276,7 +276,15 @@
           <div class="flex-1 ms-3">
           <h5 class="mb-0 fw-bold text-1000">{{ $restaurant->name }}</h5>
           <span style="font-size:13px;color:#666">{{ $restaurant->slogan }}</span></br>
-          <span class="text-warning">@for($i=1;$i<=5;$i++)<i class="fas fa-star"></i>@endfor</span>
+          <span class="text-warning">
+            @for($i=1;$i<=5;$i++)
+            @if($i <= $restaurant->rating)
+            <i class="fa-solid fa-star"></i>
+            @else
+            <i class="fa-regular fa-star"></i>
+            @endif
+            @endfor
+          </span>
           <span class="mb-0 text-primary">{{ $restaurant->rating }}</span>
           </div>
           </div>

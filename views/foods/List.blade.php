@@ -222,7 +222,7 @@
                     </div>
                     <div class="d-grid gap-2">
                      
-                      <a href="{{ route('foods/'.$food->id.'/order') }}" class="btn btn-primary" style="transition:0.3s;" onmouseover="this.style.transform='scale(1.05)';this.style.boxShadow='0 8px 20px rgba(0,0,0,0.2)';" onmouseout="this.style.transform='scale(1)';this.style.boxShadow='none';">Xem chi tiết</a>
+                      <a href="{{ route('foods/'.$food->id.'/order') }}" class="btn btn-primary" style="transition:0.3s;" onmouseover="this.style.transform='scale(1.05)';this.style.boxShadow='0 8px 20px rgba(0,0,0,0.2)';" onmouseout="this.style.transform='scale(1)';this.style.boxShadow='none';">Đặt Hàng</a>
                     </div>
                   </div>
                   @endforeach

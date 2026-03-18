@@ -7,6 +7,7 @@ use Bramus\Router\Router;
 use App\Controllers\UserController;
 use App\Controllers\FoodController;
 use App\Controllers\RestaurantController;
+use App\Controllers\CartController;
 use App\Controllers\OrderController;
 
 $router = new Router;
@@ -14,7 +15,14 @@ $router = new Router;
 $router->get('/', FoodController::class . '@index');
 $router->get('/foods', FoodController::class . '@index');
 
+// Menu
 $router->get('menu', MenuController::class . '@index');
+
+// Cart
+$router->get('cart', CartController::class . '@index');
+$router->post('cart/add', CartController::class . '@add');
+$router->post('cart/{id}/update', CartController::class . '@update');
+$router->post('cart/{id}/delete', CartController::class . '@delete');
 
 // Đăng nhập
 $router->get('login', UserController::class . '@login');
@@ -36,7 +44,7 @@ $router->get('editprofile', UserController::class . '@editprofile');
 $router->post('updateprofile', UserController::class . '@updateprofile');
 
 //nhà hàng nổi bật
-$router->get('restaurant/(\d+)', RestaurantController::class.'@show');
+$router->get('restaurant/(\d+)', RestaurantController::class . '@show');
 
 //order
 $router->get('foods/{id}/order', OrderController::class.'@order');

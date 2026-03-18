@@ -322,6 +322,14 @@ class Model
 
     /**
      * Thêm điều kiện WHERE
+     * 
+     * QUAN TRỌNG: Dùng prefix "_" (protected) thay vì public static để hỗ trợ chain đúng.
+     * - Gọi static:  Cart::where('user_id', 1)        → __callStatic tạo instance mới → gọi _where
+     * - Gọi chain:   ->where('food_id', 5)             → __call trên CÙNG instance    → gọi _where
+     * 
+     * Nếu khai báo "public static function where()", khi chain $instance->where(...)
+     * PHP sẽ gọi thẳng static method → tạo instance MỚI → mất hết điều kiện trước đó.
+     * 
      * @param string $column Tên cột
      * @param mixed $operator Toán tử hoặc giá trị (nếu dùng 2 tham số)
      * @param mixed $value Giá trị so sánh
@@ -331,16 +339,16 @@ class Model
      * Customer::where('status', 'active');           // status = 'active'
      * Customer::where('age', '>', 18);               // age > 18
      * Customer::where('name', 'LIKE', '%Nguyen%');   // name LIKE '%Nguyen%'
+     * Customer::where('status', 1)->where('vip', 1); // chain nhiều điều kiện
      */
-    public static function where($column, $operator = null, $value = null)
+    protected function _where($column, $operator = null, $value = null)
     {
-        $instance = new static();
-        return $instance->addWhere($column, $operator, $value, 'AND');
+        return $this->addWhere($column, $operator, $value, 'AND');
     }
 
     /**
-     * Thêm điều kiện OR WHERE
-     * Dùng để kết hợp nhiều điều kiện với OR
+     * Thêm điều kiện OR WHERE (cùng cơ chế _where, xem giải thích ở trên)
+     * 
      * @param string $column Tên cột
      * @param mixed $operator Toán tử hoặc giá trị
      * @param mixed $value Giá trị so sánh
@@ -352,10 +360,9 @@ class Model
      *          ->get();
      * // WHERE status = 'active' OR vip = 1
      */
-    public static function orWhere($column, $operator = null, $value = null)
+    protected function _orWhere($column, $operator = null, $value = null)
     {
-        $instance = new static();
-        return $instance->addWhere($column, $operator, $value, 'OR');
+        return $this->addWhere($column, $operator, $value, 'OR');
     }
 
     /**

@@ -1,0 +1,14 @@
+# Environment
+env.php
+
+# Cache
+storage/cache/*.bladec
+
+# Dependencies
+vendor/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo

@@ -78,3 +78,24 @@
   box-shadow: 0 0 0 0.2rem rgba(229, 89, 52, 0.2);
   outline: none;
 }
+
+/* =============================================
+   Menu Food Item - Clickable & Image
+   ============================================= */
+.menu-item {
+  cursor: pointer;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.menu-item:hover {
+  background-color: #fff5f0;
+  box-shadow: 0 4px 16px rgba(229, 89, 52, 0.12);
+}
+
+.menu-item img.rounded-circle {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}

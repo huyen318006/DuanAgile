@@ -39,5 +39,6 @@ $router->get('restaurant/(\d+)', RestaurantController::class.'@show');
 $router->get('foods/{id}/order', OrderController::class.'@order');
 // add order
 $router->post('order/add',OrderController::class.'@orderadd');
+$router->get('order/history', OrderController::class.'@orderHistory');
 
 $router->run();

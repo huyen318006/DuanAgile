@@ -54,10 +54,10 @@
  </div>
  </div>
 
- <!-- SIZE -->
- <?php if(!empty($food->size)): ?>
- <div class="mb-4">
- <label class="fw-bold mb-3 d-block">Chọn size</label>
+<!-- SIZE -->
+<?php if(!empty($food->size)): ?>
+<div class="mb-4">
+ <label class="fw-bold mb-3 d-block">Chọn size <span class="text-danger">*</span></label>
  <div class="option-grid">
  <?php $__currentLoopData = $food->size; $this->addLoop($__currentLoopData);$this->getFirstLoop();
  foreach($__currentLoopData as $sz): $loop = $this->incrementLoopIndices();  ?>
@@ -65,8 +65,7 @@
  <input type="radio" name="size"
  data-price="<?php echo \htmlentities($sz->price??'', ENT_QUOTES, 'UTF-8', false); ?>"
  id="size<?php echo \htmlentities($sz->id??'', ENT_QUOTES, 'UTF-8', false); ?>"
- value="<?php echo \htmlentities($sz->id??'', ENT_QUOTES, 'UTF-8', false); ?>"
- <?php echo \htmlentities($loop->first ? 'checked' : ''??'', ENT_QUOTES, 'UTF-8', false); ?>>
+ value="<?php echo \htmlentities($sz->id??'', ENT_QUOTES, 'UTF-8', false); ?>">
  <label for="size<?php echo \htmlentities($sz->id??'', ENT_QUOTES, 'UTF-8', false); ?>">
  <div class="fw-bold"><?php echo \htmlentities($sz->name??'', ENT_QUOTES, 'UTF-8', false); ?></div>
  <small>+<?php echo \htmlentities(number_format($sz->price)??'', ENT_QUOTES, 'UTF-8', false); ?>đ</small>
@@ -74,12 +73,12 @@
  </div>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  </div>
- </div>
- <?php endif; ?>
+</div>
+<?php endif; ?>
 
- <!-- TOPPING -->
- <?php if(!empty($food->topping)): ?>
- <div class="mb-4">
+<!-- TOPPING -->
+<?php if(!empty($food->topping)): ?>
+<div class="mb-4">
  <label class="fw-bold mb-3 d-block">Thêm topping</label>
  <div class="option-grid">
  <?php $__currentLoopData = $food->topping; $this->addLoop($__currentLoopData);$this->getFirstLoop();
@@ -97,8 +96,8 @@
  </div>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  </div>
- </div>
- <?php endif; ?>
+</div>
+<?php endif; ?>
 
 
  <!-- PAYMENT -->
@@ -293,14 +292,32 @@ document.addEventListener("DOMContentLoaded", function () {
  });
 });
 function handleSubmit(){
- updatePrice(); // 🔥 ép chạy lại lần cuối
+ updatePrice(); // tính lại giá cuối cùng
 
- let total = document.getElementById('totalPriceInput').value;
+ // Kiểm tra size
+ const sizeOptions = document.querySelectorAll('input[name="size"]');
+ if(sizeOptions.length > 0){
+ const sizeSelected = document.querySelector('input[name="size"]:checked');
+ if(!sizeSelected){
+ alert("⚠️ Vui lòng chọn size trước khi đặt hàng!");
+ return false; 
+ }
+ }
 
- console.log("TOTAL SUBMIT:", total);
+ // Kiểm tra topping (Nếu có topping thì bắt buộc chọn ít nhất 1 - Tùy bạn có muốn bắt buộc không)
+ const toppingCheckboxes = document.querySelectorAll('input[name="topping[]"]');
+ if(toppingCheckboxes.length > 0){
+ const toppingSelected = document.querySelectorAll('input[name="topping[]"]:checked');
+ if(!toppingSelected.length){
+ alert("⚠️ Vui lòng chọn ít nhất 1 topping!");
+ return false;
+ }
+ }
 
+ // Kiểm tra totalPrice
+ const total = document.getElementById('totalPriceInput').value;
  if(!total || total == 0){
- alert("Lỗi: chưa có giá tiền!");
+ alert("⚠️ Lỗi: chưa có giá tiền!");
  return false;
  }
 

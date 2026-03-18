@@ -94,5 +94,49 @@ public function order($id)
         exit();  // Dừng để script chạy
 
     }
+
+
+    //order history 
+    public function orderHistory()
+    {
+        $userId = $_SESSION['user']['id'] ?? null;
+        if (!$userId) {
+            die('Không có user_id trong session');
+        }
+
+        $orders = Order::where('user_id', $userId)->get();
+
+        foreach ($orders as $order) {
+            // Lấy tất cả order_items
+            $orderItems = OrderItem::where('order_id', $order->id)->get();
+
+            $sizes = [];
+            $toppings = [];
+            $foodIds = [];
+
+            foreach ($orderItems as $item) {
+                // Lấy size
+                if ($item->size_id) {
+                    $sizes[] = Size::find($item->size_id);
+                }
+
+                // Lấy topping
+                if ($item->topping_id) {
+                    $toppings[] = Topping::find($item->topping_id);
+                }
+                // Lấy food_id để sau này có thể hiển thị tên món ăn
+                if ($item->food_id) {
+                    $foodIds[] = Food::find($item->food_id);
+                }
+            }
+
+            // Gán mảng vào order
+            $order->sizes = $sizes;
+            $order->toppings = $toppings;
+            $order->foodIds = $foodIds;
+        }
+
+        return view('order.listorder', compact('orders'));
+    }
 } 
 ?>

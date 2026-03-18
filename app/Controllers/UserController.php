@@ -27,6 +27,7 @@ class UserController
                'address' => $user->address,
                
             ];
+          
             header('location:' . APP_URL);
             exit();
         } else {

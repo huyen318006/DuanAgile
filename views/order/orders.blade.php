@@ -1,0 +1,309 @@
+@extends('layouts.AdminLayout')
+
+@section('content')
+<section class="py-5" style="margin-top:120px; background: linear-gradient(135deg,#fff6f0,#f8f9fa);">
+    <div class="container">
+
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">{{ $food->name }}</h2>
+            <p class="text-muted">Tuỳ chỉnh món ăn theo sở thích của bạn 🍔</p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+
+                <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+
+                    <div class="row g-0 flex-column flex-md-row">
+
+                        <!-- ẢNH -->
+                        <div class="col-md-5">
+                            <img src="{{ asset('assets/img/gallery/' . $food->image) }}"
+                                class="w-100"
+                                style="object-fit:cover; height:100%; max-height:420px;">
+                        </div>
+
+                        <!-- NỘI DUNG -->
+                        <div class="col-md-7">
+                            <div class="p-4 p-lg-5">
+
+                                <!-- TÊN + GIÁ -->
+                                <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+                                    <h4 class="fw-bold mb-2">{{ $food->name }}</h4>
+                                    
+                                    <h5 class="text-danger fw-bold mb-0" id="totalPrice" name="totalPrice">
+                                         đ
+                                    </h5>
+                                </div>
+ <form action="{{ route('order/add') }}" method="POST" onsubmit="return handleSubmit()">
+    @csrf
+
+
+    <input type="hidden" name="food_id" value="{{ $food->id }}">
+
+    <!-- ✅ THÊM: totalPrice hidden -->
+    <input type="hidden" name="totalPrice" id="totalPriceInput">
+
+    <!-- SỐ LƯỢNG -->
+    <div class="mb-4">
+        <label class="fw-bold mb-2 d-block">Số lượng</label>
+        <div class="quantity-box">
+            <button type="button" onclick="decrease()">-</button>
+            <input type="number" name="quantity" id="quantity" value="1" min="1">
+            <button type="button" onclick="increase()">+</button>
+        </div>
+    </div>
+
+    <!-- SIZE -->
+    @if(!empty($food->size))
+    <div class="mb-4">
+        <label class="fw-bold mb-3 d-block">Chọn size</label>
+        <div class="option-grid">
+            @foreach($food->size as $sz)
+            <div class="option-box">
+                <input type="radio" name="size"
+                    data-price="{{ $sz->price }}"
+                    id="size{{ $sz->id }}"
+                    value="{{ $sz->id }}"
+                    {{ $loop->first ? 'checked' : '' }}>
+                <label for="size{{ $sz->id }}">
+                    <div class="fw-bold">{{ $sz->name }}</div>
+                    <small>+{{ number_format($sz->price) }}đ</small>
+                </label>
+            </div>
+            @endforeach
+        </div>
+    </div>
+    @endif
+
+    <!-- TOPPING -->
+    @if(!empty($food->topping))
+    <div class="mb-4">
+        <label class="fw-bold mb-3 d-block">Thêm topping</label>
+        <div class="option-grid">
+            @foreach($food->topping as $tp)
+            <div class="option-box">
+                <input type="checkbox"
+                    data-price="{{ $tp->price }}"
+                    id="tp{{ $tp->id }}"
+                    name="topping[]"
+                    value="{{ $tp->id }}">
+                <label for="tp{{ $tp->id }}">
+                    <span>{{ $tp->name }}</span>
+                    <b>+{{ number_format($tp->price) }}đ</b>
+                </label>
+            </div>
+            @endforeach
+        </div>
+    </div>
+    @endif
+
+
+    <!-- PAYMENT -->
+    <div class="mb-4">
+        <label class="fw-bold mb-3 d-block">Phương thức thanh toán</label>
+
+        <div class="option-grid">
+
+            <div class="option-box">
+                <input type="radio" name="payment_method" id="cash" value="Cash" checked>
+                <label for="cash">💵 Tiền mặt</label>
+            </div>
+
+            <div class="option-box">
+                <input type="radio" name="payment_method" id="banking" value="Banking">
+                <label for="banking">🏦 Chuyển khoản</label>
+            </div>
+
+            <div class="option-box">
+                <input type="radio" name="payment_method" id="momo" value="Momo">
+                <label for="momo">
+                    <img src="{{ asset('assets/img/gallery/Logo-MoMo-Square.webp') }}">
+                    <span>MoMo</span>
+                </label>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- QR -->
+    <div id="qr-box" style="display:none; text-align:center;">
+        <p class="fw-bold text-success">Quét mã để thanh toán</p>
+        <img src="{{ asset('assets/img/qr-demo.png') }}" style="max-width:200px;">
+    </div>
+
+    <button class="btn btn-lg w-100 text-white fw-bold"
+        style="background: linear-gradient(45deg,#ff6b00,#ff8c00); border:none; border-radius:50px;">
+        🛒 Đặt Hàng
+    </button>
+</form>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+.option-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.option-box input {
+    display: none;
+}
+
+.option-box label {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    padding: 16px;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+    height: 90px;
+}
+
+.option-box input:checked + label {
+    border-color: #ff6b00;
+    background: #fff3e6;
+    box-shadow: 0 0 0 2px rgba(255,107,0,0.2);
+}
+
+.quantity-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.quantity-box button {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: #ff6b00;
+    color: #fff;
+    font-size: 18px;
+    border-radius: 50%;
+}
+
+.quantity-box input {
+    width: 60px;
+    text-align: center;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    height: 40px;
+}
+
+.option-box label img {
+    height: 28px;
+    object-fit: contain;
+}
+</style>
+
+<script>
+function increase(){
+    let qty = document.getElementById('quantity');
+    qty.value = parseInt(qty.value) + 1;
+    updatePrice();
+}
+
+function decrease(){
+    let qty = document.getElementById('quantity');
+    if(qty.value > 1){
+        qty.value = parseInt(qty.value) - 1;
+        updatePrice();
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const sizeOptions = document.querySelectorAll('input[name="size"]');
+    const toppingOptions = document.querySelectorAll('input[name="topping[]"]');
+    const priceElement = document.getElementById('totalPrice');
+    const quantityInput = document.getElementById('quantity');
+    const totalInput = document.getElementById('totalPriceInput');
+
+window.updatePrice = function () {
+    let basePrice = {{ $food->price }};
+    let sizePrice = 0;
+    let toppingPrice = 0;
+
+    sizeOptions.forEach(option => {
+        if (option.checked) {
+            sizePrice = parseInt(option.dataset.price);
+        }
+    });
+
+    toppingOptions.forEach(option => {
+        if (option.checked) {
+            toppingPrice += parseInt(option.dataset.price);
+        }
+    });
+
+    let quantity = parseInt(quantityInput.value) || 1;
+
+    let totalPrice = (basePrice + sizePrice + toppingPrice) * quantity;
+
+    priceElement.textContent = totalPrice.toLocaleString('vi-VN') + ' đ';
+
+    if(totalInput){
+        totalInput.value = totalPrice;
+    }
+}
+
+    sizeOptions.forEach(el => el.addEventListener('change', updatePrice));
+    toppingOptions.forEach(el => el.addEventListener('change', updatePrice));
+    quantityInput.addEventListener('input', updatePrice);
+
+    updatePrice();
+});
+
+// PAYMENT
+document.addEventListener("DOMContentLoaded", function () {
+    const momo = document.getElementById("momo");
+    const banking = document.getElementById("banking");
+    const cash = document.getElementById("cash");
+    const qrBox = document.getElementById("qr-box");
+
+    momo.addEventListener("change", function () {
+        alert("⚠️ Thanh toán MoMo hiện chưa khả dụng!");
+        qrBox.style.display = "none";
+    });
+
+    banking.addEventListener("change", function () {
+        alert("⚠️ Chuyển khoản hiện chưa khả dụng!");
+        qrBox.style.display = "none";
+    });
+
+    cash.addEventListener("change", function () {
+        qrBox.style.display = "none";
+    });
+});
+function handleSubmit(){
+    updatePrice(); // 🔥 ép chạy lại lần cuối
+
+    let total = document.getElementById('totalPriceInput').value;
+
+    console.log("TOTAL SUBMIT:", total);
+
+    if(!total || total == 0){
+        alert("Lỗi: chưa có giá tiền!");
+        return false;
+    }
+
+    return true;
+}
+</script>
+
+@endsection

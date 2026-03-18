@@ -8,6 +8,7 @@ use App\Controllers\UserController;
 use App\Controllers\FoodController;
 use App\Controllers\RestaurantController;
 use App\Controllers\CartController;
+use App\Controllers\OrderController;
 
 $router = new Router;
 
@@ -41,5 +42,10 @@ $router->get('orderforme', UserController::class . '@orderforme');
 
 //nhà hàng nổi bật
 $router->get('restaurant/(\d+)', RestaurantController::class . '@show');
+
+//order
+$router->get('foods/{id}/order', OrderController::class.'@order');
+// add order
+$router->post('order/add',OrderController::class.'@orderadd');
 
 $router->run();

@@ -54,49 +54,48 @@
         </div>
     </div>
 
-    <!-- SIZE -->
-    @if(!empty($food->size))
-    <div class="mb-4">
-        <label class="fw-bold mb-3 d-block">Chọn size</label>
-        <div class="option-grid">
-            @foreach($food->size as $sz)
-            <div class="option-box">
-                <input type="radio" name="size"
-                    data-price="{{ $sz->price }}"
-                    id="size{{ $sz->id }}"
-                    value="{{ $sz->id }}"
-                    {{ $loop->first ? 'checked' : '' }}>
-                <label for="size{{ $sz->id }}">
-                    <div class="fw-bold">{{ $sz->name }}</div>
-                    <small>+{{ number_format($sz->price) }}đ</small>
-                </label>
-            </div>
-            @endforeach
+<!-- SIZE -->
+@if(!empty($food->size))
+<div class="mb-4">
+    <label class="fw-bold mb-3 d-block">Chọn size <span class="text-danger">*</span></label>
+    <div class="option-grid">
+        @foreach($food->size as $sz)
+        <div class="option-box">
+            <input type="radio" name="size"
+                data-price="{{ $sz->price }}"
+                id="size{{ $sz->id }}"
+                value="{{ $sz->id }}">
+            <label for="size{{ $sz->id }}">
+                <div class="fw-bold">{{ $sz->name }}</div>
+                <small>+{{ number_format($sz->price) }}đ</small>
+            </label>
         </div>
+        @endforeach
     </div>
-    @endif
+</div>
+@endif
 
-    <!-- TOPPING -->
-    @if(!empty($food->topping))
-    <div class="mb-4">
-        <label class="fw-bold mb-3 d-block">Thêm topping</label>
-        <div class="option-grid">
-            @foreach($food->topping as $tp)
-            <div class="option-box">
-                <input type="checkbox"
-                    data-price="{{ $tp->price }}"
-                    id="tp{{ $tp->id }}"
-                    name="topping[]"
-                    value="{{ $tp->id }}">
-                <label for="tp{{ $tp->id }}">
-                    <span>{{ $tp->name }}</span>
-                    <b>+{{ number_format($tp->price) }}đ</b>
-                </label>
-            </div>
-            @endforeach
+<!-- TOPPING -->
+@if(!empty($food->topping))
+<div class="mb-4">
+    <label class="fw-bold mb-3 d-block">Thêm topping</label>
+    <div class="option-grid">
+        @foreach($food->topping as $tp)
+        <div class="option-box">
+            <input type="checkbox"
+                data-price="{{ $tp->price }}"
+                id="tp{{ $tp->id }}"
+                name="topping[]"
+                value="{{ $tp->id }}">
+            <label for="tp{{ $tp->id }}">
+                <span>{{ $tp->name }}</span>
+                <b>+{{ number_format($tp->price) }}đ</b>
+            </label>
         </div>
+        @endforeach
     </div>
-    @endif
+</div>
+@endif
 
 
     <!-- PAYMENT -->
@@ -291,14 +290,32 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 function handleSubmit(){
-    updatePrice(); // 🔥 ép chạy lại lần cuối
+    updatePrice(); // tính lại giá cuối cùng
 
-    let total = document.getElementById('totalPriceInput').value;
+    // Kiểm tra size
+    const sizeOptions = document.querySelectorAll('input[name="size"]');
+    if(sizeOptions.length > 0){
+        const sizeSelected = document.querySelector('input[name="size"]:checked');
+        if(!sizeSelected){
+            alert("⚠️ Vui lòng chọn size trước khi đặt hàng!");
+            return false; 
+        }
+    }
 
-    console.log("TOTAL SUBMIT:", total);
+    // Kiểm tra topping (Nếu có topping thì bắt buộc chọn ít nhất 1 - Tùy bạn có muốn bắt buộc không)
+    const toppingCheckboxes = document.querySelectorAll('input[name="topping[]"]');
+    if(toppingCheckboxes.length > 0){
+        const toppingSelected = document.querySelectorAll('input[name="topping[]"]:checked');
+        if(!toppingSelected.length){
+            alert("⚠️ Vui lòng chọn ít nhất 1 topping!");
+            return false;
+        }
+    }
 
+    // Kiểm tra totalPrice
+    const total = document.getElementById('totalPriceInput').value;
     if(!total || total == 0){
-        alert("Lỗi: chưa có giá tiền!");
+        alert("⚠️ Lỗi: chưa có giá tiền!");
         return false;
     }
 

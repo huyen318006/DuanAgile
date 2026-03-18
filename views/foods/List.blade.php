@@ -220,7 +220,9 @@
                                     </div>
                                     </div>
                                     <div class="d-grid gap-2">
-                                    <a class="btn btn-lg btn-danger" href="#">Đặt ngay</a>
+                                    <button class="btn btn-lg btn-danger btn-order-now" data-food-id="{{ $food->id }}">
+                                        <i class="fas fa-cart-plus me-1"></i>Đặt ngay
+                                    </button>
                                 </div>
                             </div>
                     @endforeach
@@ -628,4 +630,79 @@
         </div>
       </section>
       </main>
+
+<div id="cart-toast" style="position:fixed;top:20px;right:20px;z-index:9999;display:none;cursor:pointer;" onclick="window.location.href='{{ APP_URL }}cart'">
+    <div class="alert alert-success shadow-lg d-flex align-items-center" role="alert" style="min-width:280px;border-radius:12px;">
+        <i class="fas fa-check-circle me-2 fs-4"></i>
+        <div class="flex-grow-1">
+            <span id="cart-toast-msg">Đã thêm vào giỏ hàng!</span>
+            <div style="font-size:12px;opacity:0.8;margin-top:2px;">Nhấn để xem giỏ hàng <i class="fas fa-chevron-right"></i></div>
+        </div>
+    </div>
+</div>
+
+@section('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.btn-order-now').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var foodId = this.getAttribute('data-food-id');
+            var button = this;
+
+            button.disabled = true;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Đang thêm...';
+
+            var formData = new FormData();
+            formData.append('food_id', foodId);
+            formData.append('quantity', 1);
+
+            fetch('{{ APP_URL }}cart/add', {
+                method: 'POST',
+                headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                body: formData
+            })
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                if (data.success) {
+                    showCartToast(data.message || 'Đã thêm vào giỏ hàng!');
+                    var badge = document.getElementById('cart-count-badge');
+                    if (badge && data.cart_count !== undefined) {
+                        badge.textContent = data.cart_count;
+                    }
+                } else {
+                    showCartToast('Có lỗi xảy ra, vui lòng thử lại!', true);
+                }
+            })
+            .catch(function() {
+                window.location.href = '{{ APP_URL }}login';
+            })
+            .finally(function() {
+                button.disabled = false;
+                button.innerHTML = '<i class="fas fa-cart-plus me-1"></i>Đặt ngay';
+            });
+        });
+    });
+
+    function showCartToast(msg, isError) {
+        var toast = document.getElementById('cart-toast');
+        var msgEl = document.getElementById('cart-toast-msg');
+        var alertDiv = toast.querySelector('.alert');
+        var hintEl = toast.querySelector('div[style*="font-size:12px"]');
+
+        msgEl.textContent = msg;
+        alertDiv.className = 'alert shadow-lg d-flex align-items-center';
+        alertDiv.classList.add(isError ? 'alert-danger' : 'alert-success');
+        alertDiv.style.minWidth = '280px';
+        alertDiv.style.borderRadius = '12px';
+
+        toast.style.cursor = isError ? 'default' : 'pointer';
+        toast.onclick = isError ? null : function() { window.location.href = '{{ APP_URL }}cart'; };
+        if (hintEl) hintEl.style.display = isError ? 'none' : 'block';
+
+        toast.style.display = 'block';
+        setTimeout(function() { toast.style.display = 'none'; }, 4000);
+    }
+});
+</script>
+@endsection
 @endsection

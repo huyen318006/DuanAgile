@@ -39,21 +39,17 @@
 </div>
 
 <!-- Toast thông báo -->
-<div class="position-fixed top-0 end-0 p-3" style="z-index: 9999;">
-  <div id="cartToast" class="toast align-items-center border-0 shadow-lg" role="alert" style="min-width: 320px;">
-    <div class="d-flex">
-      <div class="toast-body d-flex align-items-center gap-2 fw-semibold" id="cartToastBody">
-        <i class="fas fa-check-circle text-success fs-5"></i>
-        <span id="cartToastMsg"></span>
-      </div>
-      <a href="{{ APP_URL }}cart" class="btn btn-sm my-auto me-3 rounded-pill" style="white-space:nowrap; background-color:#FFB30E; color:#fff; border:none;" onmouseover="this.style.backgroundColor='#FFB30E'; this.style.opacity='1';" onmouseout="this.style.backgroundColor='#FFB30E'; this.style.opacity='1';">
-        <i class="fas fa-shopping-cart me-1"></i>Xem giỏ hàng
-      </a>
-      <button type="button" class="btn-close my-auto me-2" data-bs-dismiss="toast"></button>
+<div id="cart-toast" style="position:fixed;top:20px;right:20px;z-index:9999;display:none;cursor:pointer;" onclick="window.location.href='{{ APP_URL }}cart'">
+    <div class="alert alert-success shadow-lg d-flex align-items-center" role="alert" style="min-width:280px;border-radius:12px;">
+        <i class="fas fa-check-circle me-2 fs-4"></i>
+        <div class="flex-grow-1">
+            <span id="cart-toast-msg">Đã thêm vào giỏ hàng!</span>
+            <div style="font-size:12px;opacity:0.8;margin-top:2px;">Nhấn để xem giỏ hàng <i class="fas fa-chevron-right"></i></div>
+        </div>
     </div>
-  </div>
 </div>
 
+@push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   var foodModal = document.getElementById('foodModal');
@@ -67,8 +63,6 @@ document.addEventListener('DOMContentLoaded', function() {
   var btnMinus = document.getElementById('modalQtyMinus');
   var btnPlus = document.getElementById('modalQtyPlus');
   var btnAddToCart = document.getElementById('btnAddToCart');
-  var cartToast = new bootstrap.Toast(document.getElementById('cartToast'), { delay: 4000 });
-  var cartToastMsg = document.getElementById('cartToastMsg');
   var currentPrice = 0;
 
   function formatNumber(n) {
@@ -81,13 +75,33 @@ document.addEventListener('DOMContentLoaded', function() {
     modalQtyHidden.value = qty;
   }
 
+  function showCartToast(msg, isError) {
+    var toast = document.getElementById('cart-toast');
+    var msgEl = document.getElementById('cart-toast-msg');
+    var alertDiv = toast.querySelector('.alert');
+    var hintEl = toast.querySelector('div[style*="font-size:12px"]');
+
+    msgEl.textContent = msg;
+    alertDiv.className = 'alert shadow-lg d-flex align-items-center';
+    alertDiv.classList.add(isError ? 'alert-danger' : 'alert-success');
+    alertDiv.style.minWidth = '280px';
+    alertDiv.style.borderRadius = '12px';
+
+    toast.style.cursor = isError ? 'default' : 'pointer';
+    toast.onclick = isError ? null : function() { window.location.href = '{{ APP_URL }}cart'; };
+    if (hintEl) hintEl.style.display = isError ? 'none' : 'block';
+
+    toast.style.display = 'block';
+    setTimeout(function() { toast.style.display = 'none'; }, 4000);
+  }
+
   foodModal.addEventListener('show.bs.modal', function(e) {
     var trigger = e.relatedTarget;
     if (!trigger) return;
 
     modalFoodId.value = trigger.getAttribute('data-food-id');
     modalName.textContent = trigger.getAttribute('data-food-name');
-    currentPrice = parseInt(trigger.getAttribute('data-food-price'));
+    currentPrice = parseInt(trigger.getAttribute('data-food-price')) || 0;
     modalPrice.textContent = formatNumber(currentPrice);
     modalImage.src = trigger.getAttribute('data-food-image');
     modalImage.alt = trigger.getAttribute('data-food-name');
@@ -127,16 +141,18 @@ document.addEventListener('DOMContentLoaded', function() {
     .then(function(data) {
       if (data.success) {
         bootstrap.Modal.getInstance(foodModal).hide();
-        cartToastMsg.textContent = data.message;
-        cartToast.show();
+        showCartToast(data.message || 'Đã thêm vào giỏ hàng!');
 
-        var badge = document.getElementById('cartCountBadge');
-        if (badge) badge.textContent = data.cart_count;
+        var badge = document.getElementById('cart-count-badge');
+        if (badge && data.cart_count !== undefined) {
+          badge.textContent = data.cart_count;
+        }
+      } else {
+        showCartToast('Có lỗi xảy ra, vui lòng thử lại!', true);
       }
     })
     .catch(function() {
-      cartToastMsg.textContent = 'Có lỗi xảy ra, vui lòng thử lại!';
-      cartToast.show();
+      window.location.href = '{{ APP_URL }}login';
     })
     .finally(function() {
       btn.disabled = false;
@@ -145,3 +161,4 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 </script>
+@endpush

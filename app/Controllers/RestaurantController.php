@@ -38,4 +38,5 @@ public function show($id)
     return view('restaurants.Detail',compact('restaurant','foods'));
 }
 
+
 }

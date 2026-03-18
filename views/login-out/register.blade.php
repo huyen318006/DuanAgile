@@ -136,6 +136,7 @@
         <div class="login-link">
             Đã có tài khoản? <a href="{{ route('login') }}">Đăng nhập</a>
         </div>
+      
 
     </div>
 

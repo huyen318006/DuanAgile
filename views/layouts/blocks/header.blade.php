@@ -59,7 +59,7 @@ use App\Controllers\UserController;
             </ul>
             <div class="d-flex align-items-center flex-shrink-0">
                 <?php if (isset($_SESSION['user'])): ?>
-                    <a href="{{ route('profile') }}" class="nav-link d-flex align-items-center">
+                    <a href="{{ route('profile') }}" class="nav-link d-flex align-items-center" title="{{ $_SESSION['user']['name'] }}">
                          <i class="bi bi-person-circle me-2 fs-4"></i>
                         <span class="text-truncate" style="max-width:90px;">
                              Hi, <?= $_SESSION['user']['name'] ?>

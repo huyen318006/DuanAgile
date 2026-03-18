@@ -41,7 +41,14 @@ class Food extends Model
         $stmt = $conn->prepare($sql);
         $stmt->execute([$this->id]);
 
-        return $stmt->fetchAll();
+        $results = [];
+        while ($row = $stmt->fetch()) {
+            $size = new Size();
+            $size->fill($row);
+            $size->exists = true;
+            $results[] = $size;
+        }
+        return $results;
     }
 
     // lấy topping của món
@@ -57,6 +64,13 @@ class Food extends Model
         $stmt = $conn->prepare($sql);
         $stmt->execute([$this->id]);
 
-        return $stmt->fetchAll();
+        $results = [];
+        while ($row = $stmt->fetch()) {
+            $topping = new Topping();
+            $topping->fill($row);
+            $topping->exists = true;
+            $results[] = $topping;
+        }
+        return $results;
     }
 }

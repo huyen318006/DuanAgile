@@ -28,14 +28,28 @@
         </div>
       </div>
       <div class="modal-footer border-0 pt-0 px-4 pb-4">
-        <form action="{{ APP_URL }}cart/add" method="POST" class="w-100">
-          <input type="hidden" name="food_id" id="modalFoodId">
-          <input type="hidden" name="quantity" id="modalQtyHidden" value="1">
-          <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fw-bold">
-            <i class="fas fa-cart-plus me-2"></i>Thêm vào giỏ hàng
-          </button>
-        </form>
+        <input type="hidden" id="modalFoodId">
+        <input type="hidden" id="modalQtyHidden" value="1">
+        <button type="button" id="btnAddToCart" class="btn btn-primary w-100 rounded-pill py-2 fw-bold">
+          <i class="fas fa-cart-plus me-2"></i>Thêm vào giỏ hàng
+        </button>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast thông báo -->
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+  <div id="cartToast" class="toast align-items-center border-0 shadow-lg" role="alert" style="min-width: 320px;">
+    <div class="d-flex">
+      <div class="toast-body d-flex align-items-center gap-2 fw-semibold" id="cartToastBody">
+        <i class="fas fa-check-circle text-success fs-5"></i>
+        <span id="cartToastMsg"></span>
+      </div>
+      <a href="{{ APP_URL }}cart" class="btn btn-sm my-auto me-3 rounded-pill" style="white-space:nowrap; background-color:#FFB30E; color:#fff; border:none;" onmouseover="this.style.backgroundColor='#FFB30E'; this.style.opacity='1';" onmouseout="this.style.backgroundColor='#FFB30E'; this.style.opacity='1';">
+        <i class="fas fa-shopping-cart me-1"></i>Xem giỏ hàng
+      </a>
+      <button type="button" class="btn-close my-auto me-2" data-bs-dismiss="toast"></button>
     </div>
   </div>
 </div>
@@ -52,6 +66,9 @@ document.addEventListener('DOMContentLoaded', function() {
   var modalQtyHidden = document.getElementById('modalQtyHidden');
   var btnMinus = document.getElementById('modalQtyMinus');
   var btnPlus = document.getElementById('modalQtyPlus');
+  var btnAddToCart = document.getElementById('btnAddToCart');
+  var cartToast = new bootstrap.Toast(document.getElementById('cartToast'), { delay: 4000 });
+  var cartToastMsg = document.getElementById('cartToastMsg');
   var currentPrice = 0;
 
   function formatNumber(n) {
@@ -90,6 +107,41 @@ document.addEventListener('DOMContentLoaded', function() {
     var qty = parseInt(modalQtyInput.value) || 1;
     modalQtyInput.value = qty + 1;
     updateTotal();
+  });
+
+  btnAddToCart.addEventListener('click', function() {
+    var btn = this;
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Đang thêm...';
+
+    var formData = new FormData();
+    formData.append('food_id', modalFoodId.value);
+    formData.append('quantity', modalQtyHidden.value);
+
+    fetch('{{ APP_URL }}cart/add', {
+      method: 'POST',
+      headers: { 'X-Requested-With': 'XMLHttpRequest' },
+      body: formData
+    })
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      if (data.success) {
+        bootstrap.Modal.getInstance(foodModal).hide();
+        cartToastMsg.textContent = data.message;
+        cartToast.show();
+
+        var badge = document.getElementById('cartCountBadge');
+        if (badge) badge.textContent = data.cart_count;
+      }
+    })
+    .catch(function() {
+      cartToastMsg.textContent = 'Có lỗi xảy ra, vui lòng thử lại!';
+      cartToast.show();
+    })
+    .finally(function() {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-cart-plus me-2"></i>Thêm vào giỏ hàng';
+    });
   });
 });
 </script>

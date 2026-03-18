@@ -1,8 +1,7 @@
-# Environment
-env.php
+
 
 # Cache
-storage/cache/*.bladec
+cache/*.bladec
 
 # Dependencies
 vendor/

@@ -138,7 +138,11 @@ class="btn btn-outline-danger rounded-pill px-4">
 <i class="bi bi-box-arrow-left"></i>
 Quay lại trang chủ
 </a>
-
+<a href="{{ route('order/history') }}"
+class="btn btn-outline-warning rounded-pill px-4">
+<i class="fa fa-receipt"></i>
+Xem đơn hàng
+</a>
 
 <a href="{{ route('logout') }}"
 class="btn btn-outline-danger rounded-pill px-4">

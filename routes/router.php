@@ -31,6 +31,9 @@ $router->post('updatepassword', UserController::class . '@updatepassword');
 //hồ sơ cá nhân
 $router->get('profile', UserController::class . '@profile');
 $router->get('orderforme', UserController::class . '@orderforme');
+//sửa hồ sơ cá nhân
+$router->get('editprofile', UserController::class . '@editprofile');
+$router->post('updateprofile', UserController::class . '@updateprofile');
 
 //nhà hàng nổi bật
 $router->get('restaurant/(\d+)', RestaurantController::class.'@show');

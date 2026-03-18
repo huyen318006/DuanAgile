@@ -7,6 +7,7 @@ use App\Models\FoodTopping;
 use App\Models\Order;
 use App\Models\Size;
 use App\Models\Topping;
+use App\Models\OrderItem;
 
 class  OrderController extends Controller {
 
@@ -48,9 +49,12 @@ public function order($id)
         $totalPrice = $_POST['totalPrice'] ?? 0;
         $foodId = $_POST['food_id'] ?? null;
         $sizeId = $_POST['size'] ?? null;
-        $toppingIds = $_POST['topping'] ?? [];
+        $toppingId = $_POST['topping'] ?? null;
         $pay = $_POST['payment_method'] ?? 'Cash';
         $userId = $_SESSION['user']['id'] ?? 1;
+
+        //lấy số lượng
+        $quantity = $_POST['quantity'] ?? 1;
       
 
         $address = $_SESSION['user']['address'] ?? null;
@@ -68,7 +72,21 @@ public function order($id)
             'status' => 'processing'
         ];
 
-        Order::create($data);
+        $orderneww=Order::create($data);
+        //lấy id mới tạo
+        $order_id=$orderneww->id;
+        //lưu topping vào bảng trung gian
+        foreach ($toppingId as $toppingId) {
+            OrderItem::create([
+                'order_id' => $order_id,
+                'food_id' => $foodId,
+                'topping_id' => $toppingId, // từng cái 1
+                'quantity' => $quantity,
+                'size_id' => $sizeId
+            ]);
+        }
+
+        
         echo "<script>
         alert('🎉 Đặt hàng thành công! Cảm ơn bạn đã tin tưởng.');
         window.location.href = '" . APP_URL . "foods';

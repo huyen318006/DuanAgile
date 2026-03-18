@@ -1,0 +1,77 @@
+/* ========================================
+   Cart Page – custom styles
+   (theme.css đã chứa toàn bộ Bootstrap)
+   ======================================== */
+
+/* Quantity +/- input group */
+.input-group.quantity {
+  width: 120px;
+}
+
+.input-group.quantity .form-control {
+  background-color: transparent;
+  font-weight: 600;
+}
+
+.input-group.quantity .btn {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  color: #424242;
+}
+
+.input-group.quantity .btn:hover,
+.input-group.quantity .btn:focus {
+  background-color: inherit;
+  border-color: inherit;
+  box-shadow: none;
+  color: #424242;
+}
+
+/* Delete (x) button */
+.btn.btn-cart-remove {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Cart food thumbnail */
+.cart-table img.rounded-circle {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+
+/* Cart table header */
+.cart-table thead th {
+  color: var(--bs-dark);
+  font-weight: 700;
+  border-bottom: 2px solid var(--bs-dark);
+  white-space: nowrap;
+}
+
+.cart-table tbody th,
+.cart-table tbody td {
+  vertical-align: middle;
+}
+
+/* Cart totals panel */
+.cart-totals .btn-primary {
+  background: var(--bs-primary);
+  border-color: var(--bs-primary);
+  color: #fff;
+  transition: 0.3s;
+}
+
+.cart-totals .btn-primary:hover {
+  background: var(--bs-secondary);
+  border-color: var(--bs-secondary);
+  color: #fff;
+}

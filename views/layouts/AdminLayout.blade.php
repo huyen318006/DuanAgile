@@ -31,6 +31,7 @@
   <!-- ===============================================-->
   <link href="{{ asset('assets/css/theme.css') }}" rel="stylesheet" />
   <link href="{{ asset('assets/css/menu-filter.css') }}" rel="stylesheet" />
+  <link href="{{ asset('assets/css/cart.css') }}" rel="stylesheet" />
 
 </head>
 
@@ -42,6 +43,7 @@
   <!-- ===============================================-->
   @include('layouts.blocks.header')
   @yield('content')
+  @include('layouts.blocks.footer')
   <!-- ===============================================-->
   <!--    End of Main Content-->
   <!-- ===============================================-->

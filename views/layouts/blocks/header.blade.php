@@ -1,9 +1,3 @@
-<?php
-
-use App\Controllers\UserController;
-
-
-?>
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" data-navbar-on-scroll="data-navbar-on-scroll">
 
     <div class="container">
@@ -31,7 +25,7 @@ use App\Controllers\UserController;
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link text-nowrap" href="{{ route('') }}">Giỏ hàng</a>
+                    <a class="nav-link text-nowrap" href="{{ route('cart') }}">Giỏ hàng</a>
                 </li>
 
                 <li class="nav-item">
@@ -60,9 +54,9 @@ use App\Controllers\UserController;
             <div class="d-flex align-items-center flex-shrink-0">
                 <?php if (isset($_SESSION['user'])): ?>
                     <a href="{{ route('profile') }}" class="nav-link d-flex align-items-center">
-                         <i class="bi bi-person-circle me-2 fs-4"></i>
+                        <i class="bi bi-person-circle me-2 fs-4"></i>
                         <span class="text-truncate" style="max-width:90px;">
-                             Hi, <?= $_SESSION['user']['name'] ?>
+                            Hi, <?= $_SESSION['user']['name'] ?>
                         </span>
                     </a>
                     <a class="nav-link text-danger ms-2 flex-shrink-0" href="{{ route('logout') }}">Đăng xuất</a>

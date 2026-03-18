@@ -15,9 +15,12 @@ class Order extends Model
         'total_price',
         'status',
         'payment_method',
+        'address',
         'created_at',
+        'updated_at'
     ];
     protected $guarded = ['id'];
+    protected $timestamps = true;
    
 
 }

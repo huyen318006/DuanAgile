@@ -7,4 +7,11 @@ use App\Model;
 class FoodSize extends Model
 {
     protected $table = "food_sizes";
+
+    protected $fillable = [
+        'food_id',
+        'size_id',
+    ];
+ protected $primaryKey = 'id';
+ protected $guarded = ['id'];
 }

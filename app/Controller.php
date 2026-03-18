@@ -33,7 +33,7 @@ class Controller
         $fileTmpPath = $file['tmp_name']; // Đường dẫn tạm thời của file
         $fileName = time() . '-' . $file['name']; // Tên file chống trùng bằng timestamp
 
-        $uploadDir = 'storage/uploads/' . $folder . '/';
+        $uploadDir = 'public/assets/img/gallery/' . $folder . '/';
 
         // Tạo thư mục nếu chưa tồn tại
         if (!is_dir($uploadDir)) {

@@ -127,4 +127,58 @@ class UserController
 
             return view('login-out.orderforme',compact('oders'));
         }
+
+        //Edit profile
+        public function editprofile()
+        {
+            return view('login-out.editprofile');
+        }
+
+        //update profile
+        public function updateprofile()
+        {
+            $id = $_SESSION['user']['id'];
+
+            $user = Users::find($id);
+
+            if (!$user) {
+                header('location:' . APP_URL);
+                exit();
+            }
+
+            // lấy dữ liệu
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $phone = $_POST['phone'];
+            $address = $_POST['address'];
+
+            //update thông tin thường
+            $user->update([
+                'name' => $name,
+                'email' => $email,
+                'phone' => $phone,
+                'address' => $address,
+            ]);
+
+            //CHỈ update password nếu có nhập
+            if (!empty($_POST['password'])) {
+
+                if ($_POST['password'] != $_POST['repassword']) {
+                    die("Mật khẩu không khớp");
+                }
+
+                $user->update([
+                    'password' => $_POST['password']
+                ]);
+            }
+
+            // cập nhật session
+            $_SESSION['user']['name'] = $name;
+            $_SESSION['user']['email'] = $email;
+            $_SESSION['user']['phone'] = $phone;
+            $_SESSION['user']['address'] = $address;
+
+            header('location:' . APP_URL . 'profile');
+            exit();
+        }
 }

@@ -47,7 +47,7 @@
         <hr class="border border-800" />
         <div class="row flex-center pb-3">
           <div class="col-md-6 order-0">
-            <p class="text-200 text-center text-md-start" style='margin-left: 35%;'>QUẢN LÍ DỰ ÁN VỚI AGILE - ĐÒ ĂN NHANH</p>
+            <p class="text-200 text-center text-md-start" style='margin-left: 35%;'>QUẢN LÍ DỰ ÁN VỚI AGILE - ĐỒ ĂN NHANH</p>
           </div>
         </div>
         </div><!-- end of .container-->

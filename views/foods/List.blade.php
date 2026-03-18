@@ -221,9 +221,8 @@
                       </div>
                     </div>
                     <div class="d-grid gap-2">
-                      <button class="btn btn-lg btn-danger btn-order-now" data-food-id="{{ $food->id }}">
-                        <i class="fas fa-cart-plus me-1"></i>Đặt ngay
-                      </button>
+                     
+                      <a href="{{ route('foods/'.$food->id.'/order') }}" class="btn btn-primary" style="transition:0.3s;" onmouseover="this.style.transform='scale(1.05)';this.style.boxShadow='0 8px 20px rgba(0,0,0,0.2)';" onmouseout="this.style.transform='scale(1)';this.style.boxShadow='none';">Xem chi tiết</a>
                     </div>
                   </div>
                   @endforeach

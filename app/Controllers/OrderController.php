@@ -76,11 +76,11 @@ public function order($id)
         //lấy id mới tạo
         $order_id=$orderneww->id;
         //lưu topping vào bảng trung gian
-        foreach ($toppingId as $toppingId) {
+        foreach ($toppingId as $toppingid) {
             OrderItem::create([
                 'order_id' => $order_id,
                 'food_id' => $foodId,
-                'topping_id' => $toppingId, // từng cái 1
+                'topping_id' => $toppingid, // từng cái 1
                 'quantity' => $quantity,
                 'size_id' => $sizeId
             ]);

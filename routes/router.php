@@ -20,6 +20,7 @@ $router->get('menu', MenuController::class . '@index');
 // Cart
 $router->get('cart', CartController::class . '@index');
 $router->post('cart/add', CartController::class . '@add');
+$router->post('cart/{id}/update', CartController::class . '@update');
 $router->post('cart/{id}/delete', CartController::class . '@delete');
 
 // Đăng nhập

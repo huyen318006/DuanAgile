@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controller;
 use App\Models\Cart;
 use App\Models\Food;
+use App\Models\Users;
 class CartController extends Controller
 {
 
@@ -25,7 +26,17 @@ class CartController extends Controller
             $foods[$f->id] = $f;
         }
 
-        return view('carts.list', compact('carts', 'title', 'foods'));
+        $total = 0;
+        foreach ($carts as $cart) {
+            $food = $foods[$cart->food_id] ?? null;
+            if ($food) {
+                $total += $food->price * $cart->quantity;
+            }
+        }
+
+        $user = Users::find($userId);
+
+        return view('carts.list', compact('carts', 'title', 'foods', 'total', 'user'));
     }
 
     public function add()
@@ -48,6 +59,30 @@ class CartController extends Controller
             $existing->update(['quantity' => $existing->quantity + $data['quantity']]);
         } else {
             Cart::create($data);
+        }
+
+        return redirect('cart');
+    }
+
+    public function update($id)
+    {
+        $userId = $_SESSION['user']['id'] ?? null;
+
+        if (!$userId) {
+            return redirect('login');
+        }
+
+        $cart = Cart::find($id);
+
+        if ($cart && $cart->user_id == $userId) {
+            $quantity = max(1, (int) ($_POST['quantity'] ?? 1));
+            $cart->update(['quantity' => $quantity]);
+        }
+
+        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
+            header('Content-Type: application/json');
+            echo json_encode(['success' => true, 'quantity' => $quantity]);
+            exit();
         }
 
         return redirect('cart');

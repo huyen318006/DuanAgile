@@ -62,15 +62,17 @@
   vertical-align: middle;
 }
 
-/* Cart totals panel */
-.cart-totals .btn-primary {
-  background: var(--bs-primary);
-  border-color: var(--bs-primary);
-  color: #fff;
+/* Cart sidebar */
+.cart-sidebar {
+  position: sticky;
+  top: 1.5rem;
+}
+
+.cart-sidebar .btn-primary {
   transition: 0.3s;
 }
 
-.cart-totals .btn-primary:hover {
+.cart-sidebar .btn-primary:hover {
   background: var(--bs-secondary);
   border-color: var(--bs-secondary);
   color: #fff;

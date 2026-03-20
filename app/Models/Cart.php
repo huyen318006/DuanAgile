@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Model;
 use App\Models\Users;
 use App\Models\Food;
+use App\Models\Size;
+use App\Models\Topping;
 
 class Cart extends Model
 {
@@ -14,7 +16,9 @@ class Cart extends Model
         'id',
         'user_id',
         'food_id',
-        'quantity'
+        'quantity',
+        'size_id',
+        'topping_ids',
     ];
     protected $primaryKey = 'id';
 
@@ -36,5 +40,26 @@ class Cart extends Model
             return Food::find($this->food_id);
         }
         return null;
+    }
+
+    public function size()
+    {
+        if ($this->size_id) {
+            return Size::find($this->size_id);
+        }
+        return null;
+    }
+
+    public function getToppings()
+    {
+        if (empty($this->topping_ids)) return [];
+        $ids = json_decode($this->topping_ids, true);
+        if (!is_array($ids)) return [];
+        $result = [];
+        foreach ($ids as $id) {
+            $t = Topping::find($id);
+            if ($t) $result[] = $t;
+        }
+        return $result;
     }
 }

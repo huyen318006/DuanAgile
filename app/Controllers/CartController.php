@@ -6,6 +6,8 @@ use App\Controller;
 use App\Models\Cart;
 use App\Models\Food;
 use App\Models\Users;
+use App\Models\Size;
+use App\Models\Topping;
 
 /**
  * CartController - Quản lý giỏ hàng của người dùng
@@ -37,24 +39,45 @@ class CartController extends Controller
         $title = 'Giỏ hàng';
         $carts = Cart::where('user_id', $userId)->get();
 
-        // Tạo map food_id => Food object để tra cứu nhanh, tránh query N+1
         $foods = [];
         foreach (Food::all() as $f) {
             $foods[$f->id] = $f;
         }
 
-        // Tính tổng tiền toàn bộ giỏ hàng
+        $sizes = [];
+        foreach (Size::all() as $s) {
+            $sizes[$s->id] = $s;
+        }
+
+        $toppingsMap = [];
+        foreach (Topping::all() as $t) {
+            $toppingsMap[$t->id] = $t;
+        }
+
         $total = 0;
         foreach ($carts as $cart) {
             $food = $foods[$cart->food_id] ?? null;
-            if ($food) {
-                $total += $food->price * $cart->quantity;
+            if (!$food) continue;
+            $unitPrice = $food->price;
+            if ($cart->size_id && isset($sizes[$cart->size_id])) {
+                $unitPrice += $sizes[$cart->size_id]->price;
             }
+            if ($cart->topping_ids) {
+                $ids = json_decode($cart->topping_ids, true);
+                if (is_array($ids)) {
+                    foreach ($ids as $tid) {
+                        if (isset($toppingsMap[$tid])) {
+                            $unitPrice += $toppingsMap[$tid]->price;
+                        }
+                    }
+                }
+            }
+            $total += $unitPrice * $cart->quantity;
         }
 
         $user = Users::find($userId);
 
-        return view('carts.list', compact('carts', 'title', 'foods', 'total', 'user'));
+        return view('carts.list', compact('carts', 'title', 'foods', 'total', 'user', 'sizes', 'toppingsMap'));
     }
 
     /**
@@ -75,20 +98,27 @@ class CartController extends Controller
             return redirect('login');
         }
 
+        $sizeId = !empty($_POST['size_id']) ? $_POST['size_id'] : null;
+        $toppingIds = $_POST['topping_ids'] ?? [];
+        $toppingJson = !empty($toppingIds) ? json_encode($toppingIds) : null;
+
         $data = [
-            'user_id'  => $userId,
-            'food_id'  => $_POST['food_id'],
-            'quantity' => $_POST['quantity'] ?? 1,
+            'user_id'     => $userId,
+            'food_id'     => $_POST['food_id'],
+            'quantity'    => $_POST['quantity'] ?? 1,
+            'size_id'     => $sizeId,
+            'topping_ids' => $toppingJson,
         ];
 
-        // Kiểm tra món đã có trong giỏ của user này chưa
         $existing = Cart::where('user_id', $userId)->where('food_id', $data['food_id'])->first();
 
-        if ($existing) {
-            // Đã có → cộng dồn số lượng
+        $isSameOptions = $existing
+            && (string)($existing->size_id ?? '') === (string)($sizeId ?? '')
+            && (string)($existing->topping_ids ?? '') === (string)($toppingJson ?? '');
+
+        if ($isSameOptions) {
             $existing->update(['quantity' => $existing->quantity + $data['quantity']]);
         } else {
-            // Chưa có → thêm mới
             Cart::create($data);
         }
 
@@ -125,15 +155,22 @@ class CartController extends Controller
 
         $cart = Cart::find($id);
 
-        // Chỉ cho phép cập nhật cart của chính user đó
         if ($cart && $cart->user_id == $userId) {
             $quantity = max(1, (int) ($_POST['quantity'] ?? 1));
-            $cart->update(['quantity' => $quantity]);
+            $sizeId = !empty($_POST['size_id']) ? $_POST['size_id'] : null;
+            $toppingIds = $_POST['topping_ids'] ?? [];
+            $toppingJson = !empty($toppingIds) ? json_encode($toppingIds) : null;
+
+            $cart->update([
+                'quantity'    => $quantity,
+                'size_id'     => $sizeId,
+                'topping_ids' => $toppingJson,
+            ]);
         }
 
         if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
             header('Content-Type: application/json');
-            echo json_encode(['success' => true, 'quantity' => $quantity]);
+            echo json_encode(['success' => true, 'message' => 'Cập nhật giỏ hàng thành công!']);
             exit();
         }
 

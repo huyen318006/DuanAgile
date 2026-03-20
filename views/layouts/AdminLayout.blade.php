@@ -32,6 +32,7 @@
   <link href="{{ asset('assets/css/theme.css') }}" rel="stylesheet" />
   <link href="{{ asset('assets/css/menu-filter.css') }}" rel="stylesheet" />
   <link href="{{ asset('assets/css/cart.css') }}" rel="stylesheet" />
+  <link href="{{ asset('assets/css/detail.css') }}" rel="stylesheet" />
 
 </head>
 

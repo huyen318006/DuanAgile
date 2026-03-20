@@ -52,4 +52,6 @@ $router->get('foods/{id}/order', OrderController::class.'@order');
 $router->post('order/add',OrderController::class.'@orderadd');
 $router->get('order/history', OrderController::class.'@orderHistory');
 
+$router->get('food/{id}/options', MenuController::class . '@foodOptions');
+
 $router->run();

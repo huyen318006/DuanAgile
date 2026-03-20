@@ -42,6 +42,15 @@
   justify-content: center;
 }
 
+.btn.btn-cart-update {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* Cart food thumbnail */
 .cart-table img.rounded-circle {
   width: 100px;
@@ -55,17 +64,19 @@
   font-weight: 700;
   border-bottom: 2px solid var(--bs-dark);
   white-space: nowrap;
+  text-align: center;
 }
 
 .cart-table tbody th,
 .cart-table tbody td {
   vertical-align: middle;
+  text-align: center;
 }
 
 /* Cart sidebar */
 .cart-sidebar {
   position: sticky;
-  top: 1.5rem;
+  top: 8.5rem;
 }
 
 .cart-sidebar .btn-primary {

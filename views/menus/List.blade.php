@@ -55,7 +55,8 @@
                      data-food-id="{{ $food->id }}"
                      data-food-name="{{ $food->name }}"
                      data-food-price="{{ $food->price }}"
-                     data-food-image="{{ asset('assets/img/gallery/'.$food->image) }}">
+                     data-food-image="{{ asset('assets/img/gallery/'.$food->image) }}"
+                     data-food-description="{{ $food->description }}">
                   <img class="rounded-circle" width="100" src="{{ asset('assets/img/gallery/'.$food->image) }}" alt="{{ $food->name }}">
                   <div class="w-100 d-flex flex-column text-start ps-4">
                     <div class="d-flex justify-content-between border-bottom border-primary pb-2 mb-2">

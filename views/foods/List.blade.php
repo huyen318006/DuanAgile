@@ -529,106 +529,56 @@
     </div><!-- end of .container-->
 
   </section>
+{{-- phần tin tức món ăn --}}
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="row g-4">
 
-  <section class="pb-5 pt-8">
+      @foreach($posts as $post)
+   <!-- CONTENT -->
+<!-- IMAGE -->
+<div class="col-md-5">
+  <img 
+    src="{{ asset('assets/img/gallery/' . ($post->image ?? 'default.png')) }}"
+    class="img-fluid w-100 h-100 image-cover"
+    alt="{{ $post->title }}">
+</div>
 
-    <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <div class="card card-span mb-3 shadow-lg">
-            <div class="card-body py-0">
-              <div class="row justify-content-center">
-                <div class="col-md-5 col-xl-7 col-xxl-8 g-0 order-0 order-md-1"><img class="img-fluid w-100 fit-cover h-100 rounded-top rounded-md-end rounded-md-top-0" src="{{ asset('assets/img/gallery/crispy-sandwiches.png') }}" alt="..." /></div>
-                <div class="col-md-7 col-xl-5 col-xxl-4 p-4 p-lg-5">
-                  <h1 class="card-title mt-xl-5 mb-4">Ưu đãi tốt nhất cho <span class="text-primary"> Sandwich Giòn</span></h1>
-                  <p class="fs-1">Thưởng thức những chiếc sandwich cỡ lớn thơm ngon. Hoàn thiện bữa ăn của bạn với những lát sandwich tuyệt hảo.</p>
-                  <div class="d-grid bottom-0"><a class="btn btn-lg btn-primary mt-xl-6" href="#!">TIẾN HÀNH ĐẶT MÓN<i class="fas fa-chevron-right ms-2"></i></a></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div><!-- end of .container-->
+<!-- CONTENT -->
+<div class="col-md-7 d-flex flex-column p-4">
+  <div class="flex-grow-1">
+    <h4 class="fw-bold mb-3 clamp-2">{{ $post->title }}</h4>
+    
+    <p class="text-muted mb-4 clamp-3">
+      {{ $post->content }}
+    </p>
+  </div>
 
-  </section>
-  <!-- <section> close ============================-->
-  <!-- ============================================-->
-
-
-
-
-  <!-- ============================================-->
-  <!-- <section> begin ============================-->
-  <section class="py-0">
-
-    <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <div class="card card-span mb-3 shadow-lg">
-            <div class="card-body py-0">
-              <div class="row justify-content-center">
-                <div class="col-md-5 col-xl-7 col-xxl-8 g-0 order-md-0"><img class="img-fluid w-100 fit-cover h-100 rounded-top rounded-md-start rounded-md-top-0" src="{{ asset('assets/img/gallery/fried-chicken.png') }}" alt="..." /></div>
-                <div class="col-md-7 col-xl-5 col-xxl-4 p-4 p-lg-5">
-                  <h1 class="card-title mt-xl-5 mb-4">Hãy tổ chức bữa tiệc <span class="text-primary">với Gà rán thơm ngon</span></h1>
-                  <p class="fs-1">Thưởng thức gà rán giòn rụm với hương vị chanh ớt hấp dẫn. Khám phá những ưu đãi tốt nhất dành cho gà rán.</p>
-                  <div class="d-grid bottom-0"><a class="btn btn-lg btn-primary mt-xl-6" href="#!">TIẾN HÀNH ĐẶT MÓN<i class="fas fa-chevron-right ms-2"></i></a></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div><!-- end of .container-->
-
-  </section>
-  <!-- <section> close ============================-->
-  <!-- ============================================-->
-
-
-
-
-  <!-- ============================================-->
-  <!-- <section> begin ============================-->
-  <section class="pt-5">
-
-    <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <div class="card card-span mb-3 shadow-lg">
-            <div class="card-body py-0">
-              <div class="row justify-content-center">
-                <div class="col-md-5 col-xl-7 col-xxl-8 g-0 order-0 order-md-1"><img class="img-fluid w-100 fit-cover h-100 rounded-top rounded-md-end rounded-md-top-0" src="{{ asset('assets/img/gallery/pizza.png') }}" alt="..." /></div>
-                <div class="col-md-7 col-xl-5 col-xxl-4 p-4 p-lg-5">
-                  <h1 class="card-title mt-xl-5 mb-4">Bạn muốn ăn <span class="text-primary">pizza nóng & cay không ?</span></h1>
-                  <p class="fs-1">Hãy cùng bạn bè thưởng thức những miếng pizza nóng hổi và giòn tan. Đừng bỏ lỡ các ưu đãi hấp dẫn nhất.</p>
-                  <div class="d-grid bottom-0"><a class="btn btn-lg btn-primary mt-xl-6" href="#!">TIẾN HÀNH ĐẶT MÓN<i class="fas fa-chevron-right ms-2"></i></a></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div><!-- end of .container-->
-
-  </section>
-  <!-- <section> close ============================-->
-  <!-- ============================================-->
-
-
-  <section class="py-0">
-    <div class="bg-holder" style="background-image:url({{ asset('assets/img/gallery/cta-two-bg.png') }});background-position:center;background-size:cover;">
+  <div class="d-flex justify-content-between align-items-center">
+    <div class="text-muted small d-flex align-items-center gap-1">
+      <i class="bi bi-eye"></i>
+      <span>{{ number_format($post->views ?? 0) }} lượt xem</span>
     </div>
-    <!--/.bg-holder-->
 
-    <div class="container">
-      <div class="row flex-center">
-        <div class="col-xxl-9 py-7 text-center">
-          <h1 class="fw-bold mb-4 text-white fs-6"> Bạn đã sẵn sàng đặt món <br />với những ưu đãi tốt nhất chưa?</h1><a class="btn btn-danger" href="#"> ĐẶT MÓN NGAY<i class="fas fa-chevron-right ms-2"></i></a>
-        </div>
-      </div>
+    <div>
+      <a href="{{ route('post/'.$post->id.'/show') }}" 
+         class="btn btn-primary px-5 py-2.5">
+        Xem chi tiết
+      </a>
     </div>
-  </section>
+  </div>
+</div>
+
+
+      @endforeach
+
+    </div>
+  </div>
+</section>
+
+ 
+
+
 </main>
 
 <div id="cart-toast" style="position:fixed;top:20px;right:20px;z-index:9999;display:none;cursor:pointer;" onclick="window.location.href='{{ APP_URL }}cart'">
@@ -712,5 +662,76 @@
     }
   });
 </script>
+<style>
+/* Nút gọn, chữ căn giữa, bo tròn đẹp */
+.btn-primary {
+    border-radius: 50px;
+    font-weight: 500;
+    font-size: 1rem;
+    padding: 10px 32px;        /* ngắn lại, vừa phải */
+    min-width: 160px;          /* kiểm soát chiều rộng */
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(13, 110, 253, 0.3);
+}
+
+/* Nếu muốn nút vàng giống ảnh trước đó */
+.btn-warning {
+    border-radius: 50px;
+    font-weight: 500;
+    padding: 10px 32px;
+    min-width: 160px;
+    font-size: 1rem;
+}
+
+.btn-warning:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(255, 193, 7, 0.35);
+}
+/* Làm cho phần lượt xem nhỏ và đẹp hơn */
+.small {
+    font-size: 0.875rem;
+}
+
+.bi-eye {
+    font-size: 1.1rem;
+}
+
+/* Điều chỉnh nút khi có lượt xem */
+.btn-primary {
+    border-radius: 50px;
+    font-weight: 500;
+    padding: 10px 28px;
+    font-size: 0.98rem;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(13, 110, 253, 0.3);
+}
+.clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;   /* giới hạn 2 dòng */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;   /* giới hạn 3 dòng */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.image-cover {
+  object-fit: cover;
+}
+
+</style>
 @endsection
 @endsection

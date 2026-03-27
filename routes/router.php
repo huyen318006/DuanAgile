@@ -9,6 +9,8 @@ use App\Controllers\FoodController;
 use App\Controllers\RestaurantController;
 use App\Controllers\CartController;
 use App\Controllers\OrderController;
+use App\Controllers\PostController;
+use App\Models\Post;
 
 $router = new Router;
 
@@ -53,5 +55,10 @@ $router->post('order/add',OrderController::class.'@orderadd');
 $router->get('order/history', OrderController::class.'@orderHistory');
 
 $router->get('food/{id}/options', MenuController::class . '@foodOptions');
+
+//post
+$router->get('tintuc',PostController::class.'@index');
+$router->get('post/{id}/show',PostController::class.'@show');
+
 
 $router->run();

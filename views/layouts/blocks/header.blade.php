@@ -31,6 +31,9 @@
                 <li class="nav-item">
                     <a class="nav-link text-nowrap" href="#">Đơn hàng</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link text-nowrap" href="{{ route('tintuc') }}">Tin tức</a>
+                </li>
                 <li>
                     <form class="d-flex align-items-center flex-nowrap">
 

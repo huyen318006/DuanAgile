@@ -50,9 +50,6 @@
                         </label>
                     </div>
                 </div>
-                <div class="text-muted" style="font-size:12px;margin-top:10px;">
-                    Lưu ý: Hiện chưa có API chuyển khoản QR, nên chọn mục này sẽ hiển thị trạng thái đang phát triển.
-                </div>
             </div>
             <div class="modal-footer border-0 pt-0 px-4 pb-4">
                 <button type="button" class="btn btn-danger fw-bold" data-bs-dismiss="modal">Hủy</button>
@@ -125,8 +122,8 @@
                 return;
             }
 
-            showCheckoutToast('Đặt hàng thành công!', false);
-            checkoutModal.hide();
+            // Since the modal is now inside the main form, we just submit the form.
+            document.getElementById('checkoutForm').submit();
         });
     });
 </script>

@@ -46,41 +46,69 @@ public function order($id)
     //order add
     public function orderadd()
     {
-        $totalPrice = $_POST['totalPrice'] ?? 0;
-        $foodId = $_POST['food_id'] ?? null;
-        $sizeId = $_POST['size'] ?? null;
-        $toppingId = $_POST['topping'] ?? null;
-        $pay = $_POST['payment_method'] ?? 'Cash';
-        $userId = $_SESSION['user']['id'] ?? 1;
+       try {
+            if (!isset($_SESSION['user']['id'])) {
+                throw new \Exception("Vui lòng đăng nhập để thực hiện đặt hàng.");
+            }
 
-        //lấy số lượng
-        $quantity = $_POST['quantity'] ?? 1;
-      
+            if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+                throw new \Exception('Yêu cầu không hợp lệ.');
+            }
 
-        $address = $_SESSION['user']['address'] ?? null;
+            $totalPrice = $_POST['totalPrice'] ?? 0;
+            $foodId = $_POST['food_id'] ?? null;
+            $sizeId = $_POST['size'] ?? null;
+            $toppingId = $_POST['topping'] ?? null;
+            $pay = $_POST['payment_method'] ?? 'Cash';
+            $userId = $_SESSION['user']['id'];
 
-        if (!$address) {
-            die('Không có address trong session');
-        }
-        $data = [
-            'user_id' => $userId,
-            'food_id' => $foodId,
-            'size_id' => $sizeId,
-            'payment_method' => $pay,
-            'total_price' => $totalPrice,
-            'address' => $address,
-            'status' => 'processing'
-        ];
+            $receiver = !empty($_POST['receiver']) ? $_POST['receiver'] : ($_SESSION['user']['name'] ?? 'Guest');
+            $phone = !empty($_POST['phone']) ? $_POST['phone'] : ($_SESSION['user']['phone'] ?? null);
+            $note = $_POST['note'] ?? '';
+
+            // Lấy số lượng
+            $quantity = $_POST['quantity'] ?? 1;
+
+            $address = $_SESSION['user']['address'] ?? null;
+
+            if (!$address) {
+                throw new \Exception('Không có địa chỉ giao hàng trong hồ sơ của bạn.');
+            }
+
+            $data = [
+                'user_id' => $userId,
+                'food_id' => $foodId,
+                'size_id' => $sizeId,
+                'payment_method' => $pay,
+                'total_price' => $totalPrice,
+                'address' => $address,
+                'status' => 'processing',
+                'receiver' => $receiver,
+                'phone' => (is_numeric($phone) ? $phone : null),
+                'note' => $note,
+            ];
 
         $orderneww=Order::create($data);
         //lấy id mới tạo
         $order_id=$orderneww->id;
-        //lưu topping vào bảng trung gian
-        foreach ($toppingId as $toppingid) {
+        // Xử lý Topping an toàn (không bắt buộc chọn)
+        $tIds = (array)($toppingId ?? []);
+        if (!empty($tIds)) {
+            foreach ($tIds as $tid) {
+                OrderItem::create([
+                    'order_id' => $order_id,
+                    'food_id' => $foodId,
+                    'topping_id' => $tid,
+                    'quantity' => $quantity,
+                    'size_id' => $sizeId
+                ]);
+            }
+        } else {
+            // Trường hợp không chọn topping, vẫn tạo 1 dòng item với topping_id = null
             OrderItem::create([
                 'order_id' => $order_id,
                 'food_id' => $foodId,
-                'topping_id' => $toppingid, // từng cái 1
+                'topping_id' => null,
                 'quantity' => $quantity,
                 'size_id' => $sizeId
             ]);
@@ -92,6 +120,12 @@ public function order($id)
         window.location.href = '" . APP_URL . "foods';
     </script>";
         exit();  // Dừng để script chạy
+       }catch (\Exception $e) {
+        echo "<script>
+            alert('❌ Đặt hàng thất bại: " . addslashes($e->getMessage()) . "');
+            window.location.href = '" . APP_URL . "foods';
+        </script>";
+    }
 
     }
 

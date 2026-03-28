@@ -3,55 +3,48 @@
 @section('content')
 <main class="main" id="top">
 
-  <section class="py-5 overflow-hidden bg-primary" id="home">
-    <div class="container">
-      <div class="row flex-center">
-        <div class="col-md-5 col-lg-6 order-0 order-md-1 mt-8 mt-md-0"><a class="img-landing-banner" href="#!"><img class="img-fluid" src="{{ asset('assets/img/gallery/hero-header.png') }}" alt="hero-header" /></a></div>
-        <div class="col-md-7 col-lg-6 py-8 text-md-start text-center">
-          <h1 class="display-1 fs-md-5 fs-lg-6 fs-xl-8 text-light">Bạn Đang Đói?</h1>
-          <h1 class="text-800 mb-5 fs-4">Chỉ với vài cú nhấp chuột, tìm ngay những món ăn<br class="d-none d-xxl-block" /> ở gần bạn</h1>
-          <div class="card w-xxl-75">
-            <div class="card-body">
-              <nav>
-                <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                  <button class="nav-link active mb-3" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true"><i class="fas fa-motorcycle me-2"></i>Giao Hàng</button>
-                  <button class="nav-link mb-3" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false"><i class="fas fa-shopping-bag me-2"></i>Đến Lấy</button>
-                </div>
-              </nav>
-              <div class="tab-content mt-3" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                  <form class="row gx-2 gy-2 align-items-center">
-                    <div class="col">
-                      <div class="input-group-icon"><i class="fas fa-map-marker-alt text-danger input-box-icon"></i>
-                        <label class="visually-hidden" for="inputDelivery">Địa Chỉ</label>
-                        <input class="form-control input-box form-foodwagon-control" id="inputDelivery" type="text" placeholder="Nhập địa chỉ của bạn" />
-                      </div>
-                    </div>
-                    <div class="d-grid gap-3 col-sm-auto">
-                      <button class="btn btn-danger" type="submit">Tìm món ăn</button>
-                    </div>
-                  </form>
-                </div>
-                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                  <form class="row gx-4 gy-2 align-items-center">
-                    <div class="col">
-                      <div class="input-group-icon"><i class="fas fa-map-marker-alt text-danger input-box-icon"></i>
-                        <label class="visually-hidden" for="inputPickup">Địa Chỉ</label>
-                        <input class="form-control input-box form-foodwagon-control" id="inputPickup" type="text" placeholder="Nhập địa chỉ của bạn" />
-                      </div>
-                    </div>
-                    <div class="d-grid gap-3 col-sm-auto">
-                      <button class="btn btn-danger" type="submit">Tìm món ăn</button>
-                    </div>
-                  </form>
-                </div>
-              </div>
+<section class="py-5 overflow-hidden bg-primary" id="home">
+    <div class="container" style="height: 80vh; position: relative;">
+        <div class="row flex-center">
+            <div class="col-md-5 col-lg-6 order-0 order-md-1 mt-8 mt-md-0">
+                <a class="img-landing-banner" href="#!">
+                    <img class="img-fluid" src="{{ asset('assets/img/gallery/hero-header.png') }}" alt="hero-header" style="margin-top:95px;"/>
+                </a>
             </div>
-          </div>
+            <div class="col-md-7 col-lg-6 py-8 text-md-start text-center">
+                <h1 class="display-1 fs-md-5 fs-lg-6 fs-xl-8 text-light" data-text="Bạn Đang Đói?">Bạn Đang Đói?</h1>
+                <h1 class="text-800 mb-5 fs-4">Chỉ với vài cú nhấp chuột, tìm ngay những món ăn<br class="d-none d-xxl-block" /> ở gần bạn</h1>
+            </div>
         </div>
-      </div>
+
+        <!-- Banner nhỏ chạy ngang -->
+        <div class="small-banner-carousel">
+            <div class="small-banner-track">
+                <img src="{{ asset('assets/img/gallery/small1.avif') }}" alt="small1" />
+                <img src="{{ asset('assets/img/gallery/small2.avif') }}" alt="small2" />
+                <img src="{{ asset('assets/img/gallery/small3.jpg') }}" alt="small3" />
+                <img src="{{ asset('assets/img/gallery/small4.avif') }}" alt="small4" />
+                <!-- Lặp lại -->
+                <img src="{{ asset('assets/img/gallery/small1.avif') }}" alt="small1" />
+                <img src="{{ asset('assets/img/gallery/small2.avif') }}" alt="small2" />
+            </div>
+        </div>
+
+        <!-- Layer sao rơi toàn banner -->
+        <div class="star-container">
+            <span class="star"></span>
+            <span class="star"></span>
+            <span class="star"></span>
+            <span class="star"></span>
+            <span class="star"></span>
+            <span class="star"></span>
+            <span class="star"></span>
+            <span class="star"></span>
+            <span class="star"></span>
+            <span class="star"></span>
+        </div>
     </div>
-  </section>
+</section>
 
 
   <!-- ============================================-->
@@ -204,7 +197,7 @@
         <div class="col-12">
           <div class="carousel slide" id="carouselPopularItems" data-bs-touch="false" data-bs-interval="false">
             <div class="carousel-inner">
-              @foreach(array_chunk($foods,4) as $index => $chunk)
+              @foreach(array_chunk($popularFoods,4) as $index => $chunk)
               <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
                 <div class="row gx-3 h-100 align-items-center">
                   @foreach($chunk as $food)
@@ -321,214 +314,106 @@
 
   <!-- ============================================-->
   <!-- <section> begin ============================-->
-  <section class="py-8 overflow-hidden">
 
-    <div class="container">
-      <div class="row flex-center mb-6">
-        <div class="col-lg-7">
-          <h5 class="fw-bold fs-3 fs-lg-5 lh-sm text-center text-lg-start">Tìm kiếm theo món ăn</h5>
-        </div>
-        <div class="col-lg-4 text-lg-end text-center"><a class="btn btn-lg text-800 me-2" href="#" role="button">XEM TẤT CẢ <i class="fas fa-chevron-right ms-2"></i></a></div>
-        <div class="col-lg-auto position-relative">
-          <button class="carousel-control-prev s-icon-prev carousel-icon" type="button" data-bs-target="#carouselSearchByFood" data-bs-slide="prev"><span class="carousel-control-prev-icon hover-top-shadow" aria-hidden="true"></span><span class="visually-hidden">Previous</span></button>
-          <button class="carousel-control-next s-icon-next carousel-icon" type="button" data-bs-target="#carouselSearchByFood" data-bs-slide="next"><span class="carousel-control-next-icon hover-top-shadow" aria-hidden="true"></span><span class="visually-hidden">Next</span></button>
-        </div>
+  {{-- phần đề xuất gợi ý --}}
+<section class="py-8 overflow-hidden">
+  <div class="container">
+
+    <!-- HEADER -->
+    <div class="row align-items-center mb-4">
+
+      <!-- TITLE -->
+      <div class="col-lg-6">
+        <h5 class="fw-bold fs-3 mb-0">
+          🔥 Gợi ý dành cho bạn
+        </h5>
       </div>
-      <div class="row flex-center">
-        <div class="col-12">
-          <div class="carousel slide" id="carouselSearchByFood" data-bs-touch="false" data-bs-interval="false">
-            <div class="carousel-inner">
-              <div class="carousel-item active" data-bs-interval="10000">
-                <div class="row h-100 align-items-center">
-                  <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                    <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="{{ asset('assets/img/gallery/search-pizza.png') }} " alt="..." />
-                      <div class="card-body ps-0">
-                        <h5 class="text-center fw-bold text-1000 text-truncate mb-2">pizza</h5>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                    <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="{{ asset('assets/img/gallery/burger.png') }}" alt="..." />
-                      <div class="card-body ps-0">
-                        <h5 class="text-center fw-bold text-1000 text-truncate mb-2">Burger</h5>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                    <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="{{ asset('assets/img/gallery/noodles.png') }}" alt="..." />
-                      <div class="card-body ps-0">
-                        <h5 class="text-center fw-bold text-1000 text-truncate mb-2">Noodles</h5>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                    <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="{{ asset('assets/img/gallery/sub-sandwich.png') }}" alt="..." />
-                      <div class="card-body ps-0">
-                        <h5 class="text-center fw-bold text-1000 text-truncate mb-2">Sub-sandwiches</h5>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                    <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="{{ asset('assets/img/gallery/chowmein.png') }}" alt="..." />
-                      <div class="card-body ps-0">
-                        <h5 class="text-center fw-bold text-1000 text-truncate mb-2">Chowmein</h5>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                    <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="{{ asset('assets/img/gallery/steak.png') }}" alt="..." />
-                      <div class="card-body ps-0">
-                        <h5 class="text-center fw-bold text-1000 text-truncate mb-2">Steak</h5>
-                      </div>
-                    </div>
-                  </div>
+
+      <!-- RIGHT -->
+      <div class="col-lg-6 text-end d-flex justify-content-end align-items-center gap-2">
+
+       <!-- BUTTON LEFT -->
+
+          <button class="carousel-control-prev carousel-icon"
+                  type="button"
+                  data-bs-target="#carouselFood"
+                  data-bs-slide="prev">
+            <span class="carousel-control-prev-icon rounded-circle p-3"></span>
+          </button>
+          <!-- BUTTON RIGHT -->
+          <button class="carousel-control-next carousel-icon"
+                  type="button"
+                  data-bs-target="#carouselFood"
+                  data-bs-slide="next">
+            <span class="carousel-control-next-icon rounded-circle p-3"></span>
+          </button>
+
+        <!-- VIEW ALL -->
+        <a class="btn btn-sm text-primary ms-2" href="{{ route('menu') }}">XEM TẤT CẢ →</a>
+
+      </div>
+
+    </div>
+
+    <!-- CAROUSEL -->
+    <div id="carouselFood"
+     class="carousel slide"
+     data-bs-ride="carousel"
+     data-bs-interval="2500"
+     data-bs-pause="hover"
+     data-bs-wrap="true">
+
+    <!-- auto chạy 2.5s -->
+    <!-- hover thì dừng -->
+    <!-- chạy vòng -->
+      <div class="carousel-inner">
+
+        @php
+          $chunks = array_chunk($recommendedFoods, 4);
+        @endphp
+
+        @foreach($chunks as $index => $chunk)
+        <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+          <div class="row text-center">
+
+            @foreach($chunk as $food)
+            <div class="col-6 col-md-3 mb-4">
+
+              <a href="{{ route('foods/'.$food->id.'/order') }}" class="text-decoration-none text-dark">
+
+                <!-- IMAGE -->
+                <div style="width:140px;height:140px;margin:auto;">
+                  <img src="{{ asset('assets/img/gallery/'.$food->image) }}"
+                       style="width:100%;height:100%;object-fit:cover;border-radius:50%;box-shadow:0 4px 15px rgba(0,0,0,0.2);">
                 </div>
-              </div>
-              <div class="carousel-item" data-bs-interval="5000">
-                <div class="row h-100 align-items-center">
-                  <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                    <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="{{ asset('assets/img/gallery/search-pizza.png') }}" alt="..." />
-                      <div class="card-body ps-0">
-                        <h5 class="text-center fw-bold text-1000 text-truncate mb-2">pizza</h5>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                    <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="{{ asset('assets/img/gallery/burger.png') }}" alt="..." />
-                      <div class="card-body ps-0">
-                        <h5 class="text-center fw-bold text-1000 text-truncate mb-2">Burger</h5>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                    <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="{{ asset('assets/img/gallery/noodles.png') }}" alt="..." />
-                      <div class="card-body ps-0">
-                        <h5 class="text-center fw-bold text-1000 text-truncate mb-2">Noodles</h5>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                    <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="{{ asset('assets/img/gallery/sub-sandwich.png') }}" alt="..." />
-                      <div class="card-body ps-0">
-                        <h5 class="text-center fw-bold text-1000 text-truncate mb-2">Sub-sandwiches</h5>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                    <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="{{ asset('assets/img/gallery/chowmein.png') }}" alt="..." />
-                      <div class="card-body ps-0">
-                        <h5 class="text-center fw-bold text-1000 text-truncate mb-2">Chowmein</h5>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                    <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="{{ asset('assets/img/gallery/steak.png') }}" alt="..." />
-                      <div class="card-body ps-0">
-                        <h5 class="text-center fw-bold text-1000 text-truncate mb-2">Steak</h5>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="carousel-item" data-bs-interval="3000">
-                <div class="row h-100 align-items-center">
-                  <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                    <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="{{ asset('assets/img/gallery/search-pizza.png') }}" alt="..." />
-                      <div class="card-body ps-0">
-                        <h5 class="text-center fw-bold text-1000 text-truncate mb-2">pizza</h5>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                    <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="{{ asset('assets/img/gallery/burger.png') }}" alt="..." />
-                      <div class="card-body ps-0">
-                        <h5 class="text-center fw-bold text-1000 text-truncate mb-2">Burger</h5>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                    <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="{{ asset('assets/img/gallery/noodles.png') }}" alt="..." />
-                      <div class="card-body ps-0">
-                        <h5 class="text-center fw-bold text-1000 text-truncate mb-2">Noodles</h5>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                    <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="{{ asset('assets/img/gallery/sub-sandwich.png') }}" alt="..." />
-                      <div class="card-body ps-0">
-                        <h5 class="text-center fw-bold text-1000 text-truncate mb-2">Sub-sandwiches</h5>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                    <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="{{ asset('assets/img/gallery/chowmein.png') }}" alt="..." />
-                      <div class="card-body ps-0">
-                        <h5 class="text-center fw-bold text-1000 text-truncate mb-2">Chowmein</h5>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                    <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="{{ asset('assets/img/gallery/steak.png') }}" alt="..." />
-                      <div class="card-body ps-0">
-                        <h5 class="text-center fw-bold text-1000 text-truncate mb-2">Steak</h5>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="carousel-item">
-                <div class="row h-100 align-items-center">
-                  <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                    <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="{{ asset('assets/img/gallery/search-pizza.png') }}" alt="..." />
-                      <div class="card-body ps-0">
-                        <h5 class="text-center fw-bold text-1000 text-truncate mb-2">pizza</h5>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                    <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="{{ asset('assets/img/gallery/burger.png') }}" alt="..." />
-                      <div class="card-body ps-0">
-                        <h5 class="text-center fw-bold text-1000 text-truncate mb-2">Burger</h5>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                    <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="{{ asset('assets/img/gallery/noodles.png') }}" alt="..." />
-                      <div class="card-body ps-0">
-                        <h5 class="text-center fw-bold text-1000 text-truncate mb-2">Noodles</h5>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                    <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="{{ asset('assets/img/gallery/sub-sandwich.png') }}" alt="..." />
-                      <div class="card-body ps-0">
-                        <h5 class="text-center fw-bold text-1000 text-truncate mb-2">Sub-sandwiches</h5>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                    <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="{{ asset('assets/img/gallery/chowmein.png') }}" alt="..." />
-                      <div class="card-body ps-0">
-                        <h5 class="text-center fw-bold text-1000 text-truncate mb-2">Chowmein</h5>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-md-4 col-xl mb-5 h-100">
-                    <div class="card card-span h-100 rounded-circle"><img class="img-fluid rounded-circle h-100" src="{{ asset('assets/img/gallery/steak.png') }}" alt="..." />
-                      <div class="card-body ps-0">
-                        <h5 class="text-center fw-bold text-1000 text-truncate mb-2">Steak</h5>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+
+                <!-- NAME -->
+                <h6 class="mt-3 fw-bold text-truncate">
+                  {{ $food->name }}
+                </h6>
+
+                <!-- PRICE -->
+                <p class="text-primary fw-bold mb-1">
+                  {{ number_format($food->price) }}đ
+                </p>
+
+                <!-- ORDER -->
+                <p class="text-muted small">
+                  🔥 {{ $food->total_order ?? 0 }} lượt đặt
+                </p>
+
+              </a>
+
             </div>
+            @endforeach
+
           </div>
         </div>
+        @endforeach
       </div>
-    </div><!-- end of .container-->
-
-  </section>
+    </div>
+  </div>
+</section>
 {{-- phần tin tức món ăn --}}
 <section class="py-5 bg-light">
   <div class="container">

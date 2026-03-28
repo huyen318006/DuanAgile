@@ -2,7 +2,7 @@
 
     <div class="container">
 
-        <a class="navbar-brand d-inline-flex" href="/">
+        <a class="navbar-brand d-inline-flex" href="{{ route('foods') }}">
             <img class="d-inline-block" src="{{asset('assets/img/gallery/logo.svg')}}" alt="logo" />
             <span class="text-1000 fs-3 fw-bold ms-2 text-gradient">foodwaGon</span>
         </a>
@@ -29,7 +29,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link text-nowrap" href="#">Đơn hàng</a>
+                    <a class="nav-link text-nowrap" href="{{route('order/history')}}">Đơn hàng</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-nowrap" href="{{ route('tintuc') }}">Tin tức</a>

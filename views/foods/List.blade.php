@@ -3,55 +3,48 @@
 @section('content')
 <main class="main" id="top">
 
-  <section class="py-5 overflow-hidden bg-primary" id="home">
-    <div class="container">
-      <div class="row flex-center">
-        <div class="col-md-5 col-lg-6 order-0 order-md-1 mt-8 mt-md-0"><a class="img-landing-banner" href="#!"><img class="img-fluid" src="{{ asset('assets/img/gallery/hero-header.png') }}" alt="hero-header" /></a></div>
-        <div class="col-md-7 col-lg-6 py-8 text-md-start text-center">
-          <h1 class="display-1 fs-md-5 fs-lg-6 fs-xl-8 text-light">Bạn Đang Đói?</h1>
-          <h1 class="text-800 mb-5 fs-4">Chỉ với vài cú nhấp chuột, tìm ngay những món ăn<br class="d-none d-xxl-block" /> ở gần bạn</h1>
-          <div class="card w-xxl-75">
-            <div class="card-body">
-              <nav>
-                <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                  <button class="nav-link active mb-3" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true"><i class="fas fa-motorcycle me-2"></i>Giao Hàng</button>
-                  <button class="nav-link mb-3" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false"><i class="fas fa-shopping-bag me-2"></i>Đến Lấy</button>
-                </div>
-              </nav>
-              <div class="tab-content mt-3" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                  <form class="row gx-2 gy-2 align-items-center">
-                    <div class="col">
-                      <div class="input-group-icon"><i class="fas fa-map-marker-alt text-danger input-box-icon"></i>
-                        <label class="visually-hidden" for="inputDelivery">Địa Chỉ</label>
-                        <input class="form-control input-box form-foodwagon-control" id="inputDelivery" type="text" placeholder="Nhập địa chỉ của bạn" />
-                      </div>
-                    </div>
-                    <div class="d-grid gap-3 col-sm-auto">
-                      <button class="btn btn-danger" type="submit">Tìm món ăn</button>
-                    </div>
-                  </form>
-                </div>
-                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                  <form class="row gx-4 gy-2 align-items-center">
-                    <div class="col">
-                      <div class="input-group-icon"><i class="fas fa-map-marker-alt text-danger input-box-icon"></i>
-                        <label class="visually-hidden" for="inputPickup">Địa Chỉ</label>
-                        <input class="form-control input-box form-foodwagon-control" id="inputPickup" type="text" placeholder="Nhập địa chỉ của bạn" />
-                      </div>
-                    </div>
-                    <div class="d-grid gap-3 col-sm-auto">
-                      <button class="btn btn-danger" type="submit">Tìm món ăn</button>
-                    </div>
-                  </form>
-                </div>
-              </div>
+<section class="py-5 overflow-hidden bg-primary" id="home">
+    <div class="container" style="height: 80vh; position: relative;">
+        <div class="row flex-center">
+            <div class="col-md-5 col-lg-6 order-0 order-md-1 mt-8 mt-md-0">
+                <a class="img-landing-banner" href="#!">
+                    <img class="img-fluid" src="{{ asset('assets/img/gallery/hero-header.png') }}" alt="hero-header" style="margin-top:95px;"/>
+                </a>
             </div>
-          </div>
+            <div class="col-md-7 col-lg-6 py-8 text-md-start text-center">
+                <h1 class="display-1 fs-md-5 fs-lg-6 fs-xl-8 text-light" data-text="Bạn Đang Đói?">Bạn Đang Đói?</h1>
+                <h1 class="text-800 mb-5 fs-4">Chỉ với vài cú nhấp chuột, tìm ngay những món ăn<br class="d-none d-xxl-block" /> ở gần bạn</h1>
+            </div>
         </div>
-      </div>
+
+        <!-- Banner nhỏ chạy ngang -->
+        <div class="small-banner-carousel">
+            <div class="small-banner-track">
+                <img src="{{ asset('assets/img/gallery/small1.avif') }}" alt="small1" />
+                <img src="{{ asset('assets/img/gallery/small2.avif') }}" alt="small2" />
+                <img src="{{ asset('assets/img/gallery/small3.jpg') }}" alt="small3" />
+                <img src="{{ asset('assets/img/gallery/small4.avif') }}" alt="small4" />
+                <!-- Lặp lại -->
+                <img src="{{ asset('assets/img/gallery/small1.avif') }}" alt="small1" />
+                <img src="{{ asset('assets/img/gallery/small2.avif') }}" alt="small2" />
+            </div>
+        </div>
+
+        <!-- Layer sao rơi toàn banner -->
+        <div class="star-container">
+            <span class="star"></span>
+            <span class="star"></span>
+            <span class="star"></span>
+            <span class="star"></span>
+            <span class="star"></span>
+            <span class="star"></span>
+            <span class="star"></span>
+            <span class="star"></span>
+            <span class="star"></span>
+            <span class="star"></span>
+        </div>
     </div>
-  </section>
+</section>
 
 
   <!-- ============================================-->

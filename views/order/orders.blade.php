@@ -13,14 +13,48 @@
             <div class="col-lg-10">
 
                 <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                    <form action="{{ route('order/add') }}" method="POST" onsubmit="return handleSubmit()">
+                        @csrf
+                        <input type="hidden" name="food_id" value="{{ $food->id }}">
+                        <input type="hidden" name="totalPrice" id="totalPriceInput">
 
-                    <div class="row g-0 flex-column flex-md-row">
+                        <div class="row g-0 flex-column flex-md-row">
 
                         <!-- ẢNH -->
                         <div class="col-md-5">
                             <img src="{{ asset('assets/img/gallery/' . $food->image) }}"
                                 class="w-100"
-                                style="object-fit:cover; height:100%; max-height:420px;">
+                                style="object-fit:cover; max-height:420px;">
+                            
+                            <!-- MÔ TẢ -->
+                            @if(!empty($food->description))
+                            <div class="px-4 py-3">
+                                <label class="fw-bold mb-2 d-block text-muted small uppercase">Mô tả sản phẩm</label>
+                                <p class="mb-0 text-secondary" style="font-size: 0.95rem; line-height: 1.6;">
+                                    {{ $food->description }}
+                                </p>
+                            </div>
+                            @endif
+
+                            <!-- KHÁCH HÀNG (Dưới ảnh) -->
+                            <div class="p-4 pt-3 border-top bg-light">
+                                <label class="fw-bold mb-3 d-block">Thông tin giao hàng</label>
+                                
+                                <div class="mb-3">
+                                    <input type="text" name="receiver" class="form-control rounded-3 border-2" 
+                                        placeholder="Tên người nhận" value="{{ $_SESSION['user']['name'] ?? '' }}">
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <input type="tel" name="phone" class="form-control rounded-3 border-2" 
+                                        placeholder="Số điện thoại" value="{{ $_SESSION['user']['phone'] ?? '' }}">
+                                </div>
+                                
+                                <div class="mb-0">
+                                    <textarea name="note" class="form-control rounded-3 border-2" 
+                                        rows="2" placeholder="Ghi chú đơn hàng (không bắt buộc)"></textarea>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- NỘI DUNG -->
@@ -35,14 +69,6 @@
                                          đ
                                     </h5>
                                 </div>
- <form action="{{ route('order/add') }}" method="POST" onsubmit="return handleSubmit()">
-    @csrf
-
-
-    <input type="hidden" name="food_id" value="{{ $food->id }}">
-
-    <!-- ✅ THÊM: totalPrice hidden -->
-    <input type="hidden" name="totalPrice" id="totalPriceInput">
 
     <!-- SỐ LƯỢNG -->
     <div class="mb-4">
@@ -125,22 +151,16 @@
         </div>
     </div>
 
-    <!-- QR -->
-    <div id="qr-box" style="display:none; text-align:center;">
-        <p class="fw-bold text-success">Quét mã để thanh toán</p>
-        <img src="{{ asset('assets/img/qr-demo.png') }}" style="max-width:200px;">
-    </div>
 
     <button class="btn btn-lg w-100 text-white fw-bold"
         style="background: linear-gradient(45deg,#ff6b00,#ff8c00); border:none; border-radius:50px;">
         🛒 Đặt Hàng
     </button>
-</form>
-
                             </div>
                         </div>
 
                     </div>
+                    </form>
 
                 </div>
 
@@ -302,15 +322,15 @@ function handleSubmit(){
         }
     }
 
-    // Kiểm tra topping (Nếu có topping thì bắt buộc chọn ít nhất 1 - Tùy bạn có muốn bắt buộc không)
-    const toppingCheckboxes = document.querySelectorAll('input[name="topping[]"]');
-    if(toppingCheckboxes.length > 0){
-        const toppingSelected = document.querySelectorAll('input[name="topping[]"]:checked');
-        if(!toppingSelected.length){
-            alert("⚠️ Vui lòng chọn ít nhất 1 topping!");
-            return false;
-        }
-    }
+    // Kiểm tra topping (Bỏ bắt buộc chọn)
+    // const toppingCheckboxes = document.querySelectorAll('input[name="topping[]"]');
+    // if(toppingCheckboxes.length > 0){
+    //     const toppingSelected = document.querySelectorAll('input[name="topping[]"]:checked');
+    //     if(!toppingSelected.length){
+    //         alert("⚠️ Vui lòng chọn ít nhất 1 topping!");
+    //         return false;
+    //     }
+    // }
 
     // Kiểm tra totalPrice
     const total = document.getElementById('totalPriceInput').value;

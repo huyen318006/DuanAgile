@@ -5,6 +5,8 @@ namespace App\Controllers;
 use App\Controller;
 use App\Models\Cart;
 use App\Models\Food;
+use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Users;
 use App\Models\Size;
 use App\Models\Topping;
@@ -98,13 +100,27 @@ class CartController extends Controller
             return redirect('login');
         }
 
+        $foodId = $_POST['food_id'];
+        $food = Food::find($foodId);
+        if (!$food) {
+            return redirect('foods');
+        }
+
+        // Kiểm tra nếu món có size thì bắt buộc phải chọn
+        $hasSizes = \App\Models\FoodSize::where('food_id', $foodId)->exists();
         $sizeId = !empty($_POST['size_id']) ? $_POST['size_id'] : null;
+
+        if ($hasSizes && empty($sizeId)) {
+            echo "<script>alert('Vui lòng chọn kích cỡ (Size) cho món ăn này.'); window.history.back();</script>";
+            exit;
+        }
+
         $toppingIds = $_POST['topping_ids'] ?? [];
         $toppingJson = !empty($toppingIds) ? json_encode($toppingIds) : null;
 
         $data = [
             'user_id'     => $userId,
-            'food_id'     => $_POST['food_id'],
+            'food_id'     => $foodId,
             'quantity'    => $_POST['quantity'] ?? 1,
             'size_id'     => $sizeId,
             'topping_ids' => $toppingJson,
@@ -112,6 +128,7 @@ class CartController extends Controller
 
         $existing = Cart::where('user_id', $userId)->where('food_id', $data['food_id'])->first();
 
+        // Kiểm tra xem item đã tồn tại với cùng tùy chọn chưa
         $isSameOptions = $existing
             && (string)($existing->size_id ?? '') === (string)($sizeId ?? '')
             && (string)($existing->topping_ids ?? '') === (string)($toppingJson ?? '');
@@ -122,7 +139,7 @@ class CartController extends Controller
             Cart::create($data);
         }
 
-        // Nếu là AJAX request → trả JSON để frontend hiển thị toast, không redirect
+        // Nếu là AJAX request
         if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
             $cartCount = count(Cart::where('user_id', $userId)->get());
             header('Content-Type: application/json');
@@ -135,15 +152,6 @@ class CartController extends Controller
 
     /**
      * Cập nhật số lượng của một món trong giỏ hàng
-     *
-     * Chỉ cho phép cập nhật nếu cart item thuộc về user đang đăng nhập
-     * Số lượng tối thiểu là 1
-     *
-     * Hỗ trợ 2 kiểu response:
-     * - AJAX: trả JSON { success, quantity } để frontend cập nhật UI không cần reload
-     * - Form submit: redirect về trang giỏ hàng
-     *
-     * @param int $id ID của bản ghi cart cần cập nhật
      */
     public function update($id)
     {
@@ -158,6 +166,14 @@ class CartController extends Controller
         if ($cart && $cart->user_id == $userId) {
             $quantity = max(1, (int) ($_POST['quantity'] ?? 1));
             $sizeId = !empty($_POST['size_id']) ? $_POST['size_id'] : null;
+
+            // Kiểm tra size khi cập nhật
+            $hasSizes = \App\Models\FoodSize::where('food_id', $cart->food_id)->exists();
+            if ($hasSizes && empty($sizeId)) {
+                echo "<script>alert('Vui lòng chọn Size cho món ăn.'); window.history.back();</script>";
+                exit;
+            }
+
             $toppingIds = $_POST['topping_ids'] ?? [];
             $toppingJson = !empty($toppingIds) ? json_encode($toppingIds) : null;
 
@@ -179,10 +195,6 @@ class CartController extends Controller
 
     /**
      * Xóa một món khỏi giỏ hàng
-     *
-     * Chỉ cho phép xóa nếu cart item thuộc về user đang đăng nhập
-     *
-     * @param int $id ID của bản ghi cart cần xóa
      */
     public function delete($id)
     {
@@ -195,11 +207,129 @@ class CartController extends Controller
 
         $cart = Cart::find($id);
 
-        // Chỉ cho phép xóa cart của chính user đó
         if ($cart && $cart->user_id == $userId) {
             $cart->delete();
         }
 
         return redirect('cart');
+    }
+
+    /**
+     * Lưu đơn hàng từ giỏ hàng
+     */
+    public function store()
+    {
+        try {
+            if (!isset($_SESSION['user']['id'])) {
+                throw new \Exception("Vui lòng đăng nhập để thực hiện đặt hàng.");
+            }
+
+            $userId = $_SESSION['user']['id'];
+            $carts = Cart::where('user_id', $userId)->get();
+
+            if (empty($carts)) {
+                throw new \Exception("Giỏ hàng của bạn đang trống.");
+            }
+
+            // 1. Validate: Kiểm tra tất cả các món trong giỏ đã có size chưa (nếu món đó có size)
+            foreach ($carts as $item) {
+                $hasSizes = \App\Models\FoodSize::where('food_id', $item->food_id)->exists();
+                if ($hasSizes && empty($item->size_id)) {
+                    $food = Food::find($item->food_id);
+                    $foodName = $food->name ?? "Sản phẩm";
+                    echo "<script>alert('Món \"{$foodName}\" chưa được chọn Size. Vui lòng cập nhật lại giỏ hàng.'); window.location.href='/cart';</script>";
+                    exit;
+                }
+            }
+
+            $receiver = $_POST['checkout_name'] ?? 'Guest';
+            $phone = $_POST['checkout_phone'] ?? '';
+            $address = $_POST['checkout_address'] ?? '';
+            $note = $_POST['checkout_notes'] ?? '';
+            $totalPrice = (float)($_POST['price'] ?? 0);
+            $paymentMethod = $_POST['checkout_payment'] ?? 'Cash';
+
+            // 2. Tạo Order
+            $order = Order::create([
+                'user_id' => $userId,
+                'receiver' => $receiver,
+                'phone' => $phone,
+                'address' => $address,
+                'note' => $note,
+                'total_price' => $totalPrice,
+                'payment_method' => $paymentMethod,
+                'status' => 'processing'
+            ]);
+
+            // Maps để tính toán giá chính xác cho từng dòng OrderItem
+            $foodsMap = [];
+            foreach (Food::all() as $f) $foodsMap[$f->id] = $f;
+            $sizesMap = [];
+            foreach (Size::all() as $s) $sizesMap[$s->id] = $s;
+            $toppingsMap = [];
+            foreach (Topping::all() as $t) $toppingsMap[$t->id] = $t;
+
+            // 3. Chuyển cart sang OrderItem
+            foreach ($carts as $cart) {
+                $food = $foodsMap[$cart->food_id] ?? null;
+                if (!$food) continue;
+
+                // Tính toán giá đơn vị (bao gồm size và toppings)
+                $unitPrice = (float)$food->price;
+                if ($cart->size_id && isset($sizesMap[$cart->size_id])) {
+                    $unitPrice += (float)$sizesMap[$cart->size_id]->price;
+                }
+
+                $tIds = [];
+                if ($cart->topping_ids) {
+                    $tIds = json_decode($cart->topping_ids, true) ?: [];
+                }
+
+                foreach ($tIds as $tid) {
+                    if (isset($toppingsMap[$tid])) {
+                        $unitPrice += (float)$toppingsMap[$tid]->price;
+                    }
+                }
+
+                // Lưu từng topping thành 1 dòng (theo style của dự án)
+                if (!empty($tIds)) {
+                    foreach ($tIds as $tid) {
+                        OrderItem::create([
+                            'order_id' => $order->id,
+                            'food_id' => $cart->food_id,
+                            'quantity' => $cart->quantity,
+                            'size_id' => $cart->size_id,
+                            'topping_id' => $tid,
+                        ]);
+                    }
+                } else {
+                    // Không có topping -> lưu 1 dòng topping_id = null
+                    OrderItem::create([
+                        'order_id' => $order->id,
+                        'food_id' => $cart->food_id,
+                        'quantity' => $cart->quantity,
+                        'size_id' => $cart->size_id,
+                        'topping_id' => null,
+                    ]);
+                }
+                
+                // Xóa cart sau khi đã tạo OrderItem thành công cho món đó
+                $cart->delete();
+            }
+
+            $historyUrl = APP_URL . "order/history";
+            echo "<script>
+                alert('🎉 Đặt món từ giỏ hàng thành công! Cảm ơn bạn.');
+                window.location.href = '{$historyUrl}';
+            </script>";
+            exit();
+
+        } catch (\Exception $e) {
+            echo "<script>
+                alert('❌ Lỗi Hệ Thống: " . addslashes($e->getMessage()) . "');
+                window.history.back();
+            </script>";
+            exit();
+        }
     }
 }

@@ -117,7 +117,7 @@ padding:20px;
 <i class="fa fa-user-edit"></i> Sửa hồ sơ
 </h3>
 
-<form action="{{ route('updateprofile') }}" method="POST">
+<form action="{{ route('updateprofile') }}" method="POST" onsubmit="return validateProfileForm()">
 
 <!-- Name -->
 
@@ -125,7 +125,7 @@ padding:20px;
 <label>Họ tên</label>
 <div class="input-group">
 <span class="input-group-text"><i class="fa fa-user"></i></span>
-<input type="text" name="name" class="form-control"
+<input type="text" name="name" id="name" class="form-control"
 value="<?= $_SESSION['user']['name'] ?>">
 </div>
 </div>
@@ -136,7 +136,7 @@ value="<?= $_SESSION['user']['name'] ?>">
 <label>Email</label>
 <div class="input-group">
 <span class="input-group-text"><i class="fa fa-envelope"></i></span>
-<input type="email" name="email" class="form-control"
+<input type="email" name="email" id="email" class="form-control"
 value="<?= $_SESSION['user']['email'] ?>">
 </div>
 </div>
@@ -147,7 +147,7 @@ value="<?= $_SESSION['user']['email'] ?>">
 <label>Số điện thoại</label>
 <div class="input-group">
 <span class="input-group-text"><i class="fa fa-phone"></i></span>
-<input type="text" name="phone" class="form-control"
+<input type="text" name="phone" id="phone" class="form-control"
 value="<?= $_SESSION['user']['phone'] ?? '' ?>">
 </div>
 </div>
@@ -158,7 +158,7 @@ value="<?= $_SESSION['user']['phone'] ?? '' ?>">
 <label>Địa chỉ</label>
 <div class="input-group">
 <span class="input-group-text"><i class="fa fa-map-marker"></i></span>
-<input type="text" name="address" class="form-control"
+<input type="text" name="address" id="address" class="form-control"
 value="<?= $_SESSION['user']['address'] ?? '' ?>">
 </div>
 </div>
@@ -166,12 +166,12 @@ value="<?= $_SESSION['user']['address'] ?? '' ?>">
 
 <!-- Password -->
 <div class="mb-3">
-<label>Mật khẩu mới</label>
+<label>Mật khẩu mới (bỏ trống nếu không đổi)</label>
 <div class="input-group">
 <span class="input-group-text">
 <i class="fa fa-lock"></i>
 </span>
-<input type="password" name="password" class="form-control">
+<input type="password" name="password" id="password" class="form-control">
 </div>
 </div>
 
@@ -182,7 +182,7 @@ value="<?= $_SESSION['user']['address'] ?? '' ?>">
 <span class="input-group-text">
 <i class="fa fa-key"></i>
 </span>
-<input type="password" name="repassword" class="form-control">
+<input type="password" name="repassword" id="repassword" class="form-control">
 </div>
 </div>
 
@@ -201,6 +201,51 @@ Huỷ
 </div>
 
 </form>
+
+<script>
+function validateProfileForm() {
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const address = document.getElementById('address').value.trim();
+    const password = document.getElementById('password').value;
+    const repassword = document.getElementById('repassword').value;
+
+    // Kiểm tra trống
+    if (!name) { alert("⚠️ Vui lòng nhập họ tên!"); return false; }
+    if (!email) { alert("⚠️ Vui lòng nhập email!"); return false; }
+    if (!phone) { alert("⚠️ Vui lòng nhập số điện thoại!"); return false; }
+    if (!address) { alert("⚠️ Vui lòng nhập địa chỉ!"); return false; }
+
+    // Kiểm tra định dạng email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        alert("⚠️ Email không hợp lệ!");
+        return false;
+    }
+
+    // Kiểm tra định dạng số điện thoại VN (10 số, bắt đầu bằng 0)
+    const phoneRegex = /^(0[3|5|7|8|9])[0-9]{8}$/;
+    if (!phoneRegex.test(phone)) {
+        alert("⚠️ Số điện thoại không hợp lệ (phải có 10 số và bắt đầu bằng 0)!");
+        return false;
+    }
+
+    // Kiểm tra mật khẩu (nếu có nhập)
+    if (password) {
+        if (password.length < 6) {
+            alert("⚠️ Mật khẩu mới phải có ít nhất 6 ký tự!");
+            return false;
+        }
+        if (password !== repassword) {
+            alert("⚠️ Mật khẩu nhập lại không khớp!");
+            return false;
+        }
+    }
+
+    return true;
+}
+</script>
 
 </div>
 

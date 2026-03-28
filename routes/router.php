@@ -10,7 +10,10 @@ use App\Controllers\RestaurantController;
 use App\Controllers\CartController;
 use App\Controllers\OrderController;
 use App\Controllers\PostController;
+use App\Controllers\VocherController;
+
 use App\Models\Post;
+use App\Models\CatePost;
 
 $router = new Router;
 
@@ -25,6 +28,7 @@ $router->get('cart', CartController::class . '@index');
 $router->post('cart/add', CartController::class . '@add');
 $router->post('cart/{id}/update', CartController::class . '@update');
 $router->post('cart/{id}/delete', CartController::class . '@delete');
+$router->post('checkout/store', CartController::class . '@store');
 
 // Đăng nhập
 $router->get('login', UserController::class . '@login');
@@ -59,6 +63,10 @@ $router->get('food/{id}/options', MenuController::class . '@foodOptions');
 //post
 $router->get('tintuc',PostController::class.'@index');
 $router->get('post/{id}/show',PostController::class.'@show');
+
+
+//vocher
+$router->post('vocher/store',VocherController::class.'@store');
 
 
 $router->run();

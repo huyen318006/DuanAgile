@@ -221,14 +221,14 @@ class CartController extends Controller
     {
         try {
             if (!isset($_SESSION['user']['id'])) {
-                die("Lỗi: Bạn cần phải đăng nhập để thực hiện đặt hàng.");
+                throw new \Exception("Vui lòng đăng nhập để thực hiện đặt hàng.");
             }
 
             $userId = $_SESSION['user']['id'];
             $carts = Cart::where('user_id', $userId)->get();
 
             if (empty($carts)) {
-                die("Lỗi: Giỏ hàng trống.");
+                throw new \Exception("Giỏ hàng của bạn đang trống.");
             }
 
             // 1. Validate: Kiểm tra tất cả các món trong giỏ đã có size chưa (nếu món đó có size)
@@ -325,7 +325,11 @@ class CartController extends Controller
             exit();
 
         } catch (\Exception $e) {
-            die("Lỗi Hệ Thống: " . $e->getMessage());
+            echo "<script>
+                alert('❌ Lỗi Hệ Thống: " . addslashes($e->getMessage()) . "');
+                window.history.back();
+            </script>";
+            exit();
         }
     }
 }

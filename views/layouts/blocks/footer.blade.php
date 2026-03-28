@@ -33,15 +33,17 @@
                 <li class="lh-lg"><a class="text-200 text-decoration-none" href="#!">Chính sách Cookie</a></li>
               </ul>
             </div>
-            <h3 class="text-500 my-4">Nhận ưu đãi <br />và giảm giá độc quyền qua email</h3>
-            <div class="row input-group-icon mb-5">
+            <h3 class="text-500 my-4">Hãy nhập email của bạn <br />để nhận ưu đãi và giảm giá độc quyền cho khác hàng mới</h3>
+           <form action="{{ route('vocher/store') }}" method="POST">
+             <div class="row input-group-icon mb-5">
               <div class="col-auto"><i class="fas fa-envelope input-box-icon text-500 ms-3"></i>
-                <input class="form-control input-box bg-800 border-0" type="email" placeholder="Enter Email" aria-label="email" />
+                <input class="form-control input-box bg-800 border-0" type="email" placeholder="Nhập Email của bạn" aria-label="email" name="email" required />
               </div>
               <div class="col-auto">
                 <button class="btn btn-primary" type="submit">Đăng kí</button>
               </div>
             </div>
+           </form>
           </div>
         </div>
         <hr class="border border-800" />

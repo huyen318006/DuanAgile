@@ -137,48 +137,81 @@ class UserController
         //update profile
         public function updateprofile()
         {
-            $id = $_SESSION['user']['id'];
+            try {
+                $id = $_SESSION['user']['id'];
+                $user = Users::find($id);
 
-            $user = Users::find($id);
-
-            if (!$user) {
-                header('location:' . APP_URL);
-                exit();
-            }
-
-            // lấy dữ liệu
-            $name = $_POST['name'];
-            $email = $_POST['email'];
-            $phone = $_POST['phone'];
-            $address = $_POST['address'];
-
-            //update thông tin thường
-            $user->update([
-                'name' => $name,
-                'email' => $email,
-                'phone' => $phone,
-                'address' => $address,
-            ]);
-
-            //CHỈ update password nếu có nhập
-            if (!empty($_POST['password'])) {
-
-                if ($_POST['password'] != $_POST['repassword']) {
-                    die("Mật khẩu không khớp");
+                if (!$user) {
+                    throw new \Exception("Không tìm thấy người dùng.");
                 }
 
+                // Lấy dữ liệu
+                $name = trim($_POST['name'] ?? '');
+                $email = trim($_POST['email'] ?? '');
+                $phone = trim($_POST['phone'] ?? '');
+                $address = trim($_POST['address'] ?? '');
+                $password = $_POST['password'] ?? '';
+                $repassword = $_POST['repassword'] ?? '';
+
+                // 1. Validate trống
+                if (!$name) throw new \Exception("Vui lòng nhập họ tên.");
+                if (!$email) throw new \Exception("Vui lòng nhập email.");
+                if (!$phone) throw new \Exception("Vui lòng nhập số điện thoại.");
+                if (!$address) throw new \Exception("Vui lòng nhập địa chỉ.");
+
+                // 2. Validate email định dạng
+                if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    throw new \Exception("Email không đúng định dạng.");
+                }
+
+                // 3. Validate email duy nhất (trừ bản thân)
+                $existingUser = Users::where('email', $email)->where('id', '!=', $id)->first();
+                if ($existingUser) {
+                    throw new \Exception("Email này đã được sử dụng bởi tài khoản khác.");
+                }
+
+                // 4. Validate số điện thoại (10 số, bắt đầu bằng 0)
+                if (!preg_match("/^(0[3|5|7|8|9])[0-9]{8}$/", $phone)) {
+                    throw new \Exception("Số điện thoại không hợp lệ (10 số, bắt đầu bằng 0).");
+                }
+
+                // 5. Update thông tin cơ bản
                 $user->update([
-                    'password' => $_POST['password']
+                    'name' => $name,
+                    'email' => $email,
+                    'phone' => $phone,
+                    'address' => $address,
                 ]);
+
+                // 6. Xử lý mật khẩu nếu có nhập
+                if (!empty($password)) {
+                    if (strlen($password) < 6) {
+                        throw new \Exception("Mật khẩu mới phải từ 6 ký tự trở lên.");
+                    }
+                    if ($password !== $repassword) {
+                        throw new \Exception("Mật khẩu nhập lại không khớp.");
+                    }
+                    $user->update(['password' => $password]);
+                }
+
+                // Cập nhật session
+                $_SESSION['user']['name'] = $name;
+                $_SESSION['user']['email'] = $email;
+                $_SESSION['user']['phone'] = $phone;
+                $_SESSION['user']['address'] = $address;
+
+                echo "<script>
+                    alert('✅ Cập nhật hồ sơ thành công!');
+                    window.location.href = '" . APP_URL . "profile';
+                </script>";
+                exit();
+
+            } catch (\Exception $e) {
+                echo "<script>
+                    alert('❌ Lỗi: " . addslashes($e->getMessage()) . "');
+                    window.history.back();
+                </script>";
+                exit();
             }
-
-            // cập nhật session
-            $_SESSION['user']['name'] = $name;
-            $_SESSION['user']['email'] = $email;
-            $_SESSION['user']['phone'] = $phone;
-            $_SESSION['user']['address'] = $address;
-
-            header('location:' . APP_URL . 'profile');
-            exit();
         }
 }

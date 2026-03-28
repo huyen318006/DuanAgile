@@ -77,14 +77,25 @@
                                     <td>{{ number_format($unitPrice, 0, ',', '.') }}đ</td>
                                     <td class="line-total">{{ number_format($unitPrice * $cart->quantity, 0, ',', '.') }}đ</td>
                                     <td>
-                                        <button type="button" class="btn btn-sm btn-white shadow-sm border text-primary" data-bs-toggle="modal" data-bs-target="#updateCartModal{{ $cart->id }}" title="Chỉnh sửa">
+                                        <button type="button" class="btn btn-sm btn-white shadow-sm border text-primary" 
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#editCartModal" 
+                                                data-cart-id="{{ $cart->id }}"
+                                                data-food-id="{{ $cart->food_id }}"
+                                                data-food-name="{{ $food->name ?? 'N/A' }}"
+                                                data-food-description="{{ $food->description ?? '' }}"
+                                                data-food-price="{{ $food->price ?? 0 }}"
+                                                data-food-image="{{ asset('assets/img/gallery/' . ($food->image ?? '')) }}"
+                                                data-cart-quantity="{{ $cart->quantity }}"
+                                                data-cart-size-id="{{ $cart->size_id ?? '' }}"
+                                                data-cart-topping-ids="{{ $cart->topping_ids ?? '[]' }}"
+                                                title="Chỉnh sửa">
                                             <i class="fas fa-edit"></i>
                                         </button>
-                                        <form action="{{ route('cart/'.$cart->id.'/delete') }}" method="POST" class="d-inline">
-                                            <button type="submit" class="btn btn-sm btn-white shadow-sm border text-danger" onclick="return confirm('Xóa món này?')" title="Xóa">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                        </form>
+                                        <button type="button" class="btn btn-sm btn-white shadow-sm border text-danger" 
+                                                onclick="deleteCartItem('{{ route('cart/'.$cart->id.'/delete') }}')" title="Xóa">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
                                     </td>
                                 </tr>
 
@@ -144,6 +155,19 @@
         </form>
     </div>
 </main>
+
+<!-- Form ẩn để xử lý xóa món -->
+<form id="deleteForm" action="" method="POST" style="display: none;"></form>
+
+<script>
+function deleteCartItem(url) {
+    if (confirm('Bạn có chắc chắn muốn xóa món này khỏi giỏ hàng?')) {
+        const form = document.getElementById('deleteForm');
+        form.action = url;
+        form.submit();
+    }
+}
+</script>
 
 @include('carts.Update')
 

@@ -57,6 +57,9 @@ $router->get('foods/{id}/order', OrderController::class.'@order');
 // add order
 $router->post('order/add',OrderController::class.'@orderadd');
 $router->get('order/history', OrderController::class.'@orderHistory');
+//huỷ đơn hang
+$router->get('order/(\d+)/cancel', OrderController::class.'@cancel');
+$router->get('order/(\d+)/delete', OrderController::class . '@delete');
 
 $router->get('food/{id}/options', MenuController::class . '@foodOptions');
 

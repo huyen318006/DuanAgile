@@ -24,16 +24,28 @@
             <span class="badge bg-primary">Đang giao</span>
           @elseif($order->status == 'done')
             <span class="badge bg-success">Hoàn thành</span>
+          @elseif($order->status == 'cancelled')
+            <span class="badge bg-danger">Đã huỷ</span>
           @endif
         </p>
 
         <div class="text-end">
-          <!-- Nút xem chi tiết đẹp -->
-          <button type="button" class="btn btn-view-detail" data-bs-toggle="modal" data-bs-target="#orderModal{{ $order->id }}">
-            <i class="fas fa-eye me-1"></i> Xem chi tiết
-          </button>
+          <!-- Các nút thao tác -->
+          <div class="d-flex justify-content-end align-items-center gap-2">
+            <button type="button" class="btn btn-view-detail" data-bs-toggle="modal" data-bs-target="#orderModal{{ $order->id }}">
+              <i class="fas fa-eye me-1"></i> Xem chi tiết
+            </button>
+
+            @if($order->status == 'processing')
+              <a href="{{ route('order/' . $order->id . '/cancel') }}" class="badge bg-danger text-white text-decoration-none" onclick="return confirm('Bạn có chắc chắn muốn huỷ đơn hàng này không?')">Huỷ Đơn Hàng</a>
+            @endif
+
+            @if($order->status == 'cancelled')
+              <a href="{{ route('order/' . $order->id . '/delete') }}" class="badge bg-danger text-white text-decoration-none" onclick="return confirm('Bạn có chắc chắn muốn xoá đơn hàng này không?')">Xoá Đơn Hàng</a>
+            @endif
+          </div>
         </div>
-      </div>
+      </div> <!-- Kết thúc order-card -->
 
       <!-- Modal chi tiết đơn hàng -->
       <div class="modal fade" id="orderModal{{ $order->id }}" tabindex="-1" aria-labelledby="orderLabel{{ $order->id }}" aria-hidden="true">
@@ -45,6 +57,7 @@
               
               <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
+         
         
 @if($order->sizes)
 <div class="modal-body">

@@ -172,5 +172,83 @@ public function order($id)
 
         return view('order.listorder', compact('orders'));
     }
+
+    // Huỷ đơn hàng
+    public function cancel($id)
+    {
+        try{
+            $userId = $_SESSION['user']['id'] ?? null;
+        if (!$userId) {
+           throw new \Exception('Vui lòng đăng nhập');
+        }
+
+        $order = Order::find($id);
+
+        if (!$order) {
+          throw new \Exception('Đơn hàng không tồn tại');
+        }
+
+        // Kiểm tra quyền sở hữu và trạng thái
+        if ($order->user_id != $userId) {
+            throw new \Exception('Bạn không có quyền huỷ đơn hàng này');
+        }
+
+        if ($order->status != 'processing') {
+            throw new \Exception('Chỉ có thể huỷ đơn hàng khi đang xử lý');
+        }
+
+        // Cập nhật trạng thái đơn hàng thành 'cancelled'
+        Order::where('id', $id)->update(['status' => 'cancelled']);
+        
+        echo "<script>alert('Huỷ đơn hàng thành công!'); window.location.href='" . APP_URL . "order/history';</script>";
+        exit();
+
+        }catch(\Exception $e){
+            echo "<script>
+            alert('❌ Huỷ đơn hàng thất bại: " . addslashes($e->getMessage()) . "');
+            window.location.href = '" . APP_URL . "order/history';
+        </script>";
+        }
+    }
+
+    // Xoá đơn hàng hoàn toàn
+    public function delete($id)
+    {
+        try {
+            $userId = $_SESSION['user']['id'] ?? null;
+            if (!$userId) {
+                throw new \Exception('Vui lòng đăng nhập');
+            }
+
+            $order = Order::find($id);
+
+            if (!$order) {
+                throw new \Exception('Đơn hàng không tồn tại');
+            }
+
+            // Kiểm tra quyền sở hữu
+            if ($order->user_id != $userId) {
+                throw new \Exception('Bạn không có quyền xoá đơn hàng này');
+            }
+
+            // Chỉ cho phép xoá nếu đã huỷ
+            if ($order->status != 'cancelled') {
+                throw new \Exception('Chỉ có thể xoá đơn hàng đã bị huỷ');
+            }
+
+            // Xoá dữ liệu
+            OrderItem::where('order_id', $id)->delete();
+            $order->delete();
+
+            echo "<script>alert('Xoá đơn hàng thành công!'); window.location.href='" . APP_URL . "order/history';</script>";
+            exit();
+
+        } catch (\Exception $e) {
+            echo "<script>
+            alert('❌ Xoá đơn hàng thất bại: " . addslashes($e->getMessage()) . "');
+            window.location.href = '" . APP_URL . "order/history';
+        </script>";
+        }
+    }
 } 
 ?>

@@ -253,7 +253,7 @@
 
               @foreach($chunk as $restaurant)
               <div class="col-sm-6 col-md-4 col-lg-3 mb-5" style="display:flex">
-                <a href="/restaurant/{{ $restaurant->id }}">
+                <a href="{{ route('restaurant/'.$restaurant->id) }}">
                   <div class="card card-span text-white rounded-3" style="width:100%;height:100%;overflow:hidden;transition:0.25s ease;cursor:pointer" onmouseover="this.style.filter='brightness(1.05)';this.style.transform='translateY(-3px)'" onmouseout="this.style.filter='brightness(1)';this.style.transform='translateY(0)'">
 
                     <img src="{{ asset('assets/img/gallery/'.$restaurant->image) }}" style="width:100%;height:300px;object-fit:cover;border-radius:10px">

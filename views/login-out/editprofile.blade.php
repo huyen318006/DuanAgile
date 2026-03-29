@@ -225,7 +225,7 @@ function validateProfileForm() {
     }
 
     // Kiểm tra định dạng số điện thoại VN (10 số, bắt đầu bằng 0)
-    const phoneRegex = /^(0[3|5|7|8|9])[0-9]{8}$/;
+    const phoneRegex = /^0[0-9]{9}$/;
     if (!phoneRegex.test(phone)) {
         alert("⚠️ Số điện thoại không hợp lệ (phải có 10 số và bắt đầu bằng 0)!");
         return false;

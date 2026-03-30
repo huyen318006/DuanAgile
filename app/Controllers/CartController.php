@@ -317,6 +317,13 @@ class CartController extends Controller
                 $cart->delete();
             }
 
+            // If AJAX request, return JSON
+            if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
+                header('Content-Type: application/json');
+                echo json_encode(['success' => true, 'message' => 'Đặt hàng thành công!']);
+                exit();
+            }
+
             $historyUrl = APP_URL . "order/history";
             echo "<script>
                 alert('🎉 Đặt món từ giỏ hàng thành công! Cảm ơn bạn.');
@@ -325,6 +332,13 @@ class CartController extends Controller
             exit();
 
         } catch (\Exception $e) {
+            if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
+                header('Content-Type: application/json');
+                http_response_code(500);
+                echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+                exit();
+            }
+
             echo "<script>
                 alert('❌ Lỗi Hệ Thống: " . addslashes($e->getMessage()) . "');
                 window.history.back();

@@ -93,27 +93,99 @@
             toastMsg.textContent = msg;
             toastAlert.className = 'alert shadow-lg d-flex align-items-center';
             toastAlert.classList.add(isError ? 'alert-danger' : 'alert-success');
+            toast.style.cursor = isError ? 'default' : 'pointer';
+            toast.onclick = isError ? null : function() {
+                window.location.href = '{{ APP_URL }}order/history';
+            };
             toast.style.display = 'block';
-            setTimeout(function() {
-                toast.style.display = 'none';
-            }, 4000);
+            if (!isError) {
+                setTimeout(function() {
+                    toast.style.display = 'none';
+                    window.location.href = '{{ APP_URL }}order/history';
+                }, 3000);
+            } else {
+                setTimeout(function() {
+                    toast.style.display = 'none';
+                }, 4000);
+            }
         }
 
-        btnCheckout.addEventListener('click', function() {
-            var nameVal = document.getElementById('checkoutName') ? document.getElementById('checkoutName').value : '';
-            var phoneVal = document.getElementById('checkoutPhone') ? document.getElementById('checkoutPhone').value : '';
-            var addressVal = document.getElementById('checkoutAddress') ? document.getElementById('checkoutAddress').value : '';
-            var notesVal = document.getElementById('checkoutNotes') ? document.getElementById('checkoutNotes').value.trim() : '';
+        // Hàm xóa lỗi validation khi người dùng nhập lại
+        function clearValidationError(inputEl) {
+            inputEl.classList.remove('is-invalid');
+            var feedback = inputEl.parentNode.querySelector('.invalid-feedback');
+            if (feedback) feedback.remove();
+        }
 
-            namePreview.textContent = nameVal || '-';
-            phonePreview.textContent = phoneVal || '-';
-            addressPreview.textContent = addressVal || '-';
+        // Hàm hiển thị lỗi validation
+        function showValidationError(inputEl, message) {
+            inputEl.classList.add('is-invalid');
+            var existingFeedback = inputEl.parentNode.querySelector('.invalid-feedback');
+            if (existingFeedback) existingFeedback.remove();
+            var feedback = document.createElement('div');
+            feedback.className = 'invalid-feedback';
+            feedback.textContent = message;
+            inputEl.parentNode.appendChild(feedback);
+        }
+
+        // Gắn sự kiện xóa lỗi khi nhập
+        ['checkoutName', 'checkoutPhone', 'checkoutAddress'].forEach(function(id) {
+            var el = document.getElementById(id);
+            if (el) {
+                el.addEventListener('input', function() { clearValidationError(el); });
+            }
+        });
+
+        btnCheckout.addEventListener('click', function() {
+            var nameEl = document.getElementById('checkoutName');
+            var phoneEl = document.getElementById('checkoutPhone');
+            var addressEl = document.getElementById('checkoutAddress');
+            var notesEl = document.getElementById('checkoutNotes');
+
+            var nameVal = nameEl ? nameEl.value.trim() : '';
+            var phoneVal = phoneEl ? phoneEl.value.trim() : '';
+            var addressVal = addressEl ? addressEl.value.trim() : '';
+            var notesVal = notesEl ? notesEl.value.trim() : '';
+
+            // Validate
+            var isValid = true;
+            var phoneRegex = /^(0|\+84)(3|5|7|8|9)[0-9]{8}$/;
+
+            // Clear previous errors
+            [nameEl, phoneEl, addressEl].forEach(function(el) {
+                if (el) clearValidationError(el);
+            });
+
+            if (!nameVal) {
+                showValidationError(nameEl, 'Vui lòng nhập tên khách hàng.');
+                isValid = false;
+            }
+
+            if (!phoneVal) {
+                showValidationError(phoneEl, 'Vui lòng nhập số điện thoại.');
+                isValid = false;
+            } else if (!phoneRegex.test(phoneVal)) {
+                showValidationError(phoneEl, 'Số điện thoại không hợp lệ (VD: 0912345678).');
+                isValid = false;
+            }
+
+            if (!addressVal) {
+                showValidationError(addressEl, 'Vui lòng nhập địa chỉ giao hàng.');
+                isValid = false;
+            }
+
+            if (!isValid) return;
+
+            namePreview.textContent = nameVal;
+            phonePreview.textContent = phoneVal;
+            addressPreview.textContent = addressVal;
             notesPreview.textContent = notesVal || 'Không có';
 
             checkoutModal.show();
         });
 
         btnConfirm.addEventListener('click', function() {
+            var btn = this;
             var selectedPayment = document.querySelector('input[name="checkout_payment"]:checked');
             var paymentVal = selectedPayment ? selectedPayment.value : 'Cash';
 
@@ -122,8 +194,48 @@
                 return;
             }
 
-            // Since the modal is now inside the main form, we just submit the form.
-            document.getElementById('checkoutForm').submit();
+            // Disable button and show loading
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Đang xử lý...';
+
+            // Submit via AJAX
+            var form = document.getElementById('checkoutForm');
+            var formData = new FormData(form);
+            formData.append('checkout_payment', paymentVal);
+
+            fetch(form.action, {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: formData
+            })
+            .then(function() {
+                // Close modal
+                checkoutModal.hide();
+
+                // Show success toast
+                showCheckoutToast('🎉 Đặt hàng thành công! Cảm ơn bạn.', false);
+
+                // Clear cart table rows
+                var cartTbody = document.querySelector('.cart-table tbody');
+                if (cartTbody) cartTbody.innerHTML = '<tr><td colspan="9" class="text-center text-muted py-4"><i class="fas fa-shopping-cart me-2"></i>Giỏ hàng trống</td></tr>';
+
+                // Reset total
+                var grandTotal = document.getElementById('grandTotal');
+                if (grandTotal) grandTotal.textContent = '0đ';
+
+                // Update cart badge
+                var badge = document.getElementById('cart-count-badge');
+                if (badge) badge.textContent = '0';
+            })
+            .catch(function() {
+                showCheckoutToast('Có lỗi xảy ra, vui lòng thử lại!', true);
+            })
+            .finally(function() {
+                btn.disabled = false;
+                btn.innerHTML = 'Xác nhận đặt hàng';
+            });
         });
     });
 </script>

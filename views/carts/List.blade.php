@@ -33,6 +33,7 @@
                                     <th>Tên Món</th>
                                     <th>Size</th>
                                     <th>Topping</th>
+                                    <th>Số lượng</th>
                                     <th>Giá</th>
                                     <th>Tổng Tiền</th>
                                     <th>Tuỳ Chọn</th>
@@ -74,6 +75,7 @@
                                             <span class="text-muted">Không có</span>
                                         @endif
                                     </td>
+                                    <td>{{ $cart->quantity }}</td>
                                     <td>{{ number_format($unitPrice, 0, ',', '.') }}đ</td>
                                     <td class="line-total">{{ number_format($unitPrice * $cart->quantity, 0, ',', '.') }}đ</td>
                                     <td>

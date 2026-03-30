@@ -11,6 +11,7 @@ class Food extends Model
     protected $fillable = [
         'id',
         'category_id',
+        'restaurant_id',
         'name',
         'price',
         'image',

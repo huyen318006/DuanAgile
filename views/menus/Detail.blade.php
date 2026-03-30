@@ -11,6 +11,11 @@
           <!-- ẢNH -->
           <div class="col-md-5 text-center">
             <img id="modalFoodImage" class="rounded-3 mb-3" src="" alt="" width="100%" style="object-fit:cover; max-height:350px;">
+            <div id="modalRestaurantSection" class="mb-2" style="display:none;">
+              <span class="badge bg-light text-dark px-3 py-2" style="font-size:0.9rem;">
+                <i class="fas fa-store me-1"></i><span id="modalRestaurantName"></span>
+              </span>
+            </div>
             <label class="fw-bold mb-2 d-block">Mô tả món ăn:</label>
             <p id="modalFoodDescription"></p>
           </div>
@@ -202,6 +207,9 @@
       }, 4000);
     }
 
+    var modalRestaurantSection = document.getElementById('modalRestaurantSection');
+    var modalRestaurantName = document.getElementById('modalRestaurantName');
+
     foodModal.addEventListener('show.bs.modal', function(e) {
       var trigger = e.relatedTarget;
       if (!trigger) return;
@@ -217,6 +225,15 @@
       modalQtyInput.value = 1;
       modalSizeHidden.value = '';
       modalToppingsHidden.value = '[]';
+
+      // Show restaurant name
+      var restaurantName = trigger.getAttribute('data-food-restaurant') || '';
+      if (restaurantName) {
+        modalRestaurantName.textContent = restaurantName;
+        modalRestaurantSection.style.display = 'block';
+      } else {
+        modalRestaurantSection.style.display = 'none';
+      }
 
       sizeSection.style.display = 'none';
       toppingSection.style.display = 'none';

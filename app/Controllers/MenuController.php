@@ -9,6 +9,7 @@ use App\Models\FoodSize;
 use App\Models\FoodTopping;
 use App\Models\Size;
 use App\Models\Topping;
+use App\Models\Restaurant;
 
 class MenuController extends Controller
 {
@@ -19,7 +20,13 @@ class MenuController extends Controller
         $foods = Food::all();
         $categories = Category::all();
 
-        return view('menus.list', compact('foods', 'title', 'categories'));
+        // Load restaurants map for food detail popup
+        $restaurantsMap = [];
+        foreach (Restaurant::all() as $r) {
+            $restaurantsMap[$r->id] = $r;
+        }
+
+        return view('menus.list', compact('foods', 'title', 'categories', 'restaurantsMap'));
     }
 
     public function foodOptions($id)
